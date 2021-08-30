@@ -2,9 +2,7 @@
 import axios from "axios";
 export default {
   name: "Member",
-  components: {
-    
-  },
+  components: {},
   data() {
     return {
       //tab

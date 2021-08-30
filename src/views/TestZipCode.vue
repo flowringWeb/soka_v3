@@ -1,20 +1,3 @@
-<template>
-  <div class="" style="display:flex;align-items:center;">
-    <h4 style="font-size:14px;width:120px;">地址</h4>
-    <twzipcode-county
-      
-      v-model="myCounty"
-      style="height:30px;width:100px;margin-right:10px;"
-    ></twzipcode-county>
-
-    <twzipcode-zipcode
-      v-model="myZipcode"
-      text-template=":zipcode :county / :city"
-      :filter-by-county="myCounty"
-      style="height:30px;width:150px;margin-right:10px;"
-    ></twzipcode-zipcode>
-  </div>
-</template>
 <script>
 import { Zipcode, County, ZipcodeGroupby } from "twzipcode-vue";
 export default {
@@ -46,4 +29,24 @@ export default {
   methods: {},
 };
 </script>
-<style lang="scss" scoped></style>
+
+<template>
+  <div class="" style="display:flex;align-items:center;">
+    <h4 style="font-size:14px;width:120px;">地址</h4>
+    <twzipcode-county
+      
+      v-model="myCounty"
+      style="height:30px;width:100px;margin-right:10px;"
+    ></twzipcode-county>
+
+    <twzipcode-zipcode
+      v-model="myZipcode"
+      text-template=":zipcode :county / :city"
+      :filter-by-county="myCounty"
+      style="height:30px;width:150px;margin-right:10px;"
+    ></twzipcode-zipcode>
+  </div>
+</template>
+<style lang="scss" scoped>
+
+</style>

@@ -1,21 +1,3 @@
-<template>
-  <div class="" style="">
-    TestEditor !
-    <!-- <tiny-mce
-      ref="editor"
-      v-model="content"
-      @onClick="onClick"
-      toolbar="undo redo |  formatselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | lists table | removeformat | imageUpload"
-    /> -->
-    <tiny-mce
-      ref="editor"
-      v-model="content"
-      @onClick="onClick"
-      
-    />
-    {{content}}
-  </div>
-</template>
 <script>
 import TinyMce from "@/components/TinyMce/TinyMce.vue";
 export default {
@@ -43,4 +25,26 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped></style>
+
+<template>
+  <div class="" style="">
+    TestEditor !
+    <!-- <tiny-mce
+      ref="editor"
+      v-model="content"
+      @onClick="onClick"
+      toolbar="undo redo |  formatselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | lists table | removeformat | imageUpload"
+    /> -->
+    <tiny-mce
+      ref="editor"
+      v-model="content"
+      @onClick="onClick"
+      
+    />
+    {{content}}
+  </div>
+</template>
+
+<style lang="scss" scoped>
+
+</style>
