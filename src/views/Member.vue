@@ -238,7 +238,7 @@ export default {
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="txtMemName" class="font-s-size">
-                          <span class="required">*</span>會員姓名:
+                          <span class="required">＊</span>會員姓名:
                         </label>
                       </template>
                     </q-input>
@@ -256,7 +256,7 @@ export default {
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="calBornDate" class="font-s-size">
-                          <span class="required">*</span>生日:
+                          <span class="required">＊</span>生日:
                         </label>
                       </template>
                       <template v-slot:append>
@@ -326,12 +326,12 @@ export default {
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
                             <label for="cboBelongArea" class="font-s-size">
-                              <span class="required">*</span>所屬區域:
+                              <span class="required">＊</span>所屬區域:
                             </label>
                           </template>
                         </q-select>
                       </div>
-                      <div class="col-6">
+                      <!-- <div class="col-6">
                         <q-select
                           id="cboBelongArea2"
                           outlined
@@ -341,7 +341,7 @@ export default {
                           :label="$q.screen.lt.sm ? '所屬區域' : void 0"
                           :options="cboBelongArea2_options"
                         />
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                   <div class="col-6 col-md-2">
@@ -356,7 +356,7 @@ export default {
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="cboSex" class="font-s-size">
-                          <span class="required">*</span>性別:
+                          <span class="required">＊</span>性別:
                         </label>
                       </template>
                     </q-select>
@@ -390,7 +390,7 @@ export default {
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="cboDepartment" class="font-s-size">
-                          <span class="required">*</span>部別:
+                          <span class="required">＊</span>部別:
                         </label>
                       </template>
                     </q-select>
@@ -407,7 +407,7 @@ export default {
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="cboMemType" class="font-s-size">
-                          <span class="required">*</span>會員類型:
+                          <span class="required">＊</span>會員類型:
                         </label>
                       </template>
                     </q-select>
@@ -424,7 +424,7 @@ export default {
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="cboHousehold" class="font-s-size">
-                          <span class="required">*</span>戶籍區:
+                          <span class="required">＊</span>戶籍區:
                         </label>
                       </template>
                     </q-select>
@@ -478,7 +478,7 @@ export default {
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="txtTelNum" class="font-s-size">
-                          住家電話:
+                          住家電話:　　
                         </label>
                       </template>
                     </q-input>
@@ -494,7 +494,7 @@ export default {
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="txtMobileNum" class="font-s-size">
-                          行動電話:
+                          行動電話:　　
                         </label>
                       </template>
                     </q-input>
@@ -510,7 +510,7 @@ export default {
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="txtBusinessNum" class="font-s-size">
-                          公司電話:
+                          公司電話:　　
                         </label>
                       </template>
                     </q-input>
@@ -547,12 +547,12 @@ export default {
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="txtEmail" class="font-s-size">
-                          <span class="required">*</span>Email:　
+                          <span class="required">＊</span>Email: 　　
                         </label>
                       </template>
                     </q-input>
                   </div>
-                  <div class="col-6 col-md-2">
+                  <div class="col-6 col-md-3">
                     <q-btn color="primary" label="發驗證信(幹部)" />
                   </div>
                   <div class="col-6 col-md-3">
@@ -566,7 +566,7 @@ export default {
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="txtGoogleNum" class="font-s-size">
-                          Google 帳號:
+                          Google 帳號:　
                         </label>
                       </template>
                     </q-input>
@@ -587,7 +587,7 @@ export default {
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
                             <label for="cboMailingCity" class="font-s-size">
-                              戶籍地址:
+                              戶籍地址:　　
                             </label>
                           </template>
                         </q-select>
@@ -611,10 +611,11 @@ export default {
                           outlined
                           dense
                           :label="$q.screen.lt.sm ? '路段' : void 0"
+                          placeholder="請輸入戶籍地址"
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
                             <label for="txtGoogleNum" class="font-s-size">
-                              <span class="invisible">戶籍地址</span>
+                              <span class="invisible">戶籍地址　　</span>
                             </label>
                           </template>
                         </q-input>
@@ -802,7 +803,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="txtCompanyName" class="font-s-size">
-                      公司名稱:
+                      公司名稱:　　
                     </label>
                   </template>
                 </q-input>
@@ -818,7 +819,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="txtJobTitle" class="font-s-size">
-                      公司職稱:
+                      公司職稱:　　
                     </label>
                   </template>
                 </q-input>
@@ -867,7 +868,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="txtHighestEdu" class="font-s-size">
-                      最高學歷:
+                      最高學歷:　　
                     </label>
                   </template>
                 </q-input>
@@ -883,7 +884,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="txtTeacherQualification" class="font-s-size">
-                      教學資格:
+                      教學資格:　　
                     </label>
                   </template>
                 </q-input>
@@ -933,7 +934,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="calIncomingDate" class="font-s-size">
-                      <span class="required">*</span>入信日期:
+                      <span class="required">＊</span>入信日期:　
                     </label>
                   </template>
                   <template v-slot:append>
@@ -965,7 +966,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="cboConfidenceBg" class="font-s-size">
-                      信心背景:
+                      信心背景:　　
                     </label>
                   </template>
                 </q-select>
@@ -998,7 +999,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="cboActiveTimes" class="font-s-size">
-                      活動程度:
+                      活動程度:　　
                     </label>
                   </template>
                 </q-input>
@@ -1021,7 +1022,7 @@ export default {
               </div>
             </div>
             <section class="intro" style="border-bottom: 1px dashed gray">
-              <div>介紹人</div>
+              <h6>介紹人</h6>
               <div
                 class="
                   row
@@ -1041,7 +1042,7 @@ export default {
                   >
                     <template v-slot:before v-if="$q.screen.gt.xs">
                       <label for="txtIntroducerName" class="font-s-size">
-                        <span class="required">*</span>姓名:　　
+                        <span class="required">＊</span>姓名:　
                       </label>
                     </template>
                   </q-input>
@@ -1101,7 +1102,7 @@ export default {
                     label="查詢會員"
                   />
                 </div>
-                <div class="col-6 col-md-3">
+                <div class="col-6 col-md-4">
                   <q-input
                     id="txtIntroducerDepartment"
                     type="text"
@@ -1112,12 +1113,12 @@ export default {
                   >
                     <template v-slot:before v-if="$q.screen.gt.xs">
                       <label for="txtIntroducerDepartment" class="font-s-size">
-                        部別:
+                        部別:　　
                       </label>
                     </template>
                   </q-input>
                 </div>
-                <div class="col-6 col-md-3">
+                <div class="col-6 col-md-4">
                   <q-input
                     id="txtIntroducerArea"
                     type="text"
@@ -1156,12 +1157,12 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="cboCountGradeArea" class="font-s-size">
-                      <span class="required">*</span>計算成績區域:
+                      <span class="required">＊</span>計算成績區域:
                     </label>
                   </template>
                 </q-select>
               </div>
-              <div class="col-6 col-md-4">
+              <div class="col-6 col-md-3">
                 <q-input
                   id="cboCountGradeDepartment"
                   type="text"
@@ -1173,7 +1174,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="cboCountGradeDepartment" class="font-s-size">
-                      <span class="required">*</span>計算成績部別:
+                      <span class="required">＊</span>計算成績部別:
                     </label>
                   </template>
                 </q-input>
@@ -1212,13 +1213,8 @@ export default {
                   outlined
                   dense
                   v-model="txtNIncludedReason2"
-                  :label="$q.screen.lt.sm ? '不列入會員其他原因' : void 0"
+                  placeholder="不列入會員其他原因"
                 >
-                  <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="txtNIncludedReason2" class="font-s-size">
-                      不列入會員其他原因:
-                    </label>
-                  </template>
                 </q-input>
               </div>
               <div class="col-6 col-md-3">
@@ -1273,7 +1269,7 @@ export default {
               </div>
             </div>
             <div class="row justify-start items-center q-col-gutter-md q-py-md">
-              <div class="col-6 col-md-3">
+              <div class="col-6 col-md-6">
                 <q-input
                   id="txtNote"
                   type="text"
@@ -1283,7 +1279,9 @@ export default {
                   :label="$q.screen.lt.sm ? '備註' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="txtNote" class="font-s-size"> 備註: </label>
+                    <label for="txtNote" class="font-s-size">
+                      備註:　　　　　</label
+                    >
                   </template>
                 </q-input>
               </div>
