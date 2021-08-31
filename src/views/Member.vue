@@ -300,7 +300,6 @@ export default {
                           <div>檢查狀態: OK</div>
                         </div>
                       </div>
-                      <!-- <div class="row q-col-gutter-md"> -->
                       <div class="col-6 col-md-3">
                         <q-select
                           id="cboBelongArea"
@@ -437,7 +436,6 @@ export default {
                           </template>
                         </q-input>
                       </div>
-                      <!-- </div> -->
                     </div>
                   </div>
                   <div class="col-12 col-md-2">
