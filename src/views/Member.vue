@@ -314,7 +314,7 @@ export default {
                 >
                   <div class="col-12 col-md-5">
                     <div class="row q-col-gutter-md">
-                      <div class="col-6">
+                      <div class="col-6 col-md-8">
                         <q-select
                           id="cboBelongArea"
                           outlined
