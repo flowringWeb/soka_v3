@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function getMemberList () {
   return request({
-    url: '/member/list',
+    url: '/books',
     method:'get'
   })
 }
