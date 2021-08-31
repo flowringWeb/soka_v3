@@ -227,7 +227,234 @@ export default {
                     border-underline
                   "
                 >
-                  <div class="col-6 col-md-3">
+                  <div class="col-md-10">
+                    <div class="row items-center q-col-gutter-md q-py-md">
+                      <div class="col-6 col-md-3">
+                        <q-input
+                          id="txtMemName"
+                          type="text"
+                          outlined
+                          dense
+                          v-model="txtMemName"
+                          :label="$q.screen.lt.sm ? '會員姓名' : void 0"
+                        >
+                          <template v-slot:before v-if="$q.screen.gt.xs">
+                            <label for="txtMemName" class="font-s-size">
+                              <span class="required">＊</span>會員姓名:
+                            </label>
+                          </template>
+                        </q-input>
+                      </div>
+                      <div class="col-6 col-md-3">
+                        <q-input
+                          id="calBornDate"
+                          class="q-pb-none"
+                          outlined
+                          dense
+                          :label="$q.screen.lt.sm ? '生日' : void 0"
+                          v-model="calBornDate"
+                          mask="date"
+                          :rules="['date']"
+                        >
+                          <template v-slot:before v-if="$q.screen.gt.xs">
+                            <label for="calBornDate" class="font-s-size">
+                              <span class="required">＊</span>生日:　
+                            </label>
+                          </template>
+                          <template v-slot:append>
+                            <q-icon name="event" class="cursor-pointer">
+                              <q-popup-proxy
+                                ref="qDateProxy"
+                                transition-show="scale"
+                                transition-hide="scale"
+                              >
+                                <q-date v-model="calBornDate">
+                                  <div class="row items-center justify-end">
+                                    <q-btn
+                                      v-close-popup
+                                      label="確認"
+                                      color="primary"
+                                    />
+                                  </div>
+                                </q-date>
+                              </q-popup-proxy>
+                            </q-icon>
+                          </template>
+                        </q-input>
+                      </div>
+                      <div
+                        class="
+                          col-6 col-md-3
+                          column
+                          justify-center
+                          items-center
+                        "
+                      >
+                        <q-btn
+                          class="q-mb-md"
+                          color="primary"
+                          label="檢查會員"
+                        />
+                        <div>
+                          <div>警告: 資料存在, 壯年部</div>
+                          <div>檢查狀態: OK</div>
+                        </div>
+                      </div>
+                      <!-- <div class="row q-col-gutter-md"> -->
+                      <div class="col-6 col-md-3">
+                        <q-select
+                          id="cboBelongArea"
+                          outlined
+                          dense
+                          emit-value
+                          v-model="cboBelongArea"
+                          :label="$q.screen.lt.sm ? '所屬區域' : void 0"
+                          :options="cboBelongArea_options"
+                        >
+                          <template v-slot:before v-if="$q.screen.gt.xs">
+                            <label for="cboBelongArea" class="font-s-size">
+                              <span class="required">＊</span>所屬區域:
+                            </label>
+                          </template>
+                        </q-select>
+                      </div>
+                      <div class="col-6 col-md-3">
+                        <q-select
+                          id="cboSex"
+                          outlined
+                          dense
+                          emit-value
+                          v-model="cboSex"
+                          :label="$q.screen.lt.sm ? '性別' : void 0"
+                          :options="cboSex_options.arr"
+                        >
+                          <template v-slot:before v-if="$q.screen.gt.xs">
+                            <label for="cboSex" class="font-s-size">
+                              <span class="required">＊</span>性別:　　
+                            </label>
+                          </template>
+                        </q-select>
+                      </div>
+                      <div class="col-6 col-md-3">
+                        <q-select
+                          id="cboStuDepartment"
+                          outlined
+                          dense
+                          emit-value
+                          v-model="cboStuDepartment"
+                          :label="$q.screen.lt.sm ? '學生部別' : void 0"
+                          :options="cboStuDepartment_options.arr"
+                        >
+                          <template v-slot:before v-if="$q.screen.gt.xs">
+                            <label for="cboStuDepartment" class="font-s-size">
+                              學生部別:
+                            </label>
+                          </template>
+                        </q-select>
+                      </div>
+                      <div class="col-6 col-md-3">
+                        <q-select
+                          id="cboDepartment"
+                          outlined
+                          dense
+                          emit-value
+                          v-model="cboDepartment"
+                          :options="cboDepartment_options.arr"
+                          :label="$q.screen.lt.sm ? '部別' : void 0"
+                        >
+                          <template v-slot:before v-if="$q.screen.gt.xs">
+                            <label for="cboDepartment" class="font-s-size">
+                              <span class="required">＊</span>部別:　
+                            </label>
+                          </template>
+                        </q-select>
+                      </div>
+                      <div class="col-6 col-md-3">
+                        <q-select
+                          id="cboMemType"
+                          outlined
+                          dense
+                          emit-value
+                          v-model="cboMemType"
+                          :label="$q.screen.lt.sm ? '會員類型' : void 0"
+                          :options="cboMemType_options.arr"
+                        >
+                          <template v-slot:before v-if="$q.screen.gt.xs">
+                            <label for="cboMemType" class="font-s-size">
+                              <span class="required">＊</span>會員類型:
+                            </label>
+                          </template>
+                        </q-select>
+                      </div>
+                      <div class="col-6 col-md-3">
+                        <q-select
+                          id="cboHousehold"
+                          outlined
+                          dense
+                          emit-value
+                          v-model="cboHousehold"
+                          :label="$q.screen.lt.sm ? '戶籍區' : void 0"
+                          :options="cboHousehold_options"
+                        >
+                          <template v-slot:before v-if="$q.screen.gt.xs">
+                            <label for="cboHousehold" class="font-s-size">
+                              <span class="required">＊</span>戶籍區:　
+                            </label>
+                          </template>
+                        </q-select>
+                      </div>
+                      <div class="col-6 col-md-3">
+                        <q-input
+                          id="txtLastName"
+                          type="text"
+                          outlined
+                          dense
+                          emit-value
+                          v-model="txtLastName"
+                          :label="$q.screen.lt.sm ? '英文姓' : void 0"
+                        >
+                          <template v-slot:before v-if="$q.screen.gt.xs">
+                            <label for="txtLastName" class="font-s-size">
+                              英文姓:　
+                            </label>
+                          </template>
+                        </q-input>
+                      </div>
+                      <div class="col-6 col-md-3">
+                        <q-input
+                          id="txtFirstName"
+                          type="text"
+                          outlined
+                          dense
+                          emit-value
+                          v-model="txtFirstName"
+                          :label="$q.screen.lt.sm ? '英文名' : void 0"
+                        >
+                          <template v-slot:before v-if="$q.screen.gt.xs">
+                            <label for="txtFirstName" class="font-s-size">
+                              英文名:　
+                            </label>
+                          </template>
+                        </q-input>
+                      </div>
+                      <!-- </div> -->
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-2">
+                    <q-card class="my-card column justify-center" flat>
+                      <div class="text-center">會員編號: 1234567</div>
+                      <q-img
+                        class="q-mb-xs"
+                        src="https://cdn.quasar.dev/img/parallax2.jpg"
+                      />
+                      <q-btn
+                        color="primary"
+                        label="變更照片"
+                        @click="uploadImg = true"
+                      />
+                    </q-card>
+                  </div>
+                  <!-- <div class="col-6 col-md-3">
                     <q-input
                       id="txtMemName"
                       type="text"
@@ -312,9 +539,9 @@ export default {
                     border-underline
                   "
                 >
-                  <div class="col-12 col-md-5">
+                  <div class="col-12 col-md-3">
                     <div class="row q-col-gutter-md">
-                      <div class="col-6 col-md-8">
+                      <div class="col-6 col-md-12">
                         <q-select
                           id="cboBelongArea"
                           outlined
@@ -331,17 +558,6 @@ export default {
                           </template>
                         </q-select>
                       </div>
-                      <!-- <div class="col-6">
-                        <q-select
-                          id="cboBelongArea2"
-                          outlined
-                          dense
-                          emit-value
-                          v-model="cboBelongArea2"
-                          :label="$q.screen.lt.sm ? '所屬區域' : void 0"
-                          :options="cboBelongArea2_options"
-                        />
-                      </div> -->
                     </div>
                   </div>
                   <div class="col-6 col-md-2">
@@ -462,7 +678,7 @@ export default {
                         </label>
                       </template>
                     </q-input>
-                  </div>
+                  </div> -->
                 </div>
                 <div
                   class="row justify-start items-center q-col-gutter-md q-mb-md"
