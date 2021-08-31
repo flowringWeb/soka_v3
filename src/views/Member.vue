@@ -834,7 +834,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="txtProfession" class="font-s-size">
-                      職業:　　
+                      職業:　　　　
                     </label>
                   </template>
                 </q-input>
@@ -851,7 +851,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="cboSpecialty" class="font-s-size">
-                      專長:
+                      專長:　　　　
                     </label>
                   </template>
                 </q-select>

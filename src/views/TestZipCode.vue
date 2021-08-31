@@ -1,8 +1,6 @@
 <script>
 import { Zipcode, County, ZipcodeGroupby } from "twzipcode-vue";
 export default {
-  // 組件參數 接收來自父組件的數據
-  props: {},
   // 局部注冊的組件
   components: {
     // 縣市
@@ -16,11 +14,10 @@ export default {
   },
   data() {
     return {
-      myCounty: "",
+      myCounty: "新北市",
       myZipcode: "",
     };
   },
-  created() {},
   // 計算屬性
   computed: {},
   // 偵聽器
