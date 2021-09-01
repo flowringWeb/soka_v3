@@ -18,6 +18,7 @@
     },
     "labMemNum": "1234567",
     "memberName": "王小明",
+    "associationTitle": "",
     "bornDate": "1995/05/05",
     "btnCheckMem": "OK",
     "cboBelongArea": "001-x地區",
