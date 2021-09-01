@@ -111,6 +111,17 @@ export default {
         position: "bottom-right",
       });
     },
+    showLoading() {
+      this.$q.loading.show();
+
+      this.timer = setTimeout(() => {
+        this.$q.loading.hide()
+        this.timer = void 0
+      }, 2000)
+    },
+    onSubmit() {
+      console.log('submit');
+    }
   },
   created() {
     import("../json/member.json").then((res) => {
@@ -217,7 +228,7 @@ export default {
 
       <q-tab-panels v-model="tab" animated>
         <q-tab-panel name="m_data">
-          <div>
+          <q-form @submit="onSubmit">
             <div class="row items-start">
               <div class="col-12">
                 <div
@@ -314,6 +325,7 @@ export default {
                           class="q-mb-md"
                           color="primary"
                           label="檢查會員"
+                          @click="showNotif"
                         />
                         <div>
                           <div>警告: 資料存在, 壯年部</div>
@@ -1339,6 +1351,7 @@ export default {
                     color="primary"
                     :class="$q.screen.lt.sm ? 'full-width' : void 0"
                     label="查詢會員"
+                    @click="showLoading"
                   />
                 </div>
                 <div class="col-6 col-md-4">
@@ -1524,12 +1537,12 @@ export default {
               </div>
               <div class="col-6 col-md-3">
                 <div class="q-gutter-x-md">
-                  <q-btn color="primary" label="儲存" @click="showNotif" />
+                  <q-btn type="submit" color="primary" label="儲存" />
                   <q-btn color="primary" label="取消" />
                 </div>
               </div>
             </div>
-          </div>
+          </q-form>
         </q-tab-panel>
 
         <q-tab-panel name="m_family">
