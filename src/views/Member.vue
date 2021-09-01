@@ -28,9 +28,8 @@ export default {
       txtVersionState: "修改第6條",
       //form
       memberName: "",
+      associationTitle: "",
       bornDate: "",
-      showQField: true,
-      pre_birD: "",
       cboBelongArea: "",
       cboBelongArea_options: [],
       cboBelongArea2: "",
@@ -240,12 +239,24 @@ export default {
       //     breaks;
       // }
     },
+    showLoading() {
+      this.$q.loading.show();
+
+      this.timer = setTimeout(() => {
+        this.$q.loading.hide()
+        this.timer = void 0
+      }, 2000)
+    },
+    onSubmit() {
+      console.log('submit');
+    }
   },
   created() {
     this.fetchData()
     import("../json/member.json").then((res) => {
       console.log("1", res);
       this.memberName = res.memberName;
+      this.associationTitle = res.associationTitle;
       this.bornDate = res.bornDate;
 
       this.cboBelongArea = res.cboBelongArea;
@@ -347,21 +358,22 @@ export default {
 
       <q-tab-panels v-model="tab" animated>
         <q-tab-panel name="m_data">
-          <div>
+          <q-form @submit="onSubmit">
             <div class="row items-start">
               <div class="col-12">
                 <div
                   class="
-                    row
+                    column
+                    row-md
                     justify-start
                     items-center
                     q-col-gutter-md q-py-md q-mb-md
                     border-underline
                   "
                 >
-                  <div class="col-md-10">
+                  <div class="col-md-10 order-last order-md-first">
                     <div class="row items-center q-col-gutter-md q-py-md">
-                      <div class="col-6 col-md-4">
+                      <div class="col-6 col-md-3">
                         <q-input
                           id="memberName"
                           type="text"
@@ -377,7 +389,24 @@ export default {
                           </template>
                         </q-input>
                       </div>
-                      <div class="col-6 col-md-4">
+                      <div class="col-6 col-md-3">
+                        <q-input
+                          id="associationTitle"
+                          type="text"
+                          outlined
+                          dense
+                          emit-value
+                          v-model="associationTitle"
+                          :label="$q.screen.lt.sm ? '學會職務' : void 0"
+                        >
+                          <template v-slot:before v-if="$q.screen.gt.xs">
+                            <label for="associationTitle" class="font-s-size">
+                              學會職務:　
+                            </label>
+                          </template>
+                        </q-input>
+                      </div>
+                      <div class="col-6 col-md-3">
                         <q-input
                           id="bornDate"
                           class="q-pb-none"
@@ -416,7 +445,7 @@ export default {
                       </div>
                       <div
                         class="
-                          col-6 col-md-4
+                          col-6 col-md-3
                           column
                           justify-center
                           items-center
@@ -426,6 +455,7 @@ export default {
                           class="q-mb-md"
                           color="primary"
                           label="檢查會員"
+                          @click="showNotif"
                         />
                         <div>
                           <div>警告: 資料存在, 壯年部</div>
@@ -570,7 +600,10 @@ export default {
                       </div>
                     </div>
                   </div>
-                  <div class="col-12 col-md-2">
+                  <div
+                    class="col-12 col-md-2 order-first order-md-last"
+                    :style="$q.screen.lt.md ? 'width:70%' : ''"
+                  >
                     <q-card class="my-card column justify-center" flat>
                       <div class="text-center">會員編號: 1234567</div>
                       <q-img
@@ -1448,6 +1481,7 @@ export default {
                     color="primary"
                     :class="$q.screen.lt.sm ? 'full-width' : void 0"
                     label="查詢會員"
+                    @click="showLoading"
                   />
                 </div>
                 <div class="col-6 col-md-4">
@@ -1631,12 +1665,12 @@ export default {
               </div>
               <div class="col-6 col-md-3">
                 <div class="q-gutter-x-md">
-                  <q-btn color="primary" label="儲存" @click="showNotif" />
+                  <q-btn type="submit" color="primary" label="儲存" />
                   <q-btn color="primary" label="取消" />
                 </div>
               </div>
             </div>
-          </div>
+          </q-form>
         </q-tab-panel>
         <!-- 家族會員 -->
         <q-tab-panel name="m_family">
@@ -1774,7 +1808,28 @@ export default {
               </label>
             </template>
           </q-input>
-          <q-editor v-model="editor" :definitions="definitions" />
+          <div>
+            <h6 class="text-center q-my-lg">使用條款與條件</h6>
+            <div>
+              <p>
+                第一條：本使用條款適用於在電腦、手機或其他行動裝置上使用台灣創價學會所創建之「會員管理統監系統」（以下簡稱「統監系統」）。當使用或上傳任何資訊、資料，編碼或其他輸入於統監系統時，代表用戶同意接受以下條款和條件的約束。如果您不同意本使用條款，則無法登入或使用本服務。統監系統保留隨時不經通知，更新和修改使用條款的權利。任何增進或修改當前的服務的新功能，包括新功能的發布，均應遵守使用條款。於上述任何修改後仍繼續使用本服務者，視為同意該修改。用戶若有違反以下任何條款，統監系統將終止您的帳戶且不另行通知。
+              </p>
+              <p>
+                第二條：當您註冊與使用統監系統時，系統會取得您提供的資訊。註冊統監系統並非選擇性，意即您必須同意我們就您所提供的資訊，進行我們認為適當之儲存、分析與應用。您在註冊及使用系統時，通常您會提供(a)您的姓名、電子郵件地址、年齡、使用者名稱、密碼和其他註冊資訊；(b)您使用系統時輸入我方系統之資訊，例如聯絡資訊等。我們還可能會使用您所提供給我們的資訊，以隨時提供您重要訊息、必要的通知和推廣。
+              </p>
+              <p>
+                第三條：系統可能會自動收集某些資訊，例如記錄您所隸屬的區域，您曾參加活動的地點、日期、時間。以及您所使用之行動裝置類型、您行動裝置的單一識別ID、您行動裝置的IP位置等。
+              </p>
+              <p>
+                第四條：資料保存政策：
+                我們將於您使用統監系統後之合理期間內，保留使用者帳號及所提供的資訊。如果您希望我們刪除您的用戶資料，請透過info統監系統@gmail.com與我們聯繫，我們將在合理期間內回覆。請注意，為了使系統正常運行，可能需要使用者提供部分或全部的資料，並且我們可能會依法律要求保存某些資訊。
+              </p>
+              <p>
+                第五條：我們將謹慎維護您資訊的機密性。我們提供實體、電子和程式的安全措施來保護我們處理和維護之資訊。例如，可取得您資訊者，僅限已授權之員工和需要知道該資訊才能操作、開發或改進我們的系統之承包廠商。請注意，儘管我們致力於提供資訊處理和維護的合理安全性，沒有安全系統可以防止所有潛在的安全漏洞。我們會盡最大努力確保資訊安全，然而用戶同意就統監系統的使用上，因任何安全漏洞而直接或間接造成之損害，免除統監系統、其承包廠商和相關附屬單位之責任。
+              </p>
+            </div>
+          </div>
+          <!-- <q-editor v-model="editor" :definitions="definitions" /> -->
         </q-card-section>
       </q-card>
     </q-dialog>
