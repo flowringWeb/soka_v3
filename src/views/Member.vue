@@ -1,8 +1,10 @@
 <script>
-import axios from "axios";
+import {getMemberList, getMemberFamilyList, getAllMember} from '@/api/member.js'
+import MemTable from '@/components/Member/MemTable'
+
 export default {
   name: "Member",
-  components: {},
+  components: {MemTable},
   data() {
     return {
       //tab
@@ -101,6 +103,116 @@ export default {
       txtMailingFloor2: "",
       txtMailingRoom: "",
       txtComMailingAdr: "",
+
+      // 會員家族
+      form: {
+        memberName: "",
+        area: "",
+        mobile: "",
+        address: "",
+        email: "",
+        birthday: "",
+        department: "",
+        orgJobTitle: "",
+        departmentStu: "",
+        grade: "",
+        schoolNow: "",
+        unitTitle: "",
+        status: "",
+        endDate: "",
+      },
+      familyColumns: [
+        {
+          name: "memberCode",
+          align: "center",
+          label: "會員編號",
+          field: "memberCode",
+          sortable: true,
+        },
+        {
+          name: "memberName",
+          label: "姓名",
+          align: "center",
+          field: "memberName",
+          style: "width: 10px",
+        },
+        {
+          name: "area",
+          label: "所屬區域",
+          align: "center",
+          field: "area",
+          format: (val, row) =>
+            areaArr.filter((obj) => obj.areaId === val)[0].areaName,
+        },
+        { name: "mobile", label: "電話", field: "mobile", align: "center" },
+        { name: "address", label: "地址", field: "address", align: "center" },
+        {
+          name: "email",
+          label: "E-mail",
+          field: "email",
+          align: "center",
+        },
+        {
+          name: "birthday",
+          label: "生日",
+          field: "birthday",
+          align: "center",
+        },
+        {
+          name: "department",
+          label: "部別",
+          align: "center",
+          field: "department",
+          format: (val, row) =>
+            departmentArr.filter((obj) => obj.departmentId === val)[0]
+              .departmentName,
+        },
+        {
+          name: "orgJobTitle",
+          label: "組織職務",
+          align: "center",
+          field: "orgJobTitle",
+          format: (val, row) =>
+            jobTitleArr.filter((obj) => obj.jobId === val)[0].jobName,
+        },
+        {
+          name: "departmentStu",
+          label: "學生部別",
+          align: "center",
+          field: "departmentStu",
+        },
+        {
+          name: "grade",
+          label: "年級",
+          align: "center",
+          field: "grade",
+        },
+        {
+          name: "schoolNow",
+          label: "目前就讀學校",
+          align: "center",
+          field: "schoolNow",
+        },
+        {
+          name: "unitTitle",
+          label: "人才單位職務",
+          align: "center",
+          field: "unitTitle",
+        },
+        {
+          name: "status",
+          label: "狀態",
+          field: "status",
+          align: "center",
+        },
+        {
+          name: "endDate",
+          label: "結束日期",
+          align: "center",
+          field: "endDate",
+        },
+      ],
+      familyData: [],
     };
   },
   computed: {},
@@ -112,8 +224,25 @@ export default {
         position: "bottom-right",
       });
     },
+    fetchData(){
+      getMemberFamilyList().then(res=>{
+        console.log(res)
+        this.familyData=res.data
+      })
+
+      // switch(tabName){
+      //   case 'm_family':
+      //     getMemberFamilyList().then(res=>{
+      //       console.log(res)
+      //     })
+          
+      //   case 'm_edu':
+      //     breaks;
+      // }
+    },
   },
   created() {
+    this.fetchData()
     import("../json/member.json").then((res) => {
       console.log("1", res);
       this.memberName = res.memberName;
@@ -185,6 +314,7 @@ export default {
       this.note = res.note;
     });
   },
+  
 };
 </script>
 
@@ -260,7 +390,7 @@ export default {
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
                             <label for="bornDate" class="font-s-size">
-                              <span class="required">＊</span>生日:　
+                              <span class="required">＊</span>生日:
                             </label>
                           </template>
                           <template v-slot:append>
@@ -331,7 +461,7 @@ export default {
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
                             <label for="sex" class="font-s-size">
-                              <span class="required">＊</span>性別:　　
+                              <span class="required">＊</span>性別:
                             </label>
                           </template>
                         </q-select>
@@ -365,7 +495,7 @@ export default {
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
                             <label for="department" class="font-s-size">
-                              <span class="required">＊</span>部別:　
+                              <span class="required">＊</span>部別:
                             </label>
                           </template>
                         </q-select>
@@ -399,7 +529,7 @@ export default {
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
                             <label for="distNoLive" class="font-s-size">
-                              <span class="required">＊</span>戶籍區:　
+                              <span class="required">＊</span>戶籍區:
                             </label>
                           </template>
                         </q-select>
@@ -416,7 +546,7 @@ export default {
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
                             <label for="lastName" class="font-s-size">
-                              英文姓:　
+                              英文姓:
                             </label>
                           </template>
                         </q-input>
@@ -433,7 +563,7 @@ export default {
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
                             <label for="firstName" class="font-s-size">
-                              英文名:　
+                              英文名:
                             </label>
                           </template>
                         </q-input>
@@ -694,7 +824,7 @@ export default {
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="telNumber" class="font-s-size">
-                          住家電話:　　
+                          住家電話:
                         </label>
                       </template>
                     </q-input>
@@ -710,7 +840,7 @@ export default {
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="mobileNumber" class="font-s-size">
-                          行動電話:　　
+                          行動電話:
                         </label>
                       </template>
                     </q-input>
@@ -726,7 +856,7 @@ export default {
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="businessNumber" class="font-s-size">
-                          公司電話:　　
+                          公司電話:
                         </label>
                       </template>
                     </q-input>
@@ -763,7 +893,7 @@ export default {
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="email" class="font-s-size">
-                          <span class="required">＊</span>Email: 　　
+                          <span class="required">＊</span>Email:
                         </label>
                       </template>
                     </q-input>
@@ -782,7 +912,7 @@ export default {
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="googleNumber" class="font-s-size">
-                          Google 帳號:　
+                          Google 帳號:
                         </label>
                       </template>
                     </q-input>
@@ -803,7 +933,7 @@ export default {
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
                             <label for="mailingCity" class="font-s-size">
-                              通訊地址:　　
+                              通訊地址:
                             </label>
                           </template>
                         </q-select>
@@ -833,7 +963,7 @@ export default {
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
                             <label for="googleNumber" class="font-s-size">
-                              <span class="invisible">通訊地址　　</span>
+                              <span class="invisible">通訊地址 </span>
                             </label>
                           </template>
                         </q-input>
@@ -1021,7 +1151,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="companyName" class="font-s-size">
-                      公司名稱:　　
+                      公司名稱:
                     </label>
                   </template>
                 </q-input>
@@ -1037,7 +1167,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="jobTitle" class="font-s-size">
-                      公司職稱:　　
+                      公司職稱:
                     </label>
                   </template>
                 </q-input>
@@ -1053,7 +1183,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="profession" class="font-s-size">
-                      職業:　　　　
+                      職業:
                     </label>
                   </template>
                 </q-input>
@@ -1070,7 +1200,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="cboSpecialty" class="font-s-size">
-                      專長:　　　　
+                      專長:
                     </label>
                   </template>
                 </q-select>
@@ -1086,7 +1216,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="highestEducation" class="font-s-size">
-                      最高學歷:　　
+                      最高學歷:
                     </label>
                   </template>
                 </q-input>
@@ -1102,7 +1232,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="teacherQualification" class="font-s-size">
-                      教學資格:　　
+                      教學資格:
                     </label>
                   </template>
                 </q-input>
@@ -1118,7 +1248,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="highestJob" class="font-s-size">
-                      最高職務:　　
+                      最高職務:
                     </label>
                   </template>
                 </q-input>
@@ -1134,7 +1264,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="finalJob" class="font-s-size">
-                      最終職務:　　
+                      最終職務:
                     </label>
                   </template>
                 </q-input>
@@ -1152,7 +1282,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="incomingDate" class="font-s-size">
-                      <span class="required">＊</span>入信日期:　
+                      <span class="required">＊</span>入信日期:
                     </label>
                   </template>
                   <template v-slot:append>
@@ -1184,7 +1314,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="cboConfidenceBg" class="font-s-size">
-                      信心背景:　　
+                      信心背景:
                     </label>
                   </template>
                 </q-select>
@@ -1217,7 +1347,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="cboActiveTimes" class="font-s-size">
-                      活動程度:　　
+                      活動程度:
                     </label>
                   </template>
                 </q-input>
@@ -1260,7 +1390,7 @@ export default {
                   >
                     <template v-slot:before v-if="$q.screen.gt.xs">
                       <label for="introducerName" class="font-s-size">
-                        <span class="required">＊</span>姓名:　
+                        <span class="required">＊</span>姓名:
                       </label>
                     </template>
                   </q-input>
@@ -1331,7 +1461,7 @@ export default {
                   >
                     <template v-slot:before v-if="$q.screen.gt.xs">
                       <label for="introducerDepartment" class="font-s-size">
-                        部別:　　
+                        部別:
                       </label>
                     </template>
                   </q-input>
@@ -1495,9 +1625,7 @@ export default {
                   :label="$q.screen.lt.sm ? '備註' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="note" class="font-s-size">
-                      備註:　　　　　</label
-                    >
+                    <label for="note" class="font-s-size"> 備註: </label>
                   </template>
                 </q-input>
               </div>
@@ -1510,15 +1638,15 @@ export default {
             </div>
           </div>
         </q-tab-panel>
-
+        <!-- 家族會員 -->
         <q-tab-panel name="m_family">
-          <div class="text-h6">會員家族</div>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          <mem-table :tableColumn="familyColumns" :tableData="familyData"></mem-table>
         </q-tab-panel>
 
         <q-tab-panel name="m_edu">
-          <div class="text-h6">會員學歷</div>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          
+          <!-- <div class="text-h6">會員學歷</div>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. -->
         </q-tab-panel>
 
         <q-tab-panel name="m_teachingQ">

@@ -25,8 +25,6 @@ export default {
   // 組件方法
   methods: {
     fetchData() {
-      console.log("==>", process.env.NODE_ENV);
-      console.log("==>", process.env)
       getMemberList().then((res) => {
         const resData = res.data;
         this.testData = resData;
