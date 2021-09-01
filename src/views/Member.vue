@@ -25,73 +25,74 @@ export default {
       txtVersionDate: "2010/08/09",
       txtVersionState: "修改第6條",
       //form
-      txtMemName: "",
-      calBornDate: "",
+      memberName: "",
+      bornDate: "",
       showQField: true,
       pre_birD: "",
       cboBelongArea: "",
       cboBelongArea_options: [],
       cboBelongArea2: "",
       cboBelongArea2_options: [],
-      cboSex: "",
-      cboSex_options: [],
-      cboStuDepartment: "",
-      cboStuDepartment_options: [],
-      cboMemType: "",
-      cboMemType_options: [],
-      cboHousehold: "",
-      cboHousehold_options: [],
-      cboDepartment: "",
-      cboDepartment_options: [],
-      txtLastName: "",
-      txtFirstName: "",
-      txtTelNum: "",
-      txtMobileNum: "",
-      txtBusinessNum: "",
+      sex: "",
+      sex_options: [],
+      stuDepartment: "",
+      stuDepartment_options: [],
+      memType: "",
+      memType_options: [],
+      distNoLive: "",
+      distNoLive_options: [],
+      department: "",
+      department_options: [],
+      lastName: "",
+      firstName: "",
+      telNumber: "",
+      mobileNumber: "",
+      businessNumber: "",
       cboFirstContact: "",
       cboFirstContact_options: [],
-      txtEmail: "",
-      txtGoogleNum: "",
-      txtCompanyName: "",
-      txtHighestEdu: "",
-      txtJobTitle: "",
-      txtTeacherQualification: "",
-      txtProfession: "",
-      txtHighestJob: "",
+      email: "",
+      googleNumber: "",
+      companyName: "",
+      highestEducation: "",
+      jobTitle: "",
+      teacherQualification: "",
+      profession: "",
+      highestJob: "",
       cboSpecialty: "",
       cboSpecialty_options: [],
-      txtFinalJob: "",
-      calIncomingDate: "",
+      finalJob: "",
+      incomingDate: "",
       cboConfidenceBg: "",
       cboConfidenceBg_options: [],
       cboActiveTimes: "",
-      txtCardNum: "",
-      txtIntroducerName: "",
-      txtIntroducerTel: "",
-      txtIntroducerCell: "",
-      txtIntroducerBCell: "",
-      txtIntroducerDepartment: "",
-      txtIntroducerArea: "",
-      cboCountGradeArea: "",
-      cboCountGradeArea_options: [],
-      cboCountGradeDepartment: "",
-      cboNIncludedReason: "",
-      cboNIncludedReason_options: [],
-      txtNIncludedReason2: "",
-      includedQuestion: "",
-      includedQuestion_options: [],
-      calEndDate: "",
-      txtNote: "",
+      cardNumber: "",
+      introducerName: "",
+      introducerTel: "",
+      introducerCell: "",
+      iintroducerBusinessCell: "",
+      introducerDepartment: "",
+      introducerArea: "",
+      countGradeArea: "",
+      countGradeArea_options: [],
+      countGradeDepartment: "",
+      noIncludedReason: "",
+      noIncludedReason_options: [],
+      noIncludedReason2: "",
+      noIncludedQuestion: "",
+      noIncludedQuestion_options: [],
+      endDate: "",
+      note: "",
       //通訊地址
       mailing_address_way: "tip_address",
       residence_address_way: "tip_address",
       txtMailingPostalCode: "",
       txtMailingNum: "",
       txtMailingNum2: "",
-      cboMailingCity: "",
-      mailing_address_02_options: ["請選擇", "台北市", "新北市"],
-      cboMailingDistirct: "",
-      mailing_address_03_options: ["請選擇", "汐止區", "新店區"],
+      mailingCity: "",
+      mailingCity_options: ["請選擇", "台北市", "新北市"],
+      mailingDistirct: "",
+      mailingDistirct_options: ["請選擇", "汐止區", "新店區"],
+      mallingStreetAddress: "",
       cboMailingRoad: "",
       mailing_address_04_options: ["請選擇", "中山路", "中正路"],
       txtMailingLane: "",
@@ -115,35 +116,36 @@ export default {
   created() {
     import("../json/member.json").then((res) => {
       console.log("1", res);
-      this.txtMemName = res.data.profile.txtMemName;
-      this.calBornDate = res.data.profile.calBornDate;
+      this.memberName = res.data.profile.memberName;
+      this.bornDate = res.data.profile.bornDate;
 
       this.cboBelongArea = res.data.profile.cboBelongArea;
       this.cboBelongArea2 = res.data.profile.cboBelongArea2;
-      this.cboMemType = res.data.profile.cboMemType;
-      this.cboMemType_options.arr = res.data.Basic.cboMemType;
-      this.cboSex = res.data.profile.cboSex;
-      this.cboSex_options.arr = res.data.Basic.cboSex;
-      this.cboHousehold = res.data.profile.cboHousehold;
-      this.cboStuDepartment = res.data.profile.cboStuDepartment;
-      this.cboStuDepartment_options.arr = res.data.Basic.cboStuDepartment;
-      this.cboDepartment = res.data.profile.cboDepartment;
-      this.cboDepartment_options.arr = res.data.Basic.cboDepartment;
-      this.txtLastName = res.data.profile.txtLastName;
-      this.txtFirstName = res.data.profile.txtFirstName;
-      this.txtTelNum = res.data.profile.txtTelNum;
-      this.txtMobileNum = res.data.profile.txtMobileNum;
-      this.txtBusinessNum = res.data.profile.txtBusinessNum;
+      this.memType = res.data.profile.memType;
+      this.memType_options.arr = res.data.Basic.memType;
+      this.sex = res.data.profile.sex;
+      this.sex_options.arr = res.data.Basic.sex;
+      this.distNoLive = res.data.profile.distNoLive;
+      this.stuDepartment = res.data.profile.stuDepartment;
+      this.stuDepartment_options.arr = res.data.Basic.stuDepartment;
+      this.department = res.data.profile.department;
+      this.department_options.arr = res.data.Basic.department;
+      this.lastName = res.data.profile.lastName;
+      this.firstName = res.data.profile.firstName;
+      this.telNumber = res.data.profile.telNumber;
+      this.mobileNumber = res.data.profile.mobileNumber;
+      this.businessNumber = res.data.profile.businessNumber;
       this.cboFirstContact = res.data.profile.cboFirstContact;
       this.cboFirstContact_options.arr = res.data.Basic.cboFirstContact;
-      this.txtEmail = res.data.profile.txtEmail;
-      this.txtGoogleNum = res.data.profile.txtGoogleNum;
+      this.email = res.data.profile.email;
+      this.googleNumber = res.data.profile.googleNumber;
 
       this.txtMailingPostalCode = res.data.profile.txtMailingPostalCode;
       this.txtMailingNum = res.data.profile.txtMailingNum;
       this.txtMailingNum2 = res.data.profile.txtMailingNum2;
-      this.cboMailingCity = res.data.profile.cboMailingCity;
-      this.cboMailingDistirct = res.data.profile.cboMailingDistirct;
+      this.mailingCity = res.data.profile.mailingCity;
+      this.mailingDistirct = res.data.profile.mailingDistirct;
+      this.mallingStreetAddress = res.data.profile.mallingStreetAddress;
       this.cboMailingRoad = res.data.profile.cboMailingRoad;
       this.txtMailingLane = res.data.profile.txtMailingLane;
       this.txtMailingAlley = res.data.profile.txtMailingAlley;
@@ -152,35 +154,35 @@ export default {
       this.txtMailingRoom = res.data.profile.txtMailingRoom;
       this.txtComMailingAdr = res.data.profile.txtComMailingAdr;
 
-      this.txtCompanyName = res.data.profile.txtCompanyName;
-      this.txtHighestEdu = res.data.profile.txtHighestEdu;
-      this.txtJobTitle = res.data.profile.txtJobTitle;
-      this.txtTeacherQualification = res.data.profile.txtTeacherQualification;
-      this.txtProfession = res.data.profile.txtProfession;
-      this.txtHighestJob = res.data.profile.txtHighestJob;
+      this.companyName = res.data.profile.companyName;
+      this.highestEducation = res.data.profile.highestEducation;
+      this.jobTitle = res.data.profile.jobTitle;
+      this.teacherQualification = res.data.profile.teacherQualification;
+      this.profession = res.data.profile.profession;
+      this.highestJob = res.data.profile.highestJob;
       this.cboSpecialty = res.data.profile.cboSpecialty;
       this.cboSpecialty_options.arr = res.data.Basic.cboSpecialty;
-      this.txtFinalJob = res.data.profile.txtFinalJob;
-      this.calIncomingDate = res.data.profile.calIncomingDate;
+      this.finalJob = res.data.profile.finalJob;
+      this.incomingDate = res.data.profile.incomingDate;
       this.cboConfidenceBg = res.data.profile.cboConfidenceBg;
       this.cboConfidenceBg_options.arr = res.data.Basic.cboConfidenceBg;
       this.cboActiveTimes = res.data.profile.cboActiveTimes;
-      this.txtCardNum = res.data.profile.txtCardNum;
-      this.txtIntroducerName = res.data.profile.txtIntroducerName;
-      this.txtIntroducerTel = res.data.profile.txtIntroducerTel;
-      this.txtIntroducerCell = res.data.profile.txtIntroducerCell;
-      this.txtIntroducerBCell = res.data.profile.txtIntroducerBCell;
-      this.txtIntroducerDepartment = res.data.profile.txtIntroducerDepartment;
-      this.txtIntroducerArea = res.data.profile.txtIntroducerArea;
-      this.cboCountGradeArea = res.data.profile.cboCountGradeArea;
-      this.cboCountGradeDepartment = res.data.profile.cboCountGradeDepartment;
-      this.cboNIncludedReason = res.data.profile.cboNIncludedReason;
-      this.cboNIncludedReason_options.arr = res.data.Basic.cboNIncludedReason;
-      this.txtNIncludedReason2 = res.data.profile.txtNIncludedReason2;
-      this.includedQuestion = res.data.profile.includedQuestion;
-      this.includedQuestion_options.arr = res.data.Basic.includedQuestion;
-      this.calEndDate = res.data.profile.calEndDate;
-      this.txtNote = res.data.profile.txtNote;
+      this.cardNumber = res.data.profile.cardNumber;
+      this.introducerName = res.data.profile.introducerName;
+      this.introducerTel = res.data.profile.introducerTel;
+      this.introducerCell = res.data.profile.introducerCell;
+      this.iintroducerBusinessCell = res.data.profile.iintroducerBusinessCell;
+      this.introducerDepartment = res.data.profile.introducerDepartment;
+      this.introducerArea = res.data.profile.introducerArea;
+      this.countGradeArea = res.data.profile.countGradeArea;
+      this.countGradeDepartment = res.data.profile.countGradeDepartment;
+      this.noIncludedReason = res.data.profile.noIncludedReason;
+      this.noIncludedReason_options.arr = res.data.Basic.noIncludedReason;
+      this.noIncludedReason2 = res.data.profile.noIncludedReason2;
+      this.noIncludedQuestion = res.data.profile.noIncludedQuestion;
+      this.noIncludedQuestion_options.arr = res.data.Basic.noIncludedQuestion;
+      this.endDate = res.data.profile.endDate;
+      this.note = res.data.profile.note;
     });
   },
 };
@@ -229,35 +231,35 @@ export default {
                 >
                   <div class="col-md-10">
                     <div class="row items-center q-col-gutter-md q-py-md">
-                      <div class="col-6 col-md-3">
+                      <div class="col-6 col-md-4">
                         <q-input
-                          id="txtMemName"
+                          id="memberName"
                           type="text"
                           outlined
                           dense
-                          v-model="txtMemName"
+                          v-model="memberName"
                           :label="$q.screen.lt.sm ? '會員姓名' : void 0"
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
-                            <label for="txtMemName" class="font-s-size">
+                            <label for="memberName" class="font-s-size">
                               <span class="required">＊</span>會員姓名:
                             </label>
                           </template>
                         </q-input>
                       </div>
-                      <div class="col-6 col-md-3">
+                      <div class="col-6 col-md-4">
                         <q-input
-                          id="calBornDate"
+                          id="bornDate"
                           class="q-pb-none"
                           outlined
                           dense
                           :label="$q.screen.lt.sm ? '生日' : void 0"
-                          v-model="calBornDate"
+                          v-model="bornDate"
                           mask="date"
                           :rules="['date']"
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
-                            <label for="calBornDate" class="font-s-size">
+                            <label for="bornDate" class="font-s-size">
                               <span class="required">＊</span>生日:　
                             </label>
                           </template>
@@ -268,7 +270,7 @@ export default {
                                 transition-show="scale"
                                 transition-hide="scale"
                               >
-                                <q-date v-model="calBornDate">
+                                <q-date v-model="bornDate">
                                   <div class="row items-center justify-end">
                                     <q-btn
                                       v-close-popup
@@ -284,7 +286,7 @@ export default {
                       </div>
                       <div
                         class="
-                          col-6 col-md-3
+                          col-6 col-md-4
                           column
                           justify-center
                           items-center
@@ -319,16 +321,16 @@ export default {
                       </div>
                       <div class="col-6 col-md-3">
                         <q-select
-                          id="cboSex"
+                          id="sex"
                           outlined
                           dense
                           emit-value
-                          v-model="cboSex"
+                          v-model="sex"
                           :label="$q.screen.lt.sm ? '性別' : void 0"
-                          :options="cboSex_options.arr"
+                          :options="sex_options.arr"
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
-                            <label for="cboSex" class="font-s-size">
+                            <label for="sex" class="font-s-size">
                               <span class="required">＊</span>性別:　　
                             </label>
                           </template>
@@ -336,16 +338,16 @@ export default {
                       </div>
                       <div class="col-6 col-md-3">
                         <q-select
-                          id="cboStuDepartment"
+                          id="stuDepartment"
                           outlined
                           dense
                           emit-value
-                          v-model="cboStuDepartment"
+                          v-model="stuDepartment"
                           :label="$q.screen.lt.sm ? '學生部別' : void 0"
-                          :options="cboStuDepartment_options.arr"
+                          :options="stuDepartment_options.arr"
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
-                            <label for="cboStuDepartment" class="font-s-size">
+                            <label for="stuDepartment" class="font-s-size">
                               學生部別:
                             </label>
                           </template>
@@ -353,16 +355,16 @@ export default {
                       </div>
                       <div class="col-6 col-md-3">
                         <q-select
-                          id="cboDepartment"
+                          id="department"
                           outlined
                           dense
                           emit-value
-                          v-model="cboDepartment"
-                          :options="cboDepartment_options.arr"
+                          v-model="department"
+                          :options="department_options.arr"
                           :label="$q.screen.lt.sm ? '部別' : void 0"
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
-                            <label for="cboDepartment" class="font-s-size">
+                            <label for="department" class="font-s-size">
                               <span class="required">＊</span>部別:　
                             </label>
                           </template>
@@ -370,16 +372,16 @@ export default {
                       </div>
                       <div class="col-6 col-md-3">
                         <q-select
-                          id="cboMemType"
+                          id="memType"
                           outlined
                           dense
                           emit-value
-                          v-model="cboMemType"
+                          v-model="memType"
                           :label="$q.screen.lt.sm ? '會員類型' : void 0"
-                          :options="cboMemType_options.arr"
+                          :options="memType_options.arr"
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
-                            <label for="cboMemType" class="font-s-size">
+                            <label for="memType" class="font-s-size">
                               <span class="required">＊</span>會員類型:
                             </label>
                           </template>
@@ -387,16 +389,16 @@ export default {
                       </div>
                       <div class="col-6 col-md-3">
                         <q-select
-                          id="cboHousehold"
+                          id="distNoLive"
                           outlined
                           dense
                           emit-value
-                          v-model="cboHousehold"
+                          v-model="distNoLive"
                           :label="$q.screen.lt.sm ? '戶籍區' : void 0"
-                          :options="cboHousehold_options"
+                          :options="distNoLive_options"
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
-                            <label for="cboHousehold" class="font-s-size">
+                            <label for="distNoLive" class="font-s-size">
                               <span class="required">＊</span>戶籍區:　
                             </label>
                           </template>
@@ -404,16 +406,16 @@ export default {
                       </div>
                       <div class="col-6 col-md-3">
                         <q-input
-                          id="txtLastName"
+                          id="lastName"
                           type="text"
                           outlined
                           dense
                           emit-value
-                          v-model="txtLastName"
+                          v-model="lastName"
                           :label="$q.screen.lt.sm ? '英文姓' : void 0"
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
-                            <label for="txtLastName" class="font-s-size">
+                            <label for="lastName" class="font-s-size">
                               英文姓:　
                             </label>
                           </template>
@@ -421,16 +423,16 @@ export default {
                       </div>
                       <div class="col-6 col-md-3">
                         <q-input
-                          id="txtFirstName"
+                          id="firstName"
                           type="text"
                           outlined
                           dense
                           emit-value
-                          v-model="txtFirstName"
+                          v-model="firstName"
                           :label="$q.screen.lt.sm ? '英文名' : void 0"
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
-                            <label for="txtFirstName" class="font-s-size">
+                            <label for="firstName" class="font-s-size">
                               英文名:　
                             </label>
                           </template>
@@ -454,15 +456,15 @@ export default {
                   </div>
                   <!-- <div class="col-6 col-md-3">
                     <q-input
-                      id="txtMemName"
+                      id="memberName"
                       type="text"
                       outlined
                       dense
-                      v-model="txtMemName"
+                      v-model="memberName"
                       :label="$q.screen.lt.sm ? '會員姓名' : void 0"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="txtMemName" class="font-s-size">
+                        <label for="memberName" class="font-s-size">
                           <span class="required">＊</span>會員姓名:
                         </label>
                       </template>
@@ -470,17 +472,17 @@ export default {
                   </div>
                   <div class="col-6 col-md-3">
                     <q-input
-                      id="calBornDate"
+                      id="bornDate"
                       class="q-pb-none"
                       outlined
                       dense
                       :label="$q.screen.lt.sm ? '生日' : void 0"
-                      v-model="calBornDate"
+                      v-model="bornDate"
                       mask="date"
                       :rules="['date']"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="calBornDate" class="font-s-size">
+                        <label for="bornDate" class="font-s-size">
                           <span class="required">＊</span>生日:
                         </label>
                       </template>
@@ -491,7 +493,7 @@ export default {
                             transition-show="scale"
                             transition-hide="scale"
                           >
-                            <q-date v-model="calBornDate">
+                            <q-date v-model="bornDate">
                               <div class="row items-center justify-end">
                                 <q-btn
                                   v-close-popup
@@ -560,16 +562,16 @@ export default {
                   </div>
                   <div class="col-6 col-md-2">
                     <q-select
-                      id="cboSex"
+                      id="sex"
                       outlined
                       dense
                       emit-value
-                      v-model="cboSex"
+                      v-model="sex"
                       :label="$q.screen.lt.sm ? '性別' : void 0"
-                      :options="cboSex_options.arr"
+                      :options="sex_options.arr"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="cboSex" class="font-s-size">
+                        <label for="sex" class="font-s-size">
                           <span class="required">＊</span>性別:
                         </label>
                       </template>
@@ -577,16 +579,16 @@ export default {
                   </div>
                   <div class="col-6 col-md-2">
                     <q-select
-                      id="cboStuDepartment"
+                      id="stuDepartment"
                       outlined
                       dense
                       emit-value
-                      v-model="cboStuDepartment"
+                      v-model="stuDepartment"
                       :label="$q.screen.lt.sm ? '學生部別' : void 0"
-                      :options="cboStuDepartment_options.arr"
+                      :options="stuDepartment_options.arr"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="cboStuDepartment" class="font-s-size">
+                        <label for="stuDepartment" class="font-s-size">
                           學生部別:
                         </label>
                       </template>
@@ -594,16 +596,16 @@ export default {
                   </div>
                   <div class="col-6 col-md-2">
                     <q-select
-                      id="cboDepartment"
+                      id="department"
                       outlined
                       dense
                       emit-value
-                      v-model="cboDepartment"
-                      :options="cboDepartment_options.arr"
+                      v-model="department"
+                      :options="department_options.arr"
                       :label="$q.screen.lt.sm ? '部別' : void 0"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="cboDepartment" class="font-s-size">
+                        <label for="department" class="font-s-size">
                           <span class="required">＊</span>部別:
                         </label>
                       </template>
@@ -611,16 +613,16 @@ export default {
                   </div>
                   <div class="col-6 col-md-3">
                     <q-select
-                      id="cboMemType"
+                      id="memType"
                       outlined
                       dense
                       emit-value
-                      v-model="cboMemType"
+                      v-model="memType"
                       :label="$q.screen.lt.sm ? '會員類型' : void 0"
-                      :options="cboMemType_options.arr"
+                      :options="memType_options.arr"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="cboMemType" class="font-s-size">
+                        <label for="memType" class="font-s-size">
                           <span class="required">＊</span>會員類型:
                         </label>
                       </template>
@@ -628,16 +630,16 @@ export default {
                   </div>
                   <div class="col-6 col-md-3">
                     <q-select
-                      id="cboHousehold"
+                      id="distNoLive"
                       outlined
                       dense
                       emit-value
-                      v-model="cboHousehold"
+                      v-model="distNoLive"
                       :label="$q.screen.lt.sm ? '戶籍區' : void 0"
-                      :options="cboHousehold_options"
+                      :options="distNoLive_options"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="cboHousehold" class="font-s-size">
+                        <label for="distNoLive" class="font-s-size">
                           <span class="required">＊</span>戶籍區:
                         </label>
                       </template>
@@ -645,16 +647,16 @@ export default {
                   </div>
                   <div class="col-6 col-md-3">
                     <q-input
-                      id="txtLastName"
+                      id="lastName"
                       type="text"
                       outlined
                       dense
                       emit-value
-                      v-model="txtLastName"
+                      v-model="lastName"
                       :label="$q.screen.lt.sm ? '英文姓' : void 0"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="txtLastName" class="font-s-size">
+                        <label for="lastName" class="font-s-size">
                           英文姓:
                         </label>
                       </template>
@@ -662,16 +664,16 @@ export default {
                   </div>
                   <div class="col-6 col-md-3">
                     <q-input
-                      id="txtFirstName"
+                      id="firstName"
                       type="text"
                       outlined
                       dense
                       emit-value
-                      v-model="txtFirstName"
+                      v-model="firstName"
                       :label="$q.screen.lt.sm ? '英文名' : void 0"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="txtFirstName" class="font-s-size">
+                        <label for="firstName" class="font-s-size">
                           英文名:
                         </label>
                       </template>
@@ -683,15 +685,15 @@ export default {
                 >
                   <div class="col-6 col-md-3">
                     <q-input
-                      id="txtTelNum"
+                      id="telNumber"
                       type="tel"
                       outlined
                       dense
-                      v-model="txtTelNum"
+                      v-model="telNumber"
                       :label="$q.screen.lt.sm ? '住家電話' : void 0"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="txtTelNum" class="font-s-size">
+                        <label for="telNumber" class="font-s-size">
                           住家電話:　　
                         </label>
                       </template>
@@ -699,15 +701,15 @@ export default {
                   </div>
                   <div class="col-6 col-md-3">
                     <q-input
-                      id="txtMobileNum"
+                      id="mobileNumber"
                       type="tel"
                       outlined
                       dense
-                      v-model="txtMobileNum"
+                      v-model="mobileNumber"
                       :label="$q.screen.lt.sm ? '行動電話' : void 0"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="txtMobileNum" class="font-s-size">
+                        <label for="mobileNumber" class="font-s-size">
                           行動電話:　　
                         </label>
                       </template>
@@ -715,15 +717,15 @@ export default {
                   </div>
                   <div class="col-6 col-md-3">
                     <q-input
-                      id="txtBusinessNum"
+                      id="businessNumber"
                       type="tel"
                       outlined
                       dense
-                      v-model="txtBusinessNum"
+                      v-model="businessNumber"
                       :label="$q.screen.lt.sm ? '公司電話' : void 0"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="txtBusinessNum" class="font-s-size">
+                        <label for="businessNumber" class="font-s-size">
                           公司電話:　　
                         </label>
                       </template>
@@ -752,15 +754,15 @@ export default {
                 >
                   <div class="col-6 col-md-3">
                     <q-input
-                      id="txtEmail"
+                      id="email"
                       type="email"
                       outlined
                       dense
-                      v-model="txtEmail"
+                      v-model="email"
                       :label="$q.screen.lt.sm ? 'Email' : void 0"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="txtEmail" class="font-s-size">
+                        <label for="email" class="font-s-size">
                           <span class="required">＊</span>Email: 　　
                         </label>
                       </template>
@@ -771,15 +773,15 @@ export default {
                   </div>
                   <div class="col-6 col-md-3">
                     <q-input
-                      id="txtGoogleNum"
+                      id="googleNumber"
                       type="email"
                       outlined
                       dense
-                      v-model="txtGoogleNum"
+                      v-model="googleNumber"
                       :label="$q.screen.lt.sm ? 'Google 帳號' : void 0"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="txtGoogleNum" class="font-s-size">
+                        <label for="googleNumber" class="font-s-size">
                           Google 帳號:　
                         </label>
                       </template>
@@ -791,45 +793,47 @@ export default {
                     <div class="row justify-start q-col-gutter-md">
                       <div class="col-6">
                         <q-select
-                          id="cboMailingCity"
+                          id="mailingCity"
                           outlined
                           dense
                           emit-value
-                          v-model="cboMailingCity"
+                          v-model="mailingCity"
                           :label="$q.screen.lt.sm ? '縣市' : void 0"
-                          :options="mailing_address_02_options"
+                          :options="mailingCity_options"
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
-                            <label for="cboMailingCity" class="font-s-size">
-                              戶籍地址:　　
+                            <label for="mailingCity" class="font-s-size">
+                              通訊地址:　　
                             </label>
                           </template>
                         </q-select>
                       </div>
                       <div class="col-6">
                         <q-select
-                          id="cboMailingDistirct"
+                          id="mailingDistirct"
                           outlined
                           dense
                           emit-value
-                          v-model="cboMailingDistirct"
+                          v-model="mailingDistirct"
                           :label="$q.screen.lt.sm ? '地區' : void 0"
-                          :options="mailing_address_03_options"
+                          :options="mailingDistirct_options"
                         >
                         </q-select>
                       </div>
                       <div class="col-12">
                         <q-input
-                          id=""
+                          id="mallingStreetAddress"
                           type="text"
                           outlined
                           dense
+                          emit-value
+                          v-model="mallingStreetAddress"
                           :label="$q.screen.lt.sm ? '路段' : void 0"
-                          placeholder="請輸入戶籍地址"
+                          placeholder="請輸入街道地址"
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
-                            <label for="txtGoogleNum" class="font-s-size">
-                              <span class="invisible">戶籍地址　　</span>
+                            <label for="googleNumber" class="font-s-size">
+                              <span class="invisible">通訊地址　　</span>
                             </label>
                           </template>
                         </q-input>
@@ -864,14 +868,14 @@ export default {
                           <q-select
                             outlined
                             dense
-                            v-model="cboMailingCity"
-                            :options="mailing_address_02_options"
+                            v-model="mailingCity"
+                            :options="mailingCity_options"
                           />
                           <q-select
                             outlined
                             dense
-                            v-model="cboMailingDistirct"
-                            :options="mailing_address_03_options"
+                            v-model="mailingDistirct"
+                            :options="mailingDistirct_options"
                           />
                           <q-select
                             outlined
@@ -944,8 +948,8 @@ export default {
                     class="q-mb-md"
                     outlined
                     dense
-                    v-model="cboMailingCity"
-                    :options="mailing_address_02_options"
+                    v-model="mailingCity"
+                    :options="mailingCity_options"
                   />
                 </div>
                 <div class="col-6">
@@ -953,8 +957,8 @@ export default {
                     class="q-mb-md"
                     outlined
                     dense
-                    v-model="cboMailingDistirct"
-                    :options="mailing_address_03_options"
+                    v-model="mailingDistirct"
+                    :options="mailingDistirct_options"
                   />
                 </div>
                 <div class="col-6">
@@ -1008,15 +1012,15 @@ export default {
             <div class="row justify-start items-center q-col-gutter-md">
               <div class="col-6 col-md-3">
                 <q-input
-                  id="txtCompanyName"
+                  id="companyName"
                   type="text"
                   outlined
                   dense
-                  v-model="txtCompanyName"
+                  v-model="companyName"
                   :label="$q.screen.lt.sm ? '公司名稱' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="txtCompanyName" class="font-s-size">
+                    <label for="companyName" class="font-s-size">
                       公司名稱:　　
                     </label>
                   </template>
@@ -1024,15 +1028,15 @@ export default {
               </div>
               <div class="col-6 col-md-3">
                 <q-input
-                  id="txtJobTitle"
+                  id="jobTitle"
                   type="text"
                   outlined
                   dense
-                  v-model="txtJobTitle"
+                  v-model="jobTitle"
                   :label="$q.screen.lt.sm ? '公司職稱' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="txtJobTitle" class="font-s-size">
+                    <label for="jobTitle" class="font-s-size">
                       公司職稱:　　
                     </label>
                   </template>
@@ -1040,15 +1044,15 @@ export default {
               </div>
               <div class="col-6 col-md-3">
                 <q-input
-                  id="txtProfession"
+                  id="profession"
                   type="text"
                   outlined
                   dense
-                  v-model="txtProfession"
+                  v-model="profession"
                   :label="$q.screen.lt.sm ? '職業' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="txtProfession" class="font-s-size">
+                    <label for="profession" class="font-s-size">
                       職業:　　　　
                     </label>
                   </template>
@@ -1073,15 +1077,15 @@ export default {
               </div>
               <div class="col-6 col-md-3">
                 <q-input
-                  id="txtHighestEdu"
+                  id="highestEducation"
                   type="text"
                   outlined
                   dense
-                  v-model="txtHighestEdu"
+                  v-model="highestEducation"
                   :label="$q.screen.lt.sm ? '最高學歷' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="txtHighestEdu" class="font-s-size">
+                    <label for="highestEducation" class="font-s-size">
                       最高學歷:　　
                     </label>
                   </template>
@@ -1089,15 +1093,15 @@ export default {
               </div>
               <div class="col-6 col-md-3">
                 <q-input
-                  id="txtTeacherQualification"
+                  id="teacherQualification"
                   type="text"
                   outlined
                   dense
-                  v-model="txtTeacherQualification"
+                  v-model="teacherQualification"
                   :label="$q.screen.lt.sm ? '教學資格' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="txtTeacherQualification" class="font-s-size">
+                    <label for="teacherQualification" class="font-s-size">
                       教學資格:　　
                     </label>
                   </template>
@@ -1105,15 +1109,15 @@ export default {
               </div>
               <div class="col-6 col-md-3">
                 <q-input
-                  id="txtHighestJob"
+                  id="highestJob"
                   type="text"
                   outlined
                   dense
-                  v-model="txtHighestJob"
+                  v-model="highestJob"
                   :label="$q.screen.lt.sm ? '最高職務' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="txtHighestJob" class="font-s-size">
+                    <label for="highestJob" class="font-s-size">
                       最高職務:　　
                     </label>
                   </template>
@@ -1121,15 +1125,15 @@ export default {
               </div>
               <div class="col-6 col-md-3">
                 <q-input
-                  id="txtFinalJob"
+                  id="finalJob"
                   type="text"
                   outlined
                   dense
-                  v-model="txtFinalJob"
+                  v-model="finalJob"
                   :label="$q.screen.lt.sm ? '最終職務' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="txtFinalJob" class="font-s-size">
+                    <label for="finalJob" class="font-s-size">
                       最終職務:　　
                     </label>
                   </template>
@@ -1137,17 +1141,17 @@ export default {
               </div>
               <div class="col-6 col-md-3">
                 <q-input
-                  id="calIncomingDate"
+                  id="incomingDate"
                   class="q-pb-none"
                   outlined
                   dense
                   :label="$q.screen.lt.sm ? '入信日期' : void 0"
-                  v-model="calIncomingDate"
+                  v-model="incomingDate"
                   mask="date"
                   :rules="['date']"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="calIncomingDate" class="font-s-size">
+                    <label for="incomingDate" class="font-s-size">
                       <span class="required">＊</span>入信日期:　
                     </label>
                   </template>
@@ -1158,7 +1162,7 @@ export default {
                         transition-show="scale"
                         transition-hide="scale"
                       >
-                        <q-date v-model="calIncomingDate">
+                        <q-date v-model="incomingDate">
                           <div class="row items-center justify-end">
                             <q-btn v-close-popup label="確認" color="primary" />
                           </div>
@@ -1220,15 +1224,15 @@ export default {
               </div>
               <div class="col-6 col-md-3">
                 <q-input
-                  id="txtCardNum"
+                  id="cardNumber"
                   type="number"
                   outlined
                   dense
-                  v-model="txtCardNum"
+                  v-model="cardNumber"
                   :label="$q.screen.lt.sm ? '電子幹部卡號' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="txtCardNum" class="font-s-size">
+                    <label for="cardNumber" class="font-s-size">
                       電子幹部卡號:
                     </label>
                   </template>
@@ -1247,15 +1251,15 @@ export default {
               >
                 <div class="col-6 col-md-2">
                   <q-input
-                    id="txtIntroducerName"
+                    id="introducerName"
                     type="text"
                     outlined
                     dense
-                    v-model="txtIntroducerName"
+                    v-model="introducerName"
                     :label="$q.screen.lt.sm ? '姓名' : void 0"
                   >
                     <template v-slot:before v-if="$q.screen.gt.xs">
-                      <label for="txtIntroducerName" class="font-s-size">
+                      <label for="introducerName" class="font-s-size">
                         <span class="required">＊</span>姓名:　
                       </label>
                     </template>
@@ -1263,15 +1267,15 @@ export default {
                 </div>
                 <div class="col-6 col-md-2">
                   <q-input
-                    id="txtIntroducerTel"
+                    id="introducerTel"
                     type="tel"
                     outlined
                     dense
-                    v-model="txtIntroducerTel"
+                    v-model="introducerTel"
                     :label="$q.screen.lt.sm ? '住家電話' : void 0"
                   >
                     <template v-slot:before v-if="$q.screen.gt.xs">
-                      <label for="txtIntroducerTel" class="font-s-size">
+                      <label for="introducerTel" class="font-s-size">
                         住家電話:
                       </label>
                     </template>
@@ -1279,15 +1283,15 @@ export default {
                 </div>
                 <div class="col-6 col-md-2">
                   <q-input
-                    id="txtIntroducerCell"
+                    id="introducerCell"
                     type="tel"
                     outlined
                     dense
-                    v-model="txtIntroducerCell"
+                    v-model="introducerCell"
                     :label="$q.screen.lt.sm ? '行動電話' : void 0"
                   >
                     <template v-slot:before v-if="$q.screen.gt.xs">
-                      <label for="txtIntroducerCell" class="font-s-size">
+                      <label for="introducerCell" class="font-s-size">
                         行動電話:
                       </label>
                     </template>
@@ -1295,15 +1299,15 @@ export default {
                 </div>
                 <div class="col-6 col-md-2">
                   <q-input
-                    id="txtIntroducerBCell"
+                    id="iintroducerBusinessCell"
                     type="tel"
                     outlined
                     dense
-                    v-model="txtIntroducerBCell"
+                    v-model="iintroducerBusinessCell"
                     :label="$q.screen.lt.sm ? '公司電話' : void 0"
                   >
                     <template v-slot:before v-if="$q.screen.gt.xs">
-                      <label for="txtIntroducerBCell" class="font-s-size">
+                      <label for="iintroducerBusinessCell" class="font-s-size">
                         公司電話:
                       </label>
                     </template>
@@ -1318,15 +1322,15 @@ export default {
                 </div>
                 <div class="col-6 col-md-4">
                   <q-input
-                    id="txtIntroducerDepartment"
+                    id="introducerDepartment"
                     type="text"
                     outlined
                     dense
-                    v-model="txtIntroducerDepartment"
+                    v-model="introducerDepartment"
                     :label="$q.screen.lt.sm ? '部別' : void 0"
                   >
                     <template v-slot:before v-if="$q.screen.gt.xs">
-                      <label for="txtIntroducerDepartment" class="font-s-size">
+                      <label for="introducerDepartment" class="font-s-size">
                         部別:　　
                       </label>
                     </template>
@@ -1334,15 +1338,15 @@ export default {
                 </div>
                 <div class="col-6 col-md-4">
                   <q-input
-                    id="txtIntroducerArea"
+                    id="introducerArea"
                     type="text"
                     outlined
                     dense
-                    v-model="txtIntroducerArea"
+                    v-model="introducerArea"
                     :label="$q.screen.lt.sm ? '所屬區域' : void 0"
                   >
                     <template v-slot:before v-if="$q.screen.gt.xs">
-                      <label for="txtIntroducerArea" class="font-s-size">
+                      <label for="introducerArea" class="font-s-size">
                         所屬區域:
                       </label>
                     </template>
@@ -1361,16 +1365,16 @@ export default {
             >
               <div class="col-6 col-md-3">
                 <q-select
-                  id="cboCountGradeArea"
+                  id="countGradeArea"
                   outlined
                   dense
                   emit-value
-                  v-model="cboCountGradeArea"
+                  v-model="countGradeArea"
                   :label="$q.screen.lt.sm ? '計算成績區域' : void 0"
-                  :options="cboCountGradeArea_options.arr"
+                  :options="countGradeArea_options.arr"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="cboCountGradeArea" class="font-s-size">
+                    <label for="countGradeArea" class="font-s-size">
                       <span class="required">＊</span>計算成績區域:
                     </label>
                   </template>
@@ -1378,16 +1382,16 @@ export default {
               </div>
               <div class="col-6 col-md-3">
                 <q-input
-                  id="cboCountGradeDepartment"
+                  id="countGradeDepartment"
                   type="text"
                   outlined
                   dense
                   emit-value
-                  v-model="cboCountGradeDepartment"
+                  v-model="countGradeDepartment"
                   :label="$q.screen.lt.sm ? '計算成績部別' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="cboCountGradeDepartment" class="font-s-size">
+                    <label for="countGradeDepartment" class="font-s-size">
                       <span class="required">＊</span>計算成績部別:
                     </label>
                   </template>
@@ -1405,16 +1409,16 @@ export default {
             >
               <div class="col-6 col-md-3">
                 <q-select
-                  id="cboNIncludedReason"
+                  id="noIncludedReason"
                   outlined
                   dense
                   emit-value
-                  v-model="cboNIncludedReason"
+                  v-model="noIncludedReason"
                   :label="$q.screen.lt.sm ? '不列入會員原因' : void 0"
-                  :options="cboNIncludedReason_options.arr"
+                  :options="noIncludedReason_options.arr"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="cboNIncludedReason" class="font-s-size">
+                    <label for="noIncludedReason" class="font-s-size">
                       不列入會員原因:
                     </label>
                   </template>
@@ -1422,27 +1426,27 @@ export default {
               </div>
               <div class="col-6 col-md-3">
                 <q-input
-                  id="txtNIncludedReason2"
+                  id="noIncludedReason2"
                   type="text"
                   outlined
                   dense
-                  v-model="txtNIncludedReason2"
+                  v-model="noIncludedReason2"
                   placeholder="不列入會員其他原因"
                 >
                 </q-input>
               </div>
               <div class="col-6 col-md-3">
                 <q-select
-                  id="includedQuestion"
+                  id="noIncludedQuestion"
                   outlined
                   dense
                   emit-value
-                  v-model="includedQuestion"
+                  v-model="noIncludedQuestion"
                   :label="$q.screen.lt.sm ? '不列入活動原因' : void 0"
-                  :options="includedQuestion_options.arr"
+                  :options="noIncludedQuestion_options.arr"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="includedQuestion" class="font-s-size">
+                    <label for="noIncludedQuestion" class="font-s-size">
                       不列入活動原因:
                     </label>
                   </template>
@@ -1450,19 +1454,17 @@ export default {
               </div>
               <div class="col-6 col-md-3">
                 <q-input
-                  id="calEndDate"
+                  id="endDate"
                   class="q-pb-none"
                   outlined
                   dense
                   :label="$q.screen.lt.sm ? '結束日期' : void 0"
-                  v-model="calEndDate"
+                  v-model="endDate"
                   mask="date"
                   :rules="['date']"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="calEndDate" class="font-s-size">
-                      結束日期:
-                    </label>
+                    <label for="endDate" class="font-s-size"> 結束日期: </label>
                   </template>
                   <template v-slot:append>
                     <q-icon name="event" class="cursor-pointer">
@@ -1471,7 +1473,7 @@ export default {
                         transition-show="scale"
                         transition-hide="scale"
                       >
-                        <q-date v-model="calEndDate">
+                        <q-date v-model="endDate">
                           <div class="row items-center justify-end">
                             <q-btn v-close-popup label="確認" color="primary" />
                           </div>
@@ -1485,15 +1487,15 @@ export default {
             <div class="row justify-start items-center q-col-gutter-md q-py-md">
               <div class="col-6 col-md-6">
                 <q-input
-                  id="txtNote"
+                  id="note"
                   type="text"
                   outlined
                   dense
-                  v-model="txtNote"
+                  v-model="note"
                   :label="$q.screen.lt.sm ? '備註' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="txtNote" class="font-s-size">
+                    <label for="note" class="font-s-size">
                       備註:　　　　　</label
                     >
                   </template>
