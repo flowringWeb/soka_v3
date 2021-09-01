@@ -222,14 +222,15 @@ export default {
               <div class="col-12">
                 <div
                   class="
-                    row
+                    column
+                    row-md
                     justify-start
                     items-center
                     q-col-gutter-md q-py-md q-mb-md
                     border-underline
                   "
                 >
-                  <div class="col-md-10">
+                  <div class="col-md-10 order-last order-md-first">
                     <div class="row items-center q-col-gutter-md q-py-md">
                       <div class="col-6 col-md-4">
                         <q-input
@@ -440,7 +441,7 @@ export default {
                       </div>
                     </div>
                   </div>
-                  <div class="col-12 col-md-2">
+                  <div class="col-12 col-md-2 order-first order-md-last" :style="$q.screen.lt.md ? 'width:70%' : ''">
                     <q-card class="my-card column justify-center" flat>
                       <div class="text-center">會員編號: 1234567</div>
                       <q-img
