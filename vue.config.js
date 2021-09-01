@@ -14,13 +14,11 @@ module.exports = {
     // 開發環境代理配置
     proxy: {
       [process.env.VUE_APP_BASE_API]: {
-        target: process.env.VUE_APP_SERVICE_URL, //在.env.development中配置的目標服務器
+        target: process.env.VUE_APP_SERVICE_URL,
         ws: true, //proxy websockets
-        //啟動代理
-        // 同時接收數據請求，如此服務端和服務端進行數據交互不會有跨域問題
-        changeOrigin: true,
+
+        changeOrigin: true, //啟動代理
         pathRewrite: {
-          // 將 /dev-api替換為''，即是把/dev-api移除
           ["^" + process.env.VUE_APP_BASE_API]: "",
         },
       },

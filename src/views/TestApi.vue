@@ -29,7 +29,7 @@ export default {
       console.log("==>", process.env)
       getMemberList().then((res) => {
         const resData = res.data;
-        this.testData = resData.data;
+        this.testData = resData;
         console.log(resData);
       });
     },
