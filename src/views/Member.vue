@@ -1,5 +1,5 @@
 <script>
-import {getMemberList, getMemberFamilyList, getAllMember} from '@/api/member.js'
+import {getMemberList, getMemberFamilyList, getMemberEduList} from '@/api/member.js'
 import MemTable from '@/components/Member/MemTable'
 
 export default {
@@ -103,24 +103,24 @@ export default {
       txtMailingRoom: "",
       txtComMailingAdr: "",
 
-      // 會員家族
-      form: {
-        memberName: "",
-        area: "",
-        mobile: "",
-        address: "",
-        email: "",
-        birthday: "",
-        department: "",
-        orgJobTitle: "",
-        departmentStu: "",
-        grade: "",
-        schoolNow: "",
-        unitTitle: "",
-        status: "",
-        endDate: "",
-      },
-      familyColumns: [
+      // 會員大表
+      // form: {
+      //   memberName: "",
+      //   area: "",
+      //   mobile: "",
+      //   address: "",
+      //   email: "",
+      //   birthday: "",
+      //   department: "",
+      //   orgJobTitle: "",
+      //   departmentStu: "",
+      //   grade: "",
+      //   schoolNow: "",
+      //   unitTitle: "",
+      //   status: "",
+      //   endDate: "",
+      // },
+      fullMemColumns: [
         {
           name: "memberCode",
           align: "center",
@@ -211,7 +211,104 @@ export default {
           field: "endDate",
         },
       ],
+      fullMemData: [],
+      // 會員家族
+      familyColumns: [
+        {
+          name: "f_name",
+          align: "center",
+          label: "親屬姓名",
+          field: "f_name",
+        },
+        {
+          name: "f_phone",
+          label: "親屬電話號碼",
+          align: "center",
+          field: "f_phone",
+          style: "width: 10px",
+        },
+        {
+          name: "f_nickedname",
+          label: "稱謂(代碼)",
+          align: "center",
+          field: "f_nickedname",
+          // format: (val, row) =>
+          //   areaArr.filter((obj) => obj.areaId === val)[0].areaName,
+        },
+        { name: "f_mcode", label: "親屬會員編號", field: "f_mcode", align: "center" },
+        { name: "f_isin", label: "是否入信", field: "f_isin", align: "center" },
+        {
+          name: "area",
+          label: "所屬區域",
+          field: "area",
+          align: "center",
+        },
+        {
+          name: "note",
+          label: "備註",
+          field: "note",
+          align: "center",
+        },
+      ],
       familyData: [],
+      // 會員學歷
+      eduColumns:[
+        {
+          name: "level",
+          label: "學歷",
+          field: "level",
+          align: "center",
+        },
+        {
+          name: "title",
+          label: "學校名稱",
+          field: "title",
+          align: "center",
+        },
+        {
+          name: "team",
+          label: "大學會",
+          field: "team",
+          align: "center",
+        },
+        {
+          name: "department",
+          label: "科系",
+          field: "department",
+          align: "center",
+        },
+        {
+          name: "grade",
+          label: "年級",
+          field: "grade",
+          align: "center",
+        },
+        {
+          name: "started_date",
+          label: "入學日期",
+          field: "started_date",
+          align: "center",
+        },
+        {
+          name: "ended_date",
+          label: "預計畢業日期",
+          field: "ended_date",
+          align: "center",
+        },
+        {
+          name: "is_graduated",
+          label: "是否畢業",
+          field: "is_graduated",
+          align: "center",
+        },
+        {
+          name: "note",
+          label: "備註",
+          field: "note",
+          align: "center",
+        },
+      ],
+      eduData:[],
     };
   },
   computed: {},
@@ -227,6 +324,9 @@ export default {
       getMemberFamilyList().then(res=>{
         console.log(res)
         this.familyData=res.data
+      })
+      getMemberEduList().then(res=>{
+        this.eduData = res.data
       })
 
       // switch(tabName){
@@ -1674,13 +1774,13 @@ export default {
         </q-tab-panel>
         <!-- 家族會員 -->
         <q-tab-panel name="m_family">
-          <mem-table :tableColumn="familyColumns" :tableData="familyData"></mem-table>
+          <mem-table :tableColumn="familyColumns" :tableData="familyData" :showMultiSelect="false" rowKey="name" tabTitle='家族會員'></mem-table>
         </q-tab-panel>
 
+        <!-- 會員學歷 -->
         <q-tab-panel name="m_edu">
           
-          <!-- <div class="text-h6">會員學歷</div>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. -->
+          <mem-table :tableColumn="eduColumns" :tableData="eduData" :showMultiSelect="false" rowKey="name" tabTitle='會員學歷'></mem-table>
         </q-tab-panel>
 
         <q-tab-panel name="m_teachingQ">
