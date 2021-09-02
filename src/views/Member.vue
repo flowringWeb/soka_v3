@@ -1631,7 +1631,7 @@ export default {
     </q-dialog>
 
     <!-- dialog-openTerm -->
-    <q-dialog v-model="openTerm">
+    <q-dialog>
       <q-card style="width: 600px; max-width: 60vw">
         <q-card-section>
           <div class="flex justify-start q-gutter-md">
