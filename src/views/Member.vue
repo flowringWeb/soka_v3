@@ -4,7 +4,7 @@ import MemTable from '@/components/Member/MemTable'
 
 export default {
   name: "Member",
-  components: {MemTable},
+  components: { MemTable },
   data() {
     return {
       //tab
@@ -21,8 +21,6 @@ export default {
       //dialog-uploadImg
       uploadImg: false,
 
-      //dialog-openTerm
-      openTerm: false,
       txtVersion: 2,
       txtVersionDate: "2010/08/09",
       txtVersionState: "修改第6條",
@@ -69,8 +67,6 @@ export default {
       cardNumber: "",
       introducerName: "",
       introducerTel: "",
-      introducerCell: "",
-      iintroducerBusinessCell: "",
       introducerDepartment: "",
       introducerArea: "",
       countGradeArea: "",
@@ -84,43 +80,37 @@ export default {
       endDate: "",
       note: "",
       //通訊地址
-      mailing_address_way: "tip_address",
-      residence_address_way: "tip_address",
-      txtMailingPostalCode: "",
-      txtMailingNum: "",
-      txtMailingNum2: "",
+      mailingPostalCode: "",
       mailingCity: "",
       mailingCity_options: ["請選擇", "台北市", "新北市"],
       mailingDistirct: "",
       mailingDistirct_options: ["請選擇", "汐止區", "新店區"],
       mallingStreetAddress: "",
-      cboMailingRoad: "",
-      mailing_address_04_options: ["請選擇", "中山路", "中正路"],
-      txtMailingLane: "",
-      txtMailingAlley: "",
-      txtMailingFloor: "",
-      txtMailingFloor2: "",
-      txtMailingRoom: "",
-      txtComMailingAdr: "",
-
-      // 會員大表
-      // form: {
-      //   memberName: "",
-      //   area: "",
-      //   mobile: "",
-      //   address: "",
-      //   email: "",
-      //   birthday: "",
-      //   department: "",
-      //   orgJobTitle: "",
-      //   departmentStu: "",
-      //   grade: "",
-      //   schoolNow: "",
-      //   unitTitle: "",
-      //   status: "",
-      //   endDate: "",
-      // },
-      fullMemColumns: [
+      //戶籍地址
+      residentPostalCode: "",
+      residentCity: "",
+      residentCity_options: ["請選擇", "台北市", "新北市"],
+      residentDistirct: "",
+      residentDistirct_options: ["請選擇", "汐止區", "新店區"],
+      residentStreetAddress: "",
+      // 會員家族
+      form: {
+        memberName: "",
+        area: "",
+        mobile: "",
+        address: "",
+        email: "",
+        birthday: "",
+        department: "",
+        orgJobTitle: "",
+        departmentStu: "",
+        grade: "",
+        schoolNow: "",
+        unitTitle: "",
+        status: "",
+        endDate: "",
+      },
+      familyColumns: [
         {
           name: "memberCode",
           align: "center",
@@ -315,9 +305,9 @@ export default {
   methods: {
     showNotif() {
       this.$q.notify({
-        message: "儲存成功",
-        type: "info",
-        position: "bottom-right",
+        message: "檢查狀態ok",
+        type: "warning",
+        position: "top-right",
       });
     },
     fetchData(){
@@ -334,7 +324,7 @@ export default {
       //     getMemberFamilyList().then(res=>{
       //       console.log(res)
       //     })
-          
+
       //   case 'm_edu':
       //     breaks;
       // }
@@ -343,16 +333,16 @@ export default {
       this.$q.loading.show();
 
       this.timer = setTimeout(() => {
-        this.$q.loading.hide()
-        this.timer = void 0
-      }, 2000)
+        this.$q.loading.hide();
+        this.timer = void 0;
+      }, 2000);
     },
     onSubmit() {
-      console.log('submit');
-    }
+      console.log("submit");
+    },
   },
   created() {
-    this.fetchData()
+    this.fetchData();
     import("../json/member.json").then((res) => {
       console.log("1", res);
       this.memberName = res.memberName;
@@ -380,19 +370,15 @@ export default {
       this.email = res.email;
       this.googleNumber = res.googleNumber;
 
-      this.txtMailingPostalCode = res.txtMailingPostalCode;
-      this.txtMailingNum = res.txtMailingNum;
-      this.txtMailingNum2 = res.txtMailingNum2;
+      this.mailingPostalCode = res.mailingPostalCode;
       this.mailingCity = res.mailingCity;
       this.mailingDistirct = res.mailingDistirct;
       this.mallingStreetAddress = res.mallingStreetAddress;
-      this.cboMailingRoad = res.cboMailingRoad;
-      this.txtMailingLane = res.txtMailingLane;
-      this.txtMailingAlley = res.txtMailingAlley;
-      this.txtMailingFloor = res.txtMailingFloor;
-      this.txtMailingFloor2 = res.txtMailingFloor2;
-      this.txtMailingRoom = res.txtMailingRoom;
-      this.txtComMailingAdr = res.txtComMailingAdr;
+
+      this.residentPostalCode = res.residentPostalCode;
+      this.residentCity = res.residentCity;
+      this.residentDistirct = res.residentDistirct;
+      this.residentStreetAddress = res.residentStreetAddress;
 
       this.companyName = res.companyName;
       this.highestEducation = res.highestEducation;
@@ -410,8 +396,6 @@ export default {
       this.cardNumber = res.cardNumber;
       this.introducerName = res.introducerName;
       this.introducerTel = res.introducerTel;
-      this.introducerCell = res.introducerCell;
-      this.iintroducerBusinessCell = res.iintroducerBusinessCell;
       this.introducerDepartment = res.introducerDepartment;
       this.introducerArea = res.introducerArea;
       this.countGradeArea = res.countGradeArea;
@@ -425,7 +409,6 @@ export default {
       this.note = res.note;
     });
   },
-  
 };
 </script>
 
@@ -519,7 +502,7 @@ export default {
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
                             <label for="bornDate" class="font-s-size">
-                              <span class="required">＊</span>生日:
+                              <span class="required">＊</span>生日:　
                             </label>
                           </template>
                           <template v-slot:append>
@@ -543,24 +526,12 @@ export default {
                           </template>
                         </q-input>
                       </div>
-                      <div
-                        class="
-                          col-6 col-md-3
-                          column
-                          justify-center
-                          items-center
-                        "
-                      >
+                      <div class="col-6 col-md-3">
                         <q-btn
-                          class="q-mb-md"
                           color="primary"
                           label="檢查會員"
                           @click="showNotif"
                         />
-                        <div>
-                          <div>警告: 資料存在, 壯年部</div>
-                          <div>檢查狀態: OK</div>
-                        </div>
                       </div>
                       <div class="col-6 col-md-3">
                         <q-select
@@ -591,7 +562,7 @@ export default {
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
                             <label for="sex" class="font-s-size">
-                              <span class="required">＊</span>性別:
+                              <span class="required">＊</span>性別:　　
                             </label>
                           </template>
                         </q-select>
@@ -659,7 +630,7 @@ export default {
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
                             <label for="distNoLive" class="font-s-size">
-                              <span class="required">＊</span>戶籍區:
+                              <span class="required">＊</span>戶籍區:　
                             </label>
                           </template>
                         </q-select>
@@ -676,7 +647,7 @@ export default {
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
                             <label for="lastName" class="font-s-size">
-                              英文姓:
+                              英文姓:　
                             </label>
                           </template>
                         </q-input>
@@ -1051,7 +1022,123 @@ export default {
                     </q-input>
                   </div>
                 </div>
-                <div class="row q-py-md">
+                <div
+                  class="row justify-start items-center q-col-gutter-md q-mb-md"
+                >
+                  <div class="col-6 col-md-2">
+                    <q-input
+                      id="mailingPostalCode"
+                      type="text"
+                      outlined
+                      dense
+                      v-model="mailingPostalCode"
+                      :label="$q.screen.lt.sm ? '郵遞區號' : void 0"
+                      placeholder="請輸入郵遞區號"
+                    >
+                      <template v-slot:before v-if="$q.screen.gt.xs">
+                        <label for="mailingPostalCode" class="font-s-size">
+                          通訊地址:
+                        </label>
+                      </template>
+                    </q-input>
+                  </div>
+                  <div class="col-6 col-md-2">
+                    <q-select
+                      id="mailingCity"
+                      outlined
+                      dense
+                      emit-value
+                      v-model="mailingCity"
+                      :label="$q.screen.lt.sm ? '縣市' : void 0"
+                      :options="mailingCity_options"
+                    >
+                    </q-select>
+                  </div>
+                  <div class="col-6 col-md-2">
+                    <q-select
+                      id="mailingDistirct"
+                      outlined
+                      dense
+                      emit-value
+                      v-model="mailingDistirct"
+                      :label="$q.screen.lt.sm ? '地區' : void 0"
+                      :options="mailingDistirct_options"
+                    >
+                    </q-select>
+                  </div>
+                  <div class="col-6 col-md-5">
+                    <q-input
+                      id="mallingStreetAddress"
+                      type="text"
+                      outlined
+                      dense
+                      emit-value
+                      v-model="mallingStreetAddress"
+                      :label="$q.screen.lt.sm ? '路段' : void 0"
+                      placeholder="請輸入街道門牌"
+                    >
+                    </q-input>
+                  </div>
+                </div>
+                <div
+                  class="row justify-start items-center q-col-gutter-md q-mb-md"
+                >
+                  <div class="col-6 col-md-2">
+                    <q-input
+                      id="residentPostalCode"
+                      type="text"
+                      outlined
+                      dense
+                      v-model="residentPostalCode"
+                      :label="$q.screen.lt.sm ? '郵遞區號' : void 0"
+                      placeholder="請輸入郵遞區號"
+                    >
+                      <template v-slot:before v-if="$q.screen.gt.xs">
+                        <label for="residentPostalCode" class="font-s-size">
+                          戶籍地址:
+                        </label>
+                      </template>
+                    </q-input>
+                  </div>
+                  <div class="col-6 col-md-2">
+                    <q-select
+                      id="residentCity"
+                      outlined
+                      dense
+                      emit-value
+                      v-model="residentCity"
+                      :label="$q.screen.lt.sm ? '縣市' : void 0"
+                      :options="residentCity_options"
+                    >
+                    </q-select>
+                  </div>
+                  <div class="col-6 col-md-2">
+                    <q-select
+                      id="residentDistirct"
+                      outlined
+                      dense
+                      emit-value
+                      v-model="residentDistirct"
+                      :label="$q.screen.lt.sm ? '地區' : void 0"
+                      :options="residentDistirct_options"
+                    >
+                    </q-select>
+                  </div>
+                  <div class="col-6 col-md-5">
+                    <q-input
+                      id="residentStreetAddress"
+                      type="text"
+                      outlined
+                      dense
+                      emit-value
+                      v-model="residentStreetAddress"
+                      :label="$q.screen.lt.sm ? '路段' : void 0"
+                      placeholder="請輸入街道門牌"
+                    >
+                    </q-input>
+                  </div>
+                </div>
+                <!-- <div class="row q-py-md">
                   <div class="col-12 col-md-6">
                     <div class="row justify-start q-col-gutter-md">
                       <div class="col-6">
@@ -1066,7 +1153,7 @@ export default {
                         >
                           <template v-slot:before v-if="$q.screen.gt.xs">
                             <label for="mailingCity" class="font-s-size">
-                              通訊地址:
+                              戶籍地址:
                             </label>
                           </template>
                         </q-select>
@@ -1103,175 +1190,9 @@ export default {
                       </div>
                     </div>
                   </div>
-                </div>
-                <!-- <section class="emailAddress q-mb-md border-underline">
-                  <q-item-label class="emailAddress__title q-mr-md">
-                    通訊地址:
-                  </q-item-label>
-                  <q-item>
-                    <div class="justify-start">
-                      <q-radio
-                        v-model="mailing_address_way"
-                        val="tip_address"
-                      />
-                    </div>
-                    <q-item-section>
-                      <div>
-                        <div
-                          class="emailAddress__wrapper q-gutter-x-md q-mb-md"
-                        >
-                          <div>台灣</div>
-                          <q-input
-                            id="txtMailingPostalCode"
-                            class="emailAddress__postalcode"
-                            outlined
-                            dense
-                            v-model="txtMailingPostalCode"
-                          />
-                          <q-select
-                            outlined
-                            dense
-                            v-model="mailingCity"
-                            :options="mailingCity_options"
-                          />
-                          <q-select
-                            outlined
-                            dense
-                            v-model="mailingDistirct"
-                            :options="mailingDistirct_options"
-                          />
-                          <q-select
-                            outlined
-                            dense
-                            v-model="cboMailingRoad"
-                            :options="mailing_address_04_options"
-                          />
-                        </div>
-                        <div class="emailAddress__wrapper q-gutter-x-md">
-                          <q-input outlined dense v-model="txtMailingLane" />
-                          <div>巷</div>
-                          <q-input outlined dense v-model="txtMailingAlley" />
-                          <div>弄</div>
-                          <q-input outlined dense v-model="txtMailingNum" />
-                          <div class="emailAddress__context">號之</div>
-                          <q-input outlined dense v-model="txtMailingNum2" />
-                          <q-input outlined dense v-model="txtMailingFloor" />
-                          <div class="emailAddress__context">樓之</div>
-                          <q-input outlined dense v-model="txtMailingFloor2" />
-                          <q-input outlined dense v-model="txtMailingRoom" />
-                          <div>室</div>
-                        </div>
-                      </div>
-                    </q-item-section>
-                  </q-item>
-                  <q-item>
-                    <div class="justify-start">
-                      <q-radio
-                        v-model="mailing_address_way"
-                        val="auto_address"
-                      />
-                    </div>
-                    <q-item-section>
-                      <div class="flex items-center">
-                        <div class="q-mr-md">自行輸入</div>
-                        <q-input
-                          class="emailAddress__autoAddressWidth"
-                          outlined
-                          dense
-                          v-model="txtComMailingAdr"
-                        />
-                      </div>
-                    </q-item-section>
-                  </q-item>
-                </section> -->
+                </div> -->
               </div>
             </div>
-            <!-- <section class="isMobShow">
-              <hr />
-              <div class="q-mr-md">台灣<span> (only mobile 版本)</span></div>
-              <div
-                class="
-                  row
-                  justify-start
-                  items-start
-                  q-col-gutter-md q-py-md q-mb-md
-                "
-              >
-                <div class="col-6">
-                  <q-input
-                    class=""
-                    outlined
-                    dense
-                    v-model="txtMailingPostalCode"
-                    placeholder="請輸入郵遞區號"
-                  />
-                </div>
-                <div class="col-6">
-                  <q-select
-                    class="q-mb-md"
-                    outlined
-                    dense
-                    v-model="mailingCity"
-                    :options="mailingCity_options"
-                  />
-                </div>
-                <div class="col-6">
-                  <q-select
-                    class="q-mb-md"
-                    outlined
-                    dense
-                    v-model="mailingDistirct"
-                    :options="mailingDistirct_options"
-                  />
-                </div>
-                <div class="col-6">
-                  <q-select
-                    outlined
-                    dense
-                    v-model="cboMailingRoad"
-                    :options="mailing_address_04_options"
-                  />
-                </div>
-                <div class="col-5 q-mb-md">
-                  <div class="flex no-wrap items-center">
-                    <q-input outlined dense v-model="txtMailingLane" />
-                    <div class="q-mx-md">巷</div>
-                  </div>
-                </div>
-                <div class="col-5">
-                  <div class="flex no-wrap items-center">
-                    <q-input outlined dense v-model="txtMailingAlley" />
-                    <div class="q-mx-md">弄</div>
-                  </div>
-                </div>
-                <div class="col-12 q-mb-md">
-                  <div class="flex items-center">
-                    <q-input outlined dense v-model="txtMailingNum" />
-                    <div class="q-mx-md" style="width: 2rem">號之</div>
-                    <q-input outlined dense v-model="txtMailingNum2" />
-                  </div>
-                </div>
-                <div class="col-12 q-mb-md">
-                  <div class="flex items-center">
-                    <q-input outlined dense v-model="txtMailingFloor" />
-                    <div class="q-mx-md" style="width: 2rem">樓之</div>
-                    <q-input outlined dense v-model="txtMailingFloor2" />
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="flex items-center">
-                    <q-input
-                      id="txtMailingRoom"
-                      outlined
-                      dense
-                      v-model="txtMailingRoom"
-                    />
-                    <div class="q-mx-md">室</div>
-                  </div>
-                </div>
-              </div>
-              <hr />
-            </section> -->
             <div class="row justify-start items-center q-col-gutter-md">
               <div class="col-6 col-md-3">
                 <q-input
@@ -1284,7 +1205,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="companyName" class="font-s-size">
-                      公司名稱:
+                      公司名稱:　
                     </label>
                   </template>
                 </q-input>
@@ -1316,8 +1237,8 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="profession" class="font-s-size">
-                      職業:
-                    </label>
+                      職業:　　</label
+                    >
                   </template>
                 </q-input>
               </div>
@@ -1333,7 +1254,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="cboSpecialty" class="font-s-size">
-                      專長:
+                      專長:　　　　
                     </label>
                   </template>
                 </q-select>
@@ -1349,7 +1270,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="highestEducation" class="font-s-size">
-                      最高學歷:
+                      最高學歷:　
                     </label>
                   </template>
                 </q-input>
@@ -1397,7 +1318,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="finalJob" class="font-s-size">
-                      最終職務:
+                      最終職務:　　
                     </label>
                   </template>
                 </q-input>
@@ -1452,23 +1373,6 @@ export default {
                   </template>
                 </q-select>
               </div>
-              <div class="col-6 col-md-2">
-                <q-btn
-                  color="primary"
-                  label="檢視使用條款"
-                  @click="openTerm = true"
-                />
-              </div>
-            </div>
-            <div
-              class="
-                row
-                justify-start
-                items-center
-                q-col-gutter-md q-py-md q-mb-md
-                border-underline
-              "
-            >
               <div class="col-6 col-md-3">
                 <q-input
                   id="cboActiveTimes"
@@ -1502,6 +1406,15 @@ export default {
                 </q-input>
               </div>
             </div>
+            <div
+              class="
+                row
+                justify-start
+                items-center
+                q-col-gutter-md q-py-md q-mb-md
+                border-underline
+              "
+            ></div>
             <section class="intro" style="border-bottom: 1px dashed gray">
               <h6>介紹人</h6>
               <div
@@ -1512,7 +1425,7 @@ export default {
                   q-col-gutter-md q-pb-md q-mb-md
                 "
               >
-                <div class="col-6 col-md-2">
+                <div class="col-6 col-md-3">
                   <q-input
                     id="introducerName"
                     type="text"
@@ -1523,68 +1436,35 @@ export default {
                   >
                     <template v-slot:before v-if="$q.screen.gt.xs">
                       <label for="introducerName" class="font-s-size">
-                        <span class="required">＊</span>姓名:
+                        <span class="required">＊</span>姓名:　
                       </label>
                     </template>
                   </q-input>
                 </div>
-                <div class="col-6 col-md-2">
+                <div class="col-6 col-md-3">
                   <q-input
                     id="introducerTel"
                     type="tel"
                     outlined
                     dense
                     v-model="introducerTel"
-                    :label="$q.screen.lt.sm ? '住家電話' : void 0"
+                    :label="$q.screen.lt.sm ? '電話' : void 0"
                   >
                     <template v-slot:before v-if="$q.screen.gt.xs">
                       <label for="introducerTel" class="font-s-size">
-                        住家電話:
+                        電話:　
                       </label>
+                    </template>
+                    <template v-slot:after>
+                      <q-btn
+                        color="primary"
+                        label="查詢會員"
+                        @click="showLoading"
+                      />
                     </template>
                   </q-input>
                 </div>
-                <div class="col-6 col-md-2">
-                  <q-input
-                    id="introducerCell"
-                    type="tel"
-                    outlined
-                    dense
-                    v-model="introducerCell"
-                    :label="$q.screen.lt.sm ? '行動電話' : void 0"
-                  >
-                    <template v-slot:before v-if="$q.screen.gt.xs">
-                      <label for="introducerCell" class="font-s-size">
-                        行動電話:
-                      </label>
-                    </template>
-                  </q-input>
-                </div>
-                <div class="col-6 col-md-2">
-                  <q-input
-                    id="iintroducerBusinessCell"
-                    type="tel"
-                    outlined
-                    dense
-                    v-model="iintroducerBusinessCell"
-                    :label="$q.screen.lt.sm ? '公司電話' : void 0"
-                  >
-                    <template v-slot:before v-if="$q.screen.gt.xs">
-                      <label for="iintroducerBusinessCell" class="font-s-size">
-                        公司電話:
-                      </label>
-                    </template>
-                  </q-input>
-                </div>
-                <div class="col-6 col-md-2">
-                  <q-btn
-                    color="primary"
-                    :class="$q.screen.lt.sm ? 'full-width' : void 0"
-                    label="查詢會員"
-                    @click="showLoading"
-                  />
-                </div>
-                <div class="col-6 col-md-4">
+                <div class="col-6 col-md-3">
                   <q-input
                     id="introducerDepartment"
                     type="text"
@@ -1595,12 +1475,12 @@ export default {
                   >
                     <template v-slot:before v-if="$q.screen.gt.xs">
                       <label for="introducerDepartment" class="font-s-size">
-                        部別:
+                        部別:　　
                       </label>
                     </template>
                   </q-input>
                 </div>
-                <div class="col-6 col-md-4">
+                <div class="col-6 col-md-3">
                   <q-input
                     id="introducerArea"
                     type="text"
