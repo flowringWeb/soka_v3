@@ -1,46 +1,36 @@
 <template>
   <div class="q-pa-md">
-    <q-table
-      title="會員總攬"
-      :data="tableData"
-      :columns="tableColumn"
-      selection="multiple"
-      row-key="memberName"
-      :selected.sync="selected"
-    >
+    <q-table :data="tableData" :columns="tableColumn" :row-key="rowKey">
       <!-- 頭部 -->
-      <template v-slot:top>
-        <q-btn
-          color="primary"
-          label="新增會員"
-          @click="showCheckDiagle = true"
-        />
+      <template v-slot:top="props">
+        <div class="col-4 q-table__title">{{ tabTitle }}</div>
+        <q-space />
+        <q-btn color="primary" label="新增會員" @click="openDialog('add')" />
+
         <!-- <q-btn class="q-ml-sm" color="primary" label="進階搜尋" /> -->
       </template>
       <!-- table 表頭 -->
       <q-tr slot="header" slot-scope="props">
-        <q-th auto-width>
-          操作
-        </q-th>
-        <q-th auto-width>
-          <q-checkbox
-            v-if="props.multipleSelect"
-            v-model="props.selected"
-            indeterminate-value="some"
-          />
-        </q-th>
-
         <q-th v-for="col in props.cols" :key="col.name" :props="props">
           {{ col.label }}
         </q-th>
+        <q-th auto-width>
+          操作
+        </q-th>
       </q-tr>
-      <!-- table row 客製 -->
       <template v-slot:body="props">
-        <q-tr :props="props">
+        <q-tr :props="props" :key="props.row.index">
+          <q-td v-for="col in props.cols" :key="col.name" :props="props">
+            {{ col.value }}
+          </q-td>
           <q-td>
             <div class="q-pa-md q-gutter-sm">
-              <q-btn size="small" color="secondary" label="檢視" />
-              <q-btn size="small" color="amber" label="修改" />
+              <q-btn
+                size="small"
+                color="amber"
+                label="修改"
+                @click="checkIsMember(props.row)"
+              />
               <q-btn
                 size="small"
                 style="color: white;background: red;"
@@ -48,182 +38,99 @@
               />
             </div>
           </q-td>
-          <q-td>
-            <q-checkbox v-model="props.selected" color="primary" />
-          </q-td>
-          <q-td key="memberCode" :props="props">
-            {{ props.row.memberCode }}
-          </q-td>
-          <q-td key="memberName" :props="props">
-            {{ props.row.memberName }}
-          </q-td>
-          <q-td key="area" :props="props">
-            {{ props.row.area | transformById("areaArr") }}
-          </q-td>
-          <q-td key="mobile" :props="props">
-            {{ props.row.mobile }}
-          </q-td>
-          <q-td key="address" :props="props">
-            {{ props.row.address }}
-          </q-td>
-          <q-td key="email" :props="props">
-            {{ props.row.email }}
-          </q-td>
-          <q-td key="birthday" :props="props">
-            {{ props.row.birthday }}
-          </q-td>
-          <q-td key="department" :props="props">
-            {{ props.row.department | transformById("departmentArr") }}
-          </q-td>
-          <q-td key="orgJobTitle" :props="props">
-            {{ props.row.orgJobTitle | transformById("jobTitleArr") }}
-          </q-td>
-          <q-td key="departmentStu" :props="props">
-            {{ props.row.departmentStu | noDataFormat }}
-          </q-td>
-          <q-td key="grade" :props="props">
-            {{ props.row.grade | noDataFormat }}
-          </q-td>
-          <q-td key="schoolNow" :props="props">
-            {{ props.row.schoolNow | noDataFormat }}
-          </q-td>
-          <q-td key="unitTitle" :props="props">
-            {{ props.row.unitTitle | noDataFormat }}
-          </q-td>
-          <q-td key="status" :props="props">
-            {{ props.row.status | transformById("statusArr") }}
-          </q-td>
-          <q-td key="endDate" :props="props">
-            {{ props.row.endDate | endDateFormat }}
-          </q-td>
         </q-tr>
-        <!-- <q-tr v-show="props.expand" :props="props">
-          <q-td colspan="100%">
-            <div class="text-left">
-              This is expand slot for row above: {{ props.row.name }}.
-            </div>
-          </q-td>
-        </q-tr> -->
       </template>
     </q-table>
 
     <!-- 新增 -->
-    <q-dialog v-model="showCheckDiagle">
+    <q-dialog v-model="showCheckDialog">
       <q-card style="width: 700px; max-width: 80vw;">
-        <q-card-section class="row items-center q-pb-none">
-          <div class="text-h6">新增家族成員</div>
-          <q-space />
-          <q-btn icon="close" flat round dense v-close-popup />
-        </q-card-section>
+        <template v-if="tabTitle==='家族會員'">
+          <q-card-section class="row items-center q-pb-none">
+            <div class="text-h6">{{ diagleMethod }}家族成員</div>
+            <q-space />
+            <q-btn icon="close" flat round dense v-close-popup />
+          </q-card-section>
 
-        <q-card-section style="padding-bottom:0px;">
-          <el-form
-            class=""
-            style=""
-            ref="form"
-            :inline="true"
-            :model="checkMemForm"
-            label-width="100px"
-          >
-            <el-form-item label="親屬姓名">
-              <el-input v-model="checkMemForm.familyName"></el-input>
-            </el-form-item>
-            <el-form-item label="親屬電話號碼">
-              <el-input
-                v-model="checkMemForm.familyPhone"
-              ></el-input> </el-form-item
-            ><el-form-item>
-              <el-button
-                type="primary"
-                @click="checkIsMember"
-                style="margin-right:0;"
-                >查詢會員</el-button
+          <q-card-section style="padding-bottom:0px;">
+            <el-form
+              class=""
+              style=""
+              ref="form"
+              :inline="true"
+              :model="checkMemForm"
+              label-width="100px"
+            >
+              <el-form-item label="親屬姓名">
+                <el-input v-model="checkMemForm.f_name"></el-input>
+              </el-form-item>
+              <el-form-item label="親屬電話號碼">
+                <el-input
+                  v-model="checkMemForm.f_phone"
+                ></el-input> </el-form-item
+              ><el-form-item>
+                <el-button
+                  type="primary"
+                  @click="checkIsMember((id = 0))"
+                  style="margin-right:0;"
+                  >查詢會員</el-button
+                >
+              </el-form-item></el-form
+            >
+          </q-card-section>
+
+          <q-card-section v-show="checkedAns" style="padding-top:0px;">
+            <el-divider content-position="center">檢查結果</el-divider>
+            <el-form
+              class=""
+              style=""
+              ref="form"
+              :inline="true"
+              :model="familyForm"
+              label-width="100px"
+            >
+              <el-form-item label="親屬姓名">
+                <el-input v-model="familyForm.f_name" readonly></el-input>
+              </el-form-item>
+              <el-form-item label="親屬電話號碼">
+                <el-input v-model="familyForm.f_phone" readonly></el-input>
+              </el-form-item>
+              <el-form-item label="是否入信">
+                <el-input v-model="familyForm.f_isin" readonly></el-input>
+              </el-form-item>
+              <el-form-item label="會員編號">
+                <el-input v-model="familyForm.f_mcode" readonly></el-input>
+              </el-form-item>
+              <el-form-item label="所屬區域">
+                <el-input v-model="familyForm.area" readonly></el-input>
+              </el-form-item>
+              <el-form-item label="稱謂">
+                <el-input v-model="familyForm.f_nickedname"></el-input>
+              </el-form-item>
+              <el-form-item label="備註">
+                <el-input
+                  type="textarea"
+                  v-model="familyForm.note"
+                  :autosize="{ minRows: 2, maxRows: 4 }"
+                  style="width:500px;"
+                ></el-input>
+              </el-form-item>
+              <el-form-item
+                style="display:flex; align-item:center;justify-content:center;"
               >
-            </el-form-item></el-form
-          >
-          <!-- <div
-            style="display:flex; justify-content:space-between; align-item:center; font-size:14px;"
-          >
-            <q-input
-              style="margin-right:10px;"
-              type="text"
-              outlined
-              dense
-              v-model="checkMemForm.familyName"
-              :label="$q.screen.lt.sm ? '親屬姓名' : void 0"
-            >
-              <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="memberName" class="font-s-size">
-                  <span class="required"></span>親屬姓名:
-                </label>
-              </template>
-            </q-input>
-            <q-input
-              type="text"
-              outlined
-              dense
-              v-model="checkMemForm.familyPhone"
-              :label="$q.screen.lt.sm ? '親屬電話號碼' : void 0"
-            >
-              <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="memberName" class="font-s-size">
-                  <span class="required"></span>親屬電話號碼:
-                </label>
-              </template>
-            </q-input>
-            <q-btn
-              label="查詢會員"
-              color="primary"
-              v-close-popup
-              @click="checkIsMember"
-            />
-          </div> -->
-        </q-card-section>
-        <!-- <q-card-actions align="right">
-          <q-btn  label="查詢會員" color="primary" v-close-popup @click="checkIsMember" />
-        </q-card-actions> -->
-        <q-card-section v-show="checkedAns" style="padding-top:0px;">
-          <el-divider content-position="center">檢查結果</el-divider>
-          <el-form
-            class=""
-            style=""
-            ref="form"
-            :inline="true"
-            :model="familyForm"
-            label-width="100px"
-          >
-            <el-form-item label="親屬姓名">
-              <el-input v-model="familyForm.name" readonly></el-input>
-            </el-form-item>
-            <el-form-item label="親屬電話號碼">
-              <el-input v-model="familyForm.phone" readonly></el-input>
-            </el-form-item>
-            <el-form-item label="是否入信">
-              <el-input v-model="familyForm.isIn" readonly></el-input>
-            </el-form-item>
-            <el-form-item label="會員編號">
-              <el-input v-model="familyForm.memCode" readonly></el-input>
-            </el-form-item>
-            <el-form-item label="所屬區域">
-              <el-input v-model="familyForm.area" readonly></el-input>
-            </el-form-item>
-            <el-form-item label="稱謂">
-              <el-input v-model="familyForm.callName"></el-input>
-            </el-form-item>
-            <el-form-item label="備註">
-              <el-input
-                type="textarea"
-                v-model="familyForm.note"
-                :autosize="{ minRows: 2, maxRows: 4 }"
-                style="width:500px;"
-              ></el-input>
-            </el-form-item>
-            <el-form-item style="display:flex; align-item:center;justify-content:center;">
-              <el-button type="warning" @click="handleCancle">取消</el-button>
-              <el-button type="primary" @click="handleSave">保存</el-button>
-            </el-form-item>
-          </el-form>
-        </q-card-section>
+                <el-button type="warning" @click="handleCancle">取消</el-button>
+                <el-button type="primary" @click="handleSave">保存</el-button>
+              </el-form-item>
+            </el-form>
+          </q-card-section>
+        </template>
+        <template v-else-if="tabTitle==='會員學歷'">
+          <q-card-section class="row items-center q-pb-none">
+            <div class="text-h6">{{ diagleMethod }}會員學歷</div>
+            <q-space />
+            <q-btn icon="close" flat round dense v-close-popup />
+          </q-card-section>
+        </template>
       </q-card>
     </q-dialog>
   </div>
@@ -263,6 +170,18 @@ export default {
       type: Array,
       required: true,
     },
+    showMultiSelect: {
+      type: Boolean,
+      required: true,
+    },
+    rowKey: {
+      type: String,
+      required: true,
+    },
+    tabTitle: {
+      type: String,
+      required: true,
+    },
   },
   // 局部注冊的組件
   components: {},
@@ -270,34 +189,19 @@ export default {
     return {
       //
       selected: [],
-      showCheckDiagle: false, // 是否顯示彈窗
-      //   form: {
-      //     memberName: "",
-      //     area: "",
-      //     mobile: "",
-      //     address: "",
-      //     email: "",
-      //     birthday: "",
-      //     department: "",
-      //     orgJobTitle: "",
-      //     departmentStu: "",
-      //     grade: "",
-      //     schoolNow: "",
-      //     unitTitle: "",
-      //     status: "",
-      //     endDate: "",
-      //   },
+      showCheckDialog: false, // 是否顯示彈窗
+      diagleMethod: "",
       checkMemForm: {
-        familyName: "",
-        familyPhone: "",
+        f_name: "",
+        f_phone: "",
       },
       familyForm: {
-        name: "",
-        phone: "",
-        isIn: "否",
-        memCode: "",
+        f_name: "",
+        f_phone: "",
+        f_isin: "否",
+        f_mcode: "",
         area: "",
-        callName: "",
+        f_nickedname: "",
         note: "",
       },
       checkedAns: false,
@@ -310,30 +214,74 @@ export default {
   watch: {},
   // 組件方法
   methods: {
+    //
+    openDialog(type) {
+      if (type == "add") {
+        this.diagleMethod = "新增";
+        this.showCheckDialog = true;
+      }
+      if (type == "edit") {
+        this.diagleMethod = "修改";
+        this.showCheckDialog = true;
+      }
+    },
     // 確定是否為會員
-    checkIsMember() {
+    checkIsMember(mem) {
       // call api => 是與不是會員
+      // getMemCheckApi().then......
 
-      this.setDetail((status = 0));  // 不是
+      if (!mem) {
+        // 新增
+        console.log("新增mem=>", mem);
+        this.setDetail((status = 0), mem); // 不是
+      } else {
+        // 修改
+        this.openDialog("edit");
+
+        console.log("修改mem=>", mem);
+
+        this.setDetail((status = mem.f_isin), mem);
+      }
     },
     // 之後會開api 去接
-    setDetail(status) {
-      this.checkedAns=true
-      this.familyForm.name = this.checkMemForm.familyName;
-      this.familyForm.phone = this.checkMemForm.familyPhone;
-      this.familyForm.isIn = status ? "是" : "否";
-      this.familyForm.memCode = "";
+    setDetail(status, mem) {
+      this.checkedAns = true;
+      if (mem) {
+        this.checkMemForm.f_name = mem.f_name;
+        this.checkMemForm.f_phone = mem.f_phone;
+      }
+      this.familyForm.f_name = mem ? mem.f_name : this.checkMemForm.f_name;
+      this.familyForm.f_phone = mem ? mem.f_phone : this.checkMemForm.f_phone;
+      this.familyForm.f_isin = status ? "是" : "否";
+      this.familyForm.f_mcode = mem ? mem.f_mcode : "";
+      this.familyForm.area = mem ? mem.area : "";
+      this.familyForm.f_nickedname = mem ? mem.f_nickedname : "";
+    },
+    resetDetail() {
+      this.checkMemForm.f_name = "";
+      this.checkMemForm.f_phone = "";
+      this.familyForm.f_name = "";
+      this.familyForm.f_phone = "";
+      this.familyForm.f_isin = "否";
+      this.familyForm.f_mcode = "";
       this.familyForm.area = "";
-      this.familyForm.callName = "";
+      this.familyForm.f_nickedname = "";
+      this.familyForm.note = "";
     },
     // 保存
-    handleSave(){
-        /** call Api */
+    handleSave() {
+      /** call Api */
+      console.log("Call Api");
+      this.resetDetail();
+      this.showCheckDialog = false;
+      this.checkedAns = false;
     },
     // 取消
-    handleCancle(){
-        this.setDetail(status = 0)
-        this.checkedAns=false
+    handleCancle() {
+      this.resetDetail();
+      this.showCheckDialog = false;
+      // this.setDetail((status = 0));
+      this.checkedAns = false;
     },
   },
   filters: {

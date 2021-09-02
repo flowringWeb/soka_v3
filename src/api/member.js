@@ -6,7 +6,12 @@ export function getMemberList () {
       method:'get'
     })
   }
-
+export function getMemberEduList () {
+    return request({
+        url: '/educations',
+        method:'get'
+    })
+}
 export function getMemberFamilyList () {
     return request({
         url: '/families',
