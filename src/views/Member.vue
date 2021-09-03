@@ -452,961 +452,941 @@ export default {
       <q-tab-panels v-model="tab" animated>
         <q-tab-panel name="m_data">
           <q-form @submit="onSubmit">
-            <div class="row items-start">
-              <div class="col-12">
-                <div
-                  class="
-                    column
-                    row-md
-                    justify-start
-                    items-center
-                    q-col-gutter-md q-pt-md
-                  "
-                >
-                  <div class="col-md-10 order-last order-md-first">
-                    <div class="row items-center q-col-gutter-md">
-                      <div class="col-6 col-md-4">
-                        <q-input
-                          id="memberName"
-                          type="text"
-                          outlined
-                          dense
-                          v-model="memberName"
-                          :label="$q.screen.lt.sm ? '會員姓名' : void 0"
-                        >
-                          <template v-slot:before v-if="$q.screen.gt.xs">
-                            <label for="memberName" class="font-s-size">
-                              <span class="required">＊</span>會員姓名:
-                            </label>
-                          </template>
-                        </q-input>
-                      </div>
-                      <div class="col-6 col-md-4">
-                        <q-input
-                          id="associationTitle"
-                          type="text"
-                          outlined
-                          dense
-                          emit-value
-                          v-model="associationTitle"
-                          :label="$q.screen.lt.sm ? '學會職務' : void 0"
-                        >
-                          <template v-slot:before v-if="$q.screen.gt.xs">
-                            <label for="associationTitle" class="font-s-size">
-                              學會職務:　
-                            </label>
-                          </template>
-                        </q-input>
-                      </div>
-                      <div class="col-6 col-md-4">
-                        <q-input
-                          id="bornDate"
-                          class="q-pb-none"
-                          outlined
-                          dense
-                          :label="$q.screen.lt.sm ? '生日' : void 0"
-                          v-model="bornDate"
-                          mask="date"
-                          :rules="['date']"
-                        >
-                          <template v-slot:before v-if="$q.screen.gt.xs">
-                            <label for="bornDate" class="font-s-size">
-                              <span class="required">＊</span>生日:　　
-                            </label>
-                          </template>
-                          <template v-slot:append>
-                            <q-icon name="event" class="cursor-pointer">
-                              <q-popup-proxy
-                                ref="qDateProxy"
-                                transition-show="scale"
-                                transition-hide="scale"
-                              >
-                                <q-date v-model="bornDate">
-                                  <div class="row items-center justify-end">
-                                    <q-btn
-                                      v-close-popup
-                                      label="確認"
-                                      color="primary"
-                                    />
-                                  </div>
-                                </q-date>
-                              </q-popup-proxy>
-                            </q-icon>
-                          </template>
-                          <template v-slot:after>
-                            <q-btn
-                              color="primary"
-                              label="檢查會員"
-                              @click="showLoading"
-                            />
-                          </template>
-                        </q-input>
-                      </div>
-                      <div class="col-6 col-md-4">
-                        <q-select
-                          id="cboBelongArea"
-                          outlined
-                          dense
-                          emit-value
-                          v-model="cboBelongArea"
-                          :label="$q.screen.lt.sm ? '所屬區域' : void 0"
-                          :options="cboBelongArea_options"
-                        >
-                          <template v-slot:before v-if="$q.screen.gt.xs">
-                            <label for="cboBelongArea" class="font-s-size">
-                              <span class="required">＊</span>所屬區域:
-                            </label>
-                          </template>
-                        </q-select>
-                      </div>
-                      <div class="col-6 col-md-4">
-                        <q-select
-                          id="cboBelongArea2"
-                          outlined
-                          dense
-                          emit-value
-                          v-model="cboBelongArea2"
-                          :label="$q.screen.lt.sm ? '所屬區域' : void 0"
-                          :options="cboBelongArea2_options"
-                        >
-                        </q-select>
-                      </div>
-                      <div class="col-6 col-md-4">
-                        <q-select
-                          id="sex"
-                          outlined
-                          dense
-                          emit-value
-                          v-model="sex"
-                          :label="$q.screen.lt.sm ? '性別' : void 0"
-                          :options="sex_options.arr"
-                        >
-                          <template v-slot:before v-if="$q.screen.gt.xs">
-                            <label for="sex" class="font-s-size">
-                              <span class="required">＊</span>性別:　　
-                            </label>
-                          </template>
-                        </q-select>
-                      </div>
-                      <div class="col-6 col-md-4">
-                        <q-select
-                          id="stuDepartment"
-                          outlined
-                          dense
-                          emit-value
-                          v-model="stuDepartment"
-                          :label="$q.screen.lt.sm ? '學生部別' : void 0"
-                          :options="stuDepartment_options.arr"
-                        >
-                          <template v-slot:before v-if="$q.screen.gt.xs">
-                            <label for="stuDepartment" class="font-s-size">
-                              學生部別:　
-                            </label>
-                          </template>
-                        </q-select>
-                      </div>
-                      <div class="col-6 col-md-4">
-                        <q-select
-                          id="department"
-                          outlined
-                          dense
-                          emit-value
-                          v-model="department"
-                          :options="department_options.arr"
-                          :label="$q.screen.lt.sm ? '部別' : void 0"
-                        >
-                          <template v-slot:before v-if="$q.screen.gt.xs">
-                            <label for="department" class="font-s-size">
-                              <span class="required">＊</span>部別:　　
-                            </label>
-                          </template>
-                        </q-select>
-                      </div>
-                      <div class="col-6 col-md-4">
-                        <q-select
-                          id="memType"
-                          outlined
-                          dense
-                          emit-value
-                          v-model="memType"
-                          :label="$q.screen.lt.sm ? '會員類型' : void 0"
-                          :options="memType_options.arr"
-                        >
-                          <template v-slot:before v-if="$q.screen.gt.xs">
-                            <label for="memType" class="font-s-size">
-                              <span class="required">＊</span>會員類型:
-                            </label>
-                          </template>
-                        </q-select>
-                      </div>
-                      <div class="col-6 col-md-4">
-                        <q-select
-                          id="distNoLive"
-                          outlined
-                          dense
-                          emit-value
-                          v-model="distNoLive"
-                          :label="$q.screen.lt.sm ? '戶籍區' : void 0"
-                          :options="distNoLive_options"
-                        >
-                          <template v-slot:before v-if="$q.screen.gt.xs">
-                            <label for="distNoLive" class="font-s-size">
-                              <span class="required">＊</span>戶籍區:　
-                            </label>
-                          </template>
-                        </q-select>
-                      </div>
-                      <div class="col-6 col-md-4">
-                        <q-input
-                          id="lastName"
-                          type="text"
-                          outlined
-                          dense
-                          emit-value
-                          v-model="lastName"
-                          :label="$q.screen.lt.sm ? '英文姓' : void 0"
-                        >
-                          <template v-slot:before v-if="$q.screen.gt.xs">
-                            <label for="lastName" class="font-s-size">
-                              英文姓:　　
-                            </label>
-                          </template>
-                        </q-input>
-                      </div>
-                      <div class="col-6 col-md-4">
-                        <q-input
-                          id="firstName"
-                          type="text"
-                          outlined
-                          dense
-                          emit-value
-                          v-model="firstName"
-                          :label="$q.screen.lt.sm ? '英文名' : void 0"
-                        >
-                          <template v-slot:before v-if="$q.screen.gt.xs">
-                            <label for="firstName" class="font-s-size">
-                              英文名:　　
-                            </label>
-                          </template>
-                        </q-input>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="col-12 col-md-2 order-first order-md-last"
-                    :style="$q.screen.lt.md ? 'width:70%' : ''"
-                  >
-                    <q-card class="my-card column justify-center" flat>
-                      <div class="text-center">會員編號: 1234567</div>
-                      <q-img
-                        class="q-mb-xs"
-                        src="https://cdn.quasar.dev/img/parallax2.jpg"
-                      />
-                      <q-btn
-                        color="primary"
-                        label="變更照片"
-                        @click="uploadImg = true"
-                      />
-                    </q-card>
-                  </div>
-                </div>
-                <div class="divider"></div>
-                <div class="row justify-start items-center q-col-gutter-md">
-                  <div class="col-6 col-md-3">
+            <div
+              class="
+                column
+                row-md
+                justify-start
+                items-center
+                q-col-gutter-md q-pt-md
+              "
+            >
+              <div class="col-md-10 order-last order-md-first">
+                <div class="row items-center q-col-gutter-md">
+                  <div class="col-6 col-md-4">
                     <q-input
-                      id="telNumber"
-                      type="tel"
+                      id="memberName"
+                      type="text"
                       outlined
                       dense
-                      v-model="telNumber"
-                      :label="$q.screen.lt.sm ? '住家電話' : void 0"
+                      v-model="memberName"
+                      :label="$q.screen.lt.sm ? '會員姓名' : void 0"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="telNumber" class="font-s-size">
-                          住家電話:
+                        <label for="memberName" class="font-s-size">
+                          <span class="required">＊</span>會員姓名:
                         </label>
                       </template>
                     </q-input>
                   </div>
-                  <div class="col-6 col-md-3">
+                  <div class="col-6 col-md-4">
                     <q-input
-                      id="mobileNumber"
-                      type="tel"
-                      outlined
-                      dense
-                      v-model="mobileNumber"
-                      :label="$q.screen.lt.sm ? '行動電話' : void 0"
-                    >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="mobileNumber" class="font-s-size">
-                          行動電話:
-                        </label>
-                      </template>
-                    </q-input>
-                  </div>
-                  <div class="col-6 col-md-3">
-                    <q-input
-                      id="businessNumber"
-                      type="tel"
-                      outlined
-                      dense
-                      v-model="businessNumber"
-                      :label="$q.screen.lt.sm ? '公司電話' : void 0"
-                    >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="businessNumber" class="font-s-size">
-                          公司電話: 　
-                        </label>
-                      </template>
-                    </q-input>
-                  </div>
-                  <div class="col-6 col-md-3">
-                    <q-select
-                      id="cboFirstContact"
+                      id="associationTitle"
+                      type="text"
                       outlined
                       dense
                       emit-value
-                      v-model="cboFirstContact"
-                      :label="$q.screen.lt.sm ? '優先聯絡方式' : void 0"
-                      :options="cboFirstContact_options.arr"
+                      v-model="associationTitle"
+                      :label="$q.screen.lt.sm ? '學會職務' : void 0"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="cboFirstContact" class="font-s-size">
-                          優先聯絡方式:
+                        <label for="associationTitle" class="font-s-size">
+                          學會職務:　
                         </label>
                       </template>
-                    </q-select>
+                    </q-input>
                   </div>
-                </div>
-                <div
-                  class="row justify-start items-center q-col-gutter-md q-py-md"
-                >
-                  <div class="col-12 col-md-6">
+                  <div class="col-6 col-md-4">
                     <q-input
-                      id="email"
-                      type="email"
+                      id="bornDate"
+                      class="q-pb-none"
                       outlined
                       dense
-                      v-model="email"
-                      :label="$q.screen.lt.sm ? 'Email' : void 0"
+                      :label="$q.screen.lt.sm ? '生日' : void 0"
+                      v-model="bornDate"
+                      mask="date"
+                      :rules="['date']"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="email" class="font-s-size">
-                          <span class="required">＊</span>Email: 　
+                        <label for="bornDate" class="font-s-size">
+                          <span class="required">＊</span>生日:　　
                         </label>
+                      </template>
+                      <template v-slot:append>
+                        <q-icon name="event" class="cursor-pointer">
+                          <q-popup-proxy
+                            ref="qDateProxy"
+                            transition-show="scale"
+                            transition-hide="scale"
+                          >
+                            <q-date v-model="bornDate">
+                              <div class="row items-center justify-end">
+                                <q-btn
+                                  v-close-popup
+                                  label="確認"
+                                  color="primary"
+                                />
+                              </div>
+                            </q-date>
+                          </q-popup-proxy>
+                        </q-icon>
                       </template>
                       <template v-slot:after>
                         <q-btn
                           color="primary"
-                          label="發驗證信(幹部)"
+                          label="檢查會員"
                           @click="showLoading"
-                          :class="$q.screen.gt.xs ? 'full-width' : ''"
                         />
                       </template>
                     </q-input>
                   </div>
-                  <div class="col-12 col-md-6">
-                    <q-input
-                      id="googleNumber"
-                      type="email"
+                  <div class="col-6 col-md-4">
+                    <q-select
+                      id="cboBelongArea"
                       outlined
                       dense
-                      v-model="googleNumber"
-                      :label="$q.screen.lt.sm ? 'Google 帳號' : void 0"
+                      emit-value
+                      v-model="cboBelongArea"
+                      :label="$q.screen.lt.sm ? '所屬區域' : void 0"
+                      :options="cboBelongArea_options"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="googleNumber" class="font-s-size">
-                          Google 帳號:
+                        <label for="cboBelongArea" class="font-s-size">
+                          <span class="required">＊</span>所屬區域:
+                        </label>
+                      </template>
+                    </q-select>
+                  </div>
+                  <div class="col-6 col-md-4">
+                    <q-select
+                      id="cboBelongArea2"
+                      outlined
+                      dense
+                      emit-value
+                      v-model="cboBelongArea2"
+                      :label="$q.screen.lt.sm ? '所屬區域' : void 0"
+                      :options="cboBelongArea2_options"
+                    >
+                    </q-select>
+                  </div>
+                  <div class="col-6 col-md-4">
+                    <q-select
+                      id="sex"
+                      outlined
+                      dense
+                      emit-value
+                      v-model="sex"
+                      :label="$q.screen.lt.sm ? '性別' : void 0"
+                      :options="sex_options.arr"
+                    >
+                      <template v-slot:before v-if="$q.screen.gt.xs">
+                        <label for="sex" class="font-s-size">
+                          <span class="required">＊</span>性別:　　
+                        </label>
+                      </template>
+                    </q-select>
+                  </div>
+                  <div class="col-6 col-md-4">
+                    <q-select
+                      id="stuDepartment"
+                      outlined
+                      dense
+                      emit-value
+                      v-model="stuDepartment"
+                      :label="$q.screen.lt.sm ? '學生部別' : void 0"
+                      :options="stuDepartment_options.arr"
+                    >
+                      <template v-slot:before v-if="$q.screen.gt.xs">
+                        <label for="stuDepartment" class="font-s-size">
+                          學生部別:　
+                        </label>
+                      </template>
+                    </q-select>
+                  </div>
+                  <div class="col-6 col-md-4">
+                    <q-select
+                      id="department"
+                      outlined
+                      dense
+                      emit-value
+                      v-model="department"
+                      :options="department_options.arr"
+                      :label="$q.screen.lt.sm ? '部別' : void 0"
+                    >
+                      <template v-slot:before v-if="$q.screen.gt.xs">
+                        <label for="department" class="font-s-size">
+                          <span class="required">＊</span>部別:　　
+                        </label>
+                      </template>
+                    </q-select>
+                  </div>
+                  <div class="col-6 col-md-4">
+                    <q-select
+                      id="memType"
+                      outlined
+                      dense
+                      emit-value
+                      v-model="memType"
+                      :label="$q.screen.lt.sm ? '會員類型' : void 0"
+                      :options="memType_options.arr"
+                    >
+                      <template v-slot:before v-if="$q.screen.gt.xs">
+                        <label for="memType" class="font-s-size">
+                          <span class="required">＊</span>會員類型:
+                        </label>
+                      </template>
+                    </q-select>
+                  </div>
+                  <div class="col-6 col-md-4">
+                    <q-select
+                      id="distNoLive"
+                      outlined
+                      dense
+                      emit-value
+                      v-model="distNoLive"
+                      :label="$q.screen.lt.sm ? '戶籍區' : void 0"
+                      :options="distNoLive_options"
+                    >
+                      <template v-slot:before v-if="$q.screen.gt.xs">
+                        <label for="distNoLive" class="font-s-size">
+                          <span class="required">＊</span>戶籍區:　
+                        </label>
+                      </template>
+                    </q-select>
+                  </div>
+                  <div class="col-6 col-md-4">
+                    <q-input
+                      id="lastName"
+                      type="text"
+                      outlined
+                      dense
+                      emit-value
+                      v-model="lastName"
+                      :label="$q.screen.lt.sm ? '英文姓' : void 0"
+                    >
+                      <template v-slot:before v-if="$q.screen.gt.xs">
+                        <label for="lastName" class="font-s-size">
+                          英文姓:　　
+                        </label>
+                      </template>
+                    </q-input>
+                  </div>
+                  <div class="col-6 col-md-4">
+                    <q-input
+                      id="firstName"
+                      type="text"
+                      outlined
+                      dense
+                      emit-value
+                      v-model="firstName"
+                      :label="$q.screen.lt.sm ? '英文名' : void 0"
+                    >
+                      <template v-slot:before v-if="$q.screen.gt.xs">
+                        <label for="firstName" class="font-s-size">
+                          英文名:　　
                         </label>
                       </template>
                     </q-input>
                   </div>
                 </div>
-                <div
-                  class="
-                    row
-                    justify-start
-                    items-center
-                    q-col-gutter-md q-pt-md q-mb-md
-                  "
+              </div>
+              <div
+                class="col-12 col-md-2 order-first order-md-last"
+                :style="$q.screen.lt.md ? 'width:70%' : ''"
+              >
+                <q-card class="my-card column justify-center" flat>
+                  <div class="text-center">會員編號: 1234567</div>
+                  <q-img
+                    class="q-mb-xs"
+                    src="https://cdn.quasar.dev/img/parallax2.jpg"
+                  />
+                  <q-btn
+                    color="primary"
+                    label="變更照片"
+                    @click="uploadImg = true"
+                  />
+                </q-card>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="row justify-start items-center q-col-gutter-md">
+              <div class="col-6 col-md-3">
+                <q-input
+                  id="telNumber"
+                  type="tel"
+                  outlined
+                  dense
+                  v-model="telNumber"
+                  :label="$q.screen.lt.sm ? '住家電話' : void 0"
                 >
-                  <div class="col-6 col-md-2">
-                    <q-input
-                      id="mailingPostalCode"
-                      type="text"
-                      outlined
-                      dense
-                      v-model="mailingPostalCode"
-                      :label="$q.screen.lt.sm ? '郵遞區號' : void 0"
-                      placeholder="請輸入郵遞區號"
-                    >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="mailingPostalCode" class="font-s-size">
-                          通訊地址:　
-                        </label>
-                      </template>
-                    </q-input>
-                  </div>
-                  <div class="col-6 col-md-2">
-                    <q-select
-                      id="mailingCity"
-                      outlined
-                      dense
-                      emit-value
-                      v-model="mailingCity"
-                      :label="$q.screen.lt.sm ? '縣市' : void 0"
-                      :options="mailingCity_options"
-                    >
-                    </q-select>
-                  </div>
-                  <div class="col-6 col-md-2">
-                    <q-select
-                      id="mailingDistirct"
-                      outlined
-                      dense
-                      emit-value
-                      v-model="mailingDistirct"
-                      :label="$q.screen.lt.sm ? '地區' : void 0"
-                      :options="mailingDistirct_options"
-                    >
-                    </q-select>
-                  </div>
-                  <div class="col-6 col-md-5">
-                    <q-input
-                      id="mallingStreetAddress"
-                      type="text"
-                      outlined
-                      dense
-                      emit-value
-                      v-model="mallingStreetAddress"
-                      :label="$q.screen.lt.sm ? '路段' : void 0"
-                      placeholder="請輸入街道門牌"
-                    >
-                    </q-input>
-                  </div>
-                </div>
-                <div class="row q-mb-sm">
-                  <div class="items-center">
-                    <label v-if="$q.screen.gt.xs">戶籍地址:　</label>
-                    <q-checkbox
-                      v-model="theSameWithMailing"
-                      label="同通訊地址(學生部必填)"
-                      size="xs"
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="telNumber" class="font-s-size">
+                      住家電話:
+                    </label>
+                  </template>
+                </q-input>
+              </div>
+              <div class="col-6 col-md-3">
+                <q-input
+                  id="mobileNumber"
+                  type="tel"
+                  outlined
+                  dense
+                  v-model="mobileNumber"
+                  :label="$q.screen.lt.sm ? '行動電話' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="mobileNumber" class="font-s-size">
+                      行動電話:
+                    </label>
+                  </template>
+                </q-input>
+              </div>
+              <div class="col-6 col-md-3">
+                <q-input
+                  id="businessNumber"
+                  type="tel"
+                  outlined
+                  dense
+                  v-model="businessNumber"
+                  :label="$q.screen.lt.sm ? '公司電話' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="businessNumber" class="font-s-size">
+                      公司電話: 　
+                    </label>
+                  </template>
+                </q-input>
+              </div>
+              <div class="col-6 col-md-3">
+                <q-select
+                  id="cboFirstContact"
+                  outlined
+                  dense
+                  emit-value
+                  v-model="cboFirstContact"
+                  :label="$q.screen.lt.sm ? '優先聯絡方式' : void 0"
+                  :options="cboFirstContact_options.arr"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="cboFirstContact" class="font-s-size">
+                      優先聯絡方式:
+                    </label>
+                  </template>
+                </q-select>
+              </div>
+            </div>
+            <div class="row justify-start items-center q-col-gutter-md q-py-md">
+              <div class="col-12 col-md-6">
+                <q-input
+                  id="email"
+                  type="email"
+                  outlined
+                  dense
+                  v-model="email"
+                  :label="$q.screen.lt.sm ? 'Email' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="email" class="font-s-size">
+                      <span class="required">＊</span>Email: 　
+                    </label>
+                  </template>
+                  <template v-slot:after>
+                    <q-btn
+                      color="primary"
+                      label="發驗證信(幹部)"
+                      @click="showLoading"
+                      :class="$q.screen.gt.xs ? 'full-width' : ''"
                     />
-                  </div>
-                </div>
-                <div
-                  class="row justify-start items-center q-col-gutter-md q-mb-md"
+                  </template>
+                </q-input>
+              </div>
+              <div class="col-12 col-md-6">
+                <q-input
+                  id="googleNumber"
+                  type="email"
+                  outlined
+                  dense
+                  v-model="googleNumber"
+                  :label="$q.screen.lt.sm ? 'Google 帳號' : void 0"
                 >
-                  <div class="col-6 col-md-2">
-                    <q-input
-                      id="residentPostalCode"
-                      type="text"
-                      outlined
-                      dense
-                      v-model="residentPostalCode"
-                      :label="$q.screen.lt.sm ? '郵遞區號' : void 0"
-                      placeholder="請輸入郵遞區號"
-                    >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="residentPostalCode" class="font-s-size">
-                          <span class="invisible">戶籍地址:　</span>
-                        </label>
-                      </template>
-                    </q-input>
-                  </div>
-                  <div class="col-6 col-md-2">
-                    <q-select
-                      id="residentCity"
-                      outlined
-                      dense
-                      emit-value
-                      v-model="residentCity"
-                      :label="$q.screen.lt.sm ? '縣市' : void 0"
-                      :options="residentCity_options"
-                    >
-                    </q-select>
-                  </div>
-                  <div class="col-6 col-md-2">
-                    <q-select
-                      id="residentDistirct"
-                      outlined
-                      dense
-                      emit-value
-                      v-model="residentDistirct"
-                      :label="$q.screen.lt.sm ? '地區' : void 0"
-                      :options="residentDistirct_options"
-                    >
-                    </q-select>
-                  </div>
-                  <div class="col-6 col-md-5">
-                    <q-input
-                      id="residentStreetAddress"
-                      type="text"
-                      outlined
-                      dense
-                      emit-value
-                      v-model="residentStreetAddress"
-                      :label="$q.screen.lt.sm ? '路段' : void 0"
-                      placeholder="請輸入街道門牌"
-                    >
-                    </q-input>
-                  </div>
-                </div>
-                <div class="divider"></div>
-                <div class="row justify-start items-center q-col-gutter-md">
-                  <div class="col-6 col-md-3">
-                    <q-input
-                      id="companyName"
-                      type="text"
-                      outlined
-                      dense
-                      v-model="companyName"
-                      :label="$q.screen.lt.sm ? '公司名稱' : void 0"
-                    >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="companyName" class="font-s-size">
-                          公司名稱:　
-                        </label>
-                      </template>
-                    </q-input>
-                  </div>
-                  <div class="col-6 col-md-3">
-                    <q-input
-                      id="jobTitle"
-                      type="text"
-                      outlined
-                      dense
-                      v-model="jobTitle"
-                      :label="$q.screen.lt.sm ? '公司職稱' : void 0"
-                    >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="jobTitle" class="font-s-size">
-                          公司職稱:
-                        </label>
-                      </template>
-                    </q-input>
-                  </div>
-                  <div class="col-6 col-md-3">
-                    <q-input
-                      id="profession"
-                      type="text"
-                      outlined
-                      dense
-                      v-model="profession"
-                      :label="$q.screen.lt.sm ? '職業' : void 0"
-                    >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="profession" class="font-s-size">
-                          職業:　　</label
-                        >
-                      </template>
-                    </q-input>
-                  </div>
-                  <div class="col-6 col-md-3">
-                    <q-select
-                      id="cboSpecialty"
-                      outlined
-                      dense
-                      emit-value
-                      v-model="cboSpecialty"
-                      :label="$q.screen.lt.sm ? '專長' : void 0"
-                      :options="cboSpecialty_options.arr"
-                    >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="cboSpecialty" class="font-s-size">
-                          專長:　　　　
-                        </label>
-                      </template>
-                    </q-select>
-                  </div>
-                  <div class="col-6 col-md-3">
-                    <q-input
-                      id="highestEducation"
-                      type="text"
-                      outlined
-                      dense
-                      v-model="highestEducation"
-                      :label="$q.screen.lt.sm ? '最高學歷' : void 0"
-                    >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="highestEducation" class="font-s-size">
-                          最高學歷:　
-                        </label>
-                      </template>
-                    </q-input>
-                  </div>
-                  <div class="col-6 col-md-3">
-                    <q-input
-                      id="teacherQualification"
-                      type="text"
-                      outlined
-                      dense
-                      v-model="teacherQualification"
-                      :label="$q.screen.lt.sm ? '教學資格' : void 0"
-                    >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="teacherQualification" class="font-s-size">
-                          教學資格:
-                        </label>
-                      </template>
-                    </q-input>
-                  </div>
-                  <div class="col-6 col-md-3">
-                    <q-input
-                      id="highestJob"
-                      type="text"
-                      outlined
-                      dense
-                      v-model="highestJob"
-                      :label="$q.screen.lt.sm ? '最高職務' : void 0"
-                    >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="highestJob" class="font-s-size">
-                          最高職務:
-                        </label>
-                      </template>
-                    </q-input>
-                  </div>
-                  <div class="col-6 col-md-3">
-                    <q-input
-                      id="finalJob"
-                      type="text"
-                      outlined
-                      dense
-                      v-model="finalJob"
-                      :label="$q.screen.lt.sm ? '最終職務' : void 0"
-                    >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="finalJob" class="font-s-size">
-                          最終職務:　　
-                        </label>
-                      </template>
-                    </q-input>
-                  </div>
-                  <div class="col-6 col-md-3">
-                    <q-input
-                      id="incomingDate"
-                      class="q-pb-none"
-                      outlined
-                      dense
-                      :label="$q.screen.lt.sm ? '入信日期' : void 0"
-                      v-model="incomingDate"
-                      mask="date"
-                      :rules="['date']"
-                    >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="incomingDate" class="font-s-size">
-                          <span class="required">＊</span>入信日期:
-                        </label>
-                      </template>
-                      <template v-slot:append>
-                        <q-icon name="event" class="cursor-pointer">
-                          <q-popup-proxy
-                            ref="qDateProxy"
-                            transition-show="scale"
-                            transition-hide="scale"
-                          >
-                            <q-date v-model="incomingDate">
-                              <div class="row items-center justify-end">
-                                <q-btn
-                                  v-close-popup
-                                  label="確認"
-                                  color="primary"
-                                />
-                              </div>
-                            </q-date>
-                          </q-popup-proxy>
-                        </q-icon>
-                      </template>
-                    </q-input>
-                  </div>
-                  <div class="col-6 col-md-3">
-                    <q-select
-                      id="cboConfidenceBg"
-                      outlined
-                      dense
-                      emit-value
-                      v-model="cboConfidenceBg"
-                      :label="$q.screen.lt.sm ? '信心背景' : void 0"
-                      :options="cboConfidenceBg_options.arr"
-                    >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="cboConfidenceBg" class="font-s-size">
-                          信心背景:
-                        </label>
-                      </template>
-                    </q-select>
-                  </div>
-                  <div class="col-6 col-md-3">
-                    <q-input
-                      id="cboActiveTimes"
-                      type="text"
-                      outlined
-                      dense
-                      v-model="cboActiveTimes"
-                      :label="$q.screen.lt.sm ? '活動程度' : void 0"
-                    >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="cboActiveTimes" class="font-s-size">
-                          活動程度:
-                        </label>
-                      </template>
-                    </q-input>
-                  </div>
-                  <div class="col-6 col-md-3">
-                    <q-input
-                      id="cardNumber"
-                      type="number"
-                      outlined
-                      dense
-                      v-model="cardNumber"
-                      :label="$q.screen.lt.sm ? '電子幹部卡號' : void 0"
-                    >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="cardNumber" class="font-s-size">
-                          電子幹部卡號:
-                        </label>
-                      </template>
-                    </q-input>
-                  </div>
-                </div>
-                <div class="divider"></div>
-                <section class="intro q-pt-md">
-                  <div class="q-mb-md">介紹人</div>
-                  <div class="row justify-start items-center q-col-gutter-md">
-                    <div class="col-6 col-md-3">
-                      <q-input
-                        id="introducerName"
-                        type="text"
-                        outlined
-                        dense
-                        v-model="introducerName"
-                        :label="$q.screen.lt.sm ? '姓名' : void 0"
-                      >
-                        <template v-slot:before v-if="$q.screen.gt.xs">
-                          <label for="introducerName" class="font-s-size">
-                            <span class="required">＊</span>姓名:　
-                          </label>
-                        </template>
-                      </q-input>
-                    </div>
-                    <div class="col-6 col-md-3">
-                      <q-input
-                        id="introducerTel"
-                        type="tel"
-                        outlined
-                        dense
-                        v-model="introducerTel"
-                        :label="$q.screen.lt.sm ? '電話' : void 0"
-                      >
-                        <template v-slot:before v-if="$q.screen.gt.xs">
-                          <label for="introducerTel" class="font-s-size">
-                            電話:　
-                          </label>
-                        </template>
-                        <template v-slot:after>
-                          <q-btn
-                            color="primary"
-                            label="查詢會員"
-                            @click="showLoading"
-                          />
-                        </template>
-                      </q-input>
-                    </div>
-                    <div class="col-6 col-md-3">
-                      <q-input
-                        id="introducerDepartment"
-                        type="text"
-                        outlined
-                        dense
-                        v-model="introducerDepartment"
-                        :label="$q.screen.lt.sm ? '部別' : void 0"
-                      >
-                        <template v-slot:before v-if="$q.screen.gt.xs">
-                          <label for="introducerDepartment" class="font-s-size">
-                            部別:　　
-                          </label>
-                        </template>
-                      </q-input>
-                    </div>
-                    <div class="col-6 col-md-3">
-                      <q-input
-                        id="introducerArea"
-                        type="text"
-                        outlined
-                        dense
-                        v-model="introducerArea"
-                        :label="$q.screen.lt.sm ? '所屬區域' : void 0"
-                      >
-                        <template v-slot:before v-if="$q.screen.gt.xs">
-                          <label for="introducerArea" class="font-s-size">
-                            所屬區域:
-                          </label>
-                        </template>
-                      </q-input>
-                    </div>
-                  </div>
-                </section>
-                <div class="divider"></div>
-                <div
-                  class="
-                    row
-                    justify-start
-                    items-center
-                    q-col-gutter-md q-py-md q-mb-md
-                  "
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="googleNumber" class="font-s-size">
+                      Google 帳號:
+                    </label>
+                  </template>
+                </q-input>
+              </div>
+            </div>
+            <div
+              class="
+                row
+                justify-start
+                items-center
+                q-col-gutter-md q-pt-md q-mb-md
+              "
+            >
+              <div class="col-6 col-md-2">
+                <q-input
+                  id="mailingPostalCode"
+                  type="text"
+                  outlined
+                  dense
+                  v-model="mailingPostalCode"
+                  :label="$q.screen.lt.sm ? '郵遞區號' : void 0"
+                  placeholder="請輸入郵遞區號"
                 >
-                  <div class="col-6 col-md-3">
-                    <q-select
-                      id="countGradeArea"
-                      outlined
-                      dense
-                      emit-value
-                      v-model="countGradeArea"
-                      :label="$q.screen.lt.sm ? '計算成績區域' : void 0"
-                      :options="countGradeArea_options.arr"
-                    >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="countGradeArea" class="font-s-size">
-                          <span class="required">＊</span>計算成績區域:
-                        </label>
-                      </template>
-                    </q-select>
-                  </div>
-                  <div class="col-6 col-md-3">
-                    <q-input
-                      id="countGradeDepartment"
-                      type="text"
-                      outlined
-                      dense
-                      emit-value
-                      v-model="countGradeDepartment"
-                      :label="$q.screen.lt.sm ? '計算成績部別' : void 0"
-                    >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="countGradeDepartment" class="font-s-size">
-                          <span class="required">＊</span>計算成績部別:
-                        </label>
-                      </template>
-                    </q-input>
-                  </div>
-                </div>
-                <div
-                  class="
-                    row
-                    justify-start
-                    items-center
-                    q-col-gutter-md q-pb-md q-mb-md
-                  "
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="mailingPostalCode" class="font-s-size">
+                      通訊地址:　
+                    </label>
+                  </template>
+                </q-input>
+              </div>
+              <div class="col-6 col-md-2">
+                <q-select
+                  id="mailingCity"
+                  outlined
+                  dense
+                  emit-value
+                  v-model="mailingCity"
+                  :label="$q.screen.lt.sm ? '縣市' : void 0"
+                  :options="mailingCity_options"
                 >
-                  <div class="col-6 col-md-3">
-                    <q-select
-                      id="noIncludedReason"
-                      outlined
-                      dense
-                      emit-value
-                      v-model="noIncludedReason"
-                      :label="$q.screen.lt.sm ? '不列入會員原因' : void 0"
-                      :options="noIncludedReason_options.arr"
-                    >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="noIncludedReason" class="font-s-size">
-                          不列入會員原因:
-                        </label>
-                      </template>
-                    </q-select>
-                  </div>
-                  <div class="col-6 col-md-3">
-                    <q-input
-                      id="noIncludedReason2"
-                      type="text"
-                      outlined
-                      dense
-                      v-model="noIncludedReason2"
-                      placeholder="不列入會員其他原因"
-                    >
-                    </q-input>
-                  </div>
-                  <div class="col-6 col-md-3">
-                    <q-select
-                      id="noIncludedQuestion"
-                      outlined
-                      dense
-                      emit-value
-                      v-model="noIncludedQuestion"
-                      :label="$q.screen.lt.sm ? '不列入活動原因' : void 0"
-                      :options="noIncludedQuestion_options.arr"
-                    >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="noIncludedQuestion" class="font-s-size">
-                          不列入活動原因:
-                        </label>
-                      </template>
-                    </q-select>
-                  </div>
-                  <div class="col-6 col-md-3">
-                    <q-input
-                      id="endDate"
-                      class="q-pb-none"
-                      outlined
-                      dense
-                      :label="$q.screen.lt.sm ? '結束日期' : void 0"
-                      v-model="endDate"
-                      mask="date"
-                      :rules="['date']"
-                    >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="endDate" class="font-s-size">
-                          結束日期:
-                        </label>
-                      </template>
-                      <template v-slot:append>
-                        <q-icon name="event" class="cursor-pointer">
-                          <q-popup-proxy
-                            ref="qDateProxy"
-                            transition-show="scale"
-                            transition-hide="scale"
-                          >
-                            <q-date v-model="endDate">
-                              <div class="row items-center justify-end">
-                                <q-btn
-                                  v-close-popup
-                                  label="確認"
-                                  color="primary"
-                                />
-                              </div>
-                            </q-date>
-                          </q-popup-proxy>
-                        </q-icon>
-                      </template>
-                    </q-input>
-                  </div>
-                </div>
-                <div class="divider"></div>
-                <div
-                  class="row justify-start items-center q-col-gutter-md q-py-md"
+                </q-select>
+              </div>
+              <div class="col-6 col-md-2">
+                <q-select
+                  id="mailingDistirct"
+                  outlined
+                  dense
+                  emit-value
+                  v-model="mailingDistirct"
+                  :label="$q.screen.lt.sm ? '地區' : void 0"
+                  :options="mailingDistirct_options"
                 >
-                  <div class="col-6 col-md-6">
-                    <q-input
-                      id="note"
-                      type="text"
-                      outlined
-                      dense
-                      v-model="note"
-                      :label="$q.screen.lt.sm ? '備註' : void 0"
+                </q-select>
+              </div>
+              <div class="col-6 col-md-5">
+                <q-input
+                  id="mallingStreetAddress"
+                  type="text"
+                  outlined
+                  dense
+                  emit-value
+                  v-model="mallingStreetAddress"
+                  :label="$q.screen.lt.sm ? '路段' : void 0"
+                  placeholder="請輸入街道門牌"
+                >
+                </q-input>
+              </div>
+            </div>
+            <div class="row q-mb-sm">
+              <div class="items-center">
+                <label v-if="$q.screen.gt.xs">戶籍地址:　</label>
+                <q-checkbox
+                  v-model="theSameWithMailing"
+                  label="同通訊地址(學生部必填)"
+                  size="xs"
+                />
+              </div>
+            </div>
+            <div class="row justify-start items-center q-col-gutter-md q-mb-md">
+              <div class="col-6 col-md-2">
+                <q-input
+                  id="residentPostalCode"
+                  type="text"
+                  outlined
+                  dense
+                  v-model="residentPostalCode"
+                  :label="$q.screen.lt.sm ? '郵遞區號' : void 0"
+                  placeholder="請輸入郵遞區號"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="residentPostalCode" class="font-s-size">
+                      <span class="invisible">戶籍地址:　</span>
+                    </label>
+                  </template>
+                </q-input>
+              </div>
+              <div class="col-6 col-md-2">
+                <q-select
+                  id="residentCity"
+                  outlined
+                  dense
+                  emit-value
+                  v-model="residentCity"
+                  :label="$q.screen.lt.sm ? '縣市' : void 0"
+                  :options="residentCity_options"
+                >
+                </q-select>
+              </div>
+              <div class="col-6 col-md-2">
+                <q-select
+                  id="residentDistirct"
+                  outlined
+                  dense
+                  emit-value
+                  v-model="residentDistirct"
+                  :label="$q.screen.lt.sm ? '地區' : void 0"
+                  :options="residentDistirct_options"
+                >
+                </q-select>
+              </div>
+              <div class="col-6 col-md-5">
+                <q-input
+                  id="residentStreetAddress"
+                  type="text"
+                  outlined
+                  dense
+                  emit-value
+                  v-model="residentStreetAddress"
+                  :label="$q.screen.lt.sm ? '路段' : void 0"
+                  placeholder="請輸入街道門牌"
+                >
+                </q-input>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="row justify-start items-center q-col-gutter-md">
+              <div class="col-6 col-md-3">
+                <q-input
+                  id="companyName"
+                  type="text"
+                  outlined
+                  dense
+                  v-model="companyName"
+                  :label="$q.screen.lt.sm ? '公司名稱' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="companyName" class="font-s-size">
+                      公司名稱:　
+                    </label>
+                  </template>
+                </q-input>
+              </div>
+              <div class="col-6 col-md-3">
+                <q-input
+                  id="jobTitle"
+                  type="text"
+                  outlined
+                  dense
+                  v-model="jobTitle"
+                  :label="$q.screen.lt.sm ? '公司職稱' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="jobTitle" class="font-s-size">
+                      公司職稱:
+                    </label>
+                  </template>
+                </q-input>
+              </div>
+              <div class="col-6 col-md-3">
+                <q-input
+                  id="profession"
+                  type="text"
+                  outlined
+                  dense
+                  v-model="profession"
+                  :label="$q.screen.lt.sm ? '職業' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="profession" class="font-s-size">
+                      職業:　　</label
                     >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="note" class="font-s-size"> 備註: </label>
-                      </template>
-                    </q-input>
-                  </div>
-                  <div class="col-6 col-md-3">
-                    <div class="q-gutter-x-md">
-                      <q-btn type="submit" color="primary" label="儲存" />
-                      <q-btn color="primary" label="取消" />
-                    </div>
-                  </div>
+                  </template>
+                </q-input>
+              </div>
+              <div class="col-6 col-md-3">
+                <q-select
+                  id="cboSpecialty"
+                  outlined
+                  dense
+                  emit-value
+                  v-model="cboSpecialty"
+                  :label="$q.screen.lt.sm ? '專長' : void 0"
+                  :options="cboSpecialty_options.arr"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="cboSpecialty" class="font-s-size">
+                      專長:　　　　
+                    </label>
+                  </template>
+                </q-select>
+              </div>
+              <div class="col-6 col-md-3">
+                <q-input
+                  id="highestEducation"
+                  type="text"
+                  outlined
+                  dense
+                  v-model="highestEducation"
+                  :label="$q.screen.lt.sm ? '最高學歷' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="highestEducation" class="font-s-size">
+                      最高學歷:　
+                    </label>
+                  </template>
+                </q-input>
+              </div>
+              <div class="col-6 col-md-3">
+                <q-input
+                  id="teacherQualification"
+                  type="text"
+                  outlined
+                  dense
+                  v-model="teacherQualification"
+                  :label="$q.screen.lt.sm ? '教學資格' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="teacherQualification" class="font-s-size">
+                      教學資格:
+                    </label>
+                  </template>
+                </q-input>
+              </div>
+              <div class="col-6 col-md-3">
+                <q-input
+                  id="highestJob"
+                  type="text"
+                  outlined
+                  dense
+                  v-model="highestJob"
+                  :label="$q.screen.lt.sm ? '最高職務' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="highestJob" class="font-s-size">
+                      最高職務:
+                    </label>
+                  </template>
+                </q-input>
+              </div>
+              <div class="col-6 col-md-3">
+                <q-input
+                  id="finalJob"
+                  type="text"
+                  outlined
+                  dense
+                  v-model="finalJob"
+                  :label="$q.screen.lt.sm ? '最終職務' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="finalJob" class="font-s-size">
+                      最終職務:　　
+                    </label>
+                  </template>
+                </q-input>
+              </div>
+              <div class="col-6 col-md-3">
+                <q-input
+                  id="incomingDate"
+                  class="q-pb-none"
+                  outlined
+                  dense
+                  :label="$q.screen.lt.sm ? '入信日期' : void 0"
+                  v-model="incomingDate"
+                  mask="date"
+                  :rules="['date']"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="incomingDate" class="font-s-size">
+                      <span class="required">＊</span>入信日期:
+                    </label>
+                  </template>
+                  <template v-slot:append>
+                    <q-icon name="event" class="cursor-pointer">
+                      <q-popup-proxy
+                        ref="qDateProxy"
+                        transition-show="scale"
+                        transition-hide="scale"
+                      >
+                        <q-date v-model="incomingDate">
+                          <div class="row items-center justify-end">
+                            <q-btn v-close-popup label="確認" color="primary" />
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+              </div>
+              <div class="col-6 col-md-3">
+                <q-select
+                  id="cboConfidenceBg"
+                  outlined
+                  dense
+                  emit-value
+                  v-model="cboConfidenceBg"
+                  :label="$q.screen.lt.sm ? '信心背景' : void 0"
+                  :options="cboConfidenceBg_options.arr"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="cboConfidenceBg" class="font-s-size">
+                      信心背景:
+                    </label>
+                  </template>
+                </q-select>
+              </div>
+              <div class="col-6 col-md-3">
+                <q-input
+                  id="cboActiveTimes"
+                  type="text"
+                  outlined
+                  dense
+                  v-model="cboActiveTimes"
+                  :label="$q.screen.lt.sm ? '活動程度' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="cboActiveTimes" class="font-s-size">
+                      活動程度:
+                    </label>
+                  </template>
+                </q-input>
+              </div>
+              <div class="col-6 col-md-3">
+                <q-input
+                  id="cardNumber"
+                  type="number"
+                  outlined
+                  dense
+                  v-model="cardNumber"
+                  :label="$q.screen.lt.sm ? '電子幹部卡號' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="cardNumber" class="font-s-size">
+                      電子幹部卡號:
+                    </label>
+                  </template>
+                </q-input>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <section class="intro q-pt-md">
+              <div class="q-mb-md">介紹人</div>
+              <div class="row justify-start items-center q-col-gutter-md">
+                <div class="col-6 col-md-3">
+                  <q-input
+                    id="introducerName"
+                    type="text"
+                    outlined
+                    dense
+                    v-model="introducerName"
+                    :label="$q.screen.lt.sm ? '姓名' : void 0"
+                  >
+                    <template v-slot:before v-if="$q.screen.gt.xs">
+                      <label for="introducerName" class="font-s-size">
+                        <span class="required">＊</span>姓名:　
+                      </label>
+                    </template>
+                  </q-input>
+                </div>
+                <div class="col-6 col-md-3">
+                  <q-input
+                    id="introducerTel"
+                    type="tel"
+                    outlined
+                    dense
+                    v-model="introducerTel"
+                    :label="$q.screen.lt.sm ? '電話' : void 0"
+                  >
+                    <template v-slot:before v-if="$q.screen.gt.xs">
+                      <label for="introducerTel" class="font-s-size">
+                        電話:　
+                      </label>
+                    </template>
+                    <template v-slot:after>
+                      <q-btn
+                        color="primary"
+                        label="查詢會員"
+                        @click="showLoading"
+                      />
+                    </template>
+                  </q-input>
+                </div>
+                <div class="col-6 col-md-3">
+                  <q-input
+                    id="introducerDepartment"
+                    type="text"
+                    outlined
+                    dense
+                    v-model="introducerDepartment"
+                    :label="$q.screen.lt.sm ? '部別' : void 0"
+                  >
+                    <template v-slot:before v-if="$q.screen.gt.xs">
+                      <label for="introducerDepartment" class="font-s-size">
+                        部別:　　
+                      </label>
+                    </template>
+                  </q-input>
+                </div>
+                <div class="col-6 col-md-3">
+                  <q-input
+                    id="introducerArea"
+                    type="text"
+                    outlined
+                    dense
+                    v-model="introducerArea"
+                    :label="$q.screen.lt.sm ? '所屬區域' : void 0"
+                  >
+                    <template v-slot:before v-if="$q.screen.gt.xs">
+                      <label for="introducerArea" class="font-s-size">
+                        所屬區域:
+                      </label>
+                    </template>
+                  </q-input>
+                </div>
+              </div>
+            </section>
+            <div class="divider"></div>
+            <div
+              class="
+                row
+                justify-start
+                items-center
+                q-col-gutter-md q-py-md q-mb-md
+              "
+            >
+              <div class="col-6 col-md-3">
+                <q-select
+                  id="countGradeArea"
+                  outlined
+                  dense
+                  emit-value
+                  v-model="countGradeArea"
+                  :label="$q.screen.lt.sm ? '計算成績區域' : void 0"
+                  :options="countGradeArea_options.arr"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="countGradeArea" class="font-s-size">
+                      <span class="required">＊</span>計算成績區域:
+                    </label>
+                  </template>
+                </q-select>
+              </div>
+              <div class="col-6 col-md-3">
+                <q-input
+                  id="countGradeDepartment"
+                  type="text"
+                  outlined
+                  dense
+                  emit-value
+                  v-model="countGradeDepartment"
+                  :label="$q.screen.lt.sm ? '計算成績部別' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="countGradeDepartment" class="font-s-size">
+                      <span class="required">＊</span>計算成績部別:
+                    </label>
+                  </template>
+                </q-input>
+              </div>
+            </div>
+            <div
+              class="
+                row
+                justify-start
+                items-center
+                q-col-gutter-md q-pb-md q-mb-md
+              "
+            >
+              <div class="col-6 col-md-3">
+                <q-select
+                  id="noIncludedReason"
+                  outlined
+                  dense
+                  emit-value
+                  v-model="noIncludedReason"
+                  :label="$q.screen.lt.sm ? '不列入會員原因' : void 0"
+                  :options="noIncludedReason_options.arr"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="noIncludedReason" class="font-s-size">
+                      不列入會員原因:
+                    </label>
+                  </template>
+                </q-select>
+              </div>
+              <div class="col-6 col-md-3">
+                <q-input
+                  id="noIncludedReason2"
+                  type="text"
+                  outlined
+                  dense
+                  v-model="noIncludedReason2"
+                  placeholder="不列入會員其他原因"
+                >
+                </q-input>
+              </div>
+              <div class="col-6 col-md-3">
+                <q-select
+                  id="noIncludedQuestion"
+                  outlined
+                  dense
+                  emit-value
+                  v-model="noIncludedQuestion"
+                  :label="$q.screen.lt.sm ? '不列入活動原因' : void 0"
+                  :options="noIncludedQuestion_options.arr"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="noIncludedQuestion" class="font-s-size">
+                      不列入活動原因:
+                    </label>
+                  </template>
+                </q-select>
+              </div>
+              <div class="col-6 col-md-3">
+                <q-input
+                  id="endDate"
+                  class="q-pb-none"
+                  outlined
+                  dense
+                  :label="$q.screen.lt.sm ? '結束日期' : void 0"
+                  v-model="endDate"
+                  mask="date"
+                  :rules="['date']"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="endDate" class="font-s-size"> 結束日期: </label>
+                  </template>
+                  <template v-slot:append>
+                    <q-icon name="event" class="cursor-pointer">
+                      <q-popup-proxy
+                        ref="qDateProxy"
+                        transition-show="scale"
+                        transition-hide="scale"
+                      >
+                        <q-date v-model="endDate">
+                          <div class="row items-center justify-end">
+                            <q-btn v-close-popup label="確認" color="primary" />
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="row justify-start items-center q-col-gutter-md q-py-md">
+              <div class="col-6 col-md-6">
+                <q-input
+                  id="note"
+                  type="text"
+                  outlined
+                  dense
+                  v-model="note"
+                  :label="$q.screen.lt.sm ? '備註' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="note" class="font-s-size"> 備註: </label>
+                  </template>
+                </q-input>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="q-gutter-x-md">
+                  <q-btn type="submit" color="primary" label="儲存" />
+                  <q-btn color="primary" label="取消" />
                 </div>
               </div>
             </div>

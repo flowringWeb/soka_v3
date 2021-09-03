@@ -712,7 +712,14 @@ export default {
             <q-item-label>TestApi</q-item-label>
           </q-item-section>
         </q-item>
-
+        <q-item to="/Member-search" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="dashboard" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>會員查詢</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
