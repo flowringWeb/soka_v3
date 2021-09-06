@@ -838,7 +838,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="mailingPostalCode" class="font-s-size">
-                      通訊地址:　
+                      <span class="required">＊</span>通訊地址:　
                     </label>
                   </template>
                 </q-input>

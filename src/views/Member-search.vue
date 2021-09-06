@@ -31,6 +31,22 @@ export default {
           value: "3",
         },
       ],
+      //在學狀態
+      studyStatus_select: "1",
+      studyStatus_options: [
+        {
+          label: "在學中",
+          value: "1",
+        },
+        {
+          label: "畢業",
+          value: "2",
+        },
+        {
+          label: "肄業",
+          value: "3",
+        },
+      ],
     };
   },
   methods: {
@@ -343,7 +359,7 @@ export default {
       </div>
       <div class="row justify-start items-center q-col-gutter-md q-py-md">
         <div class="col-6 col-md-8">
-          <label for="">最高學歷:</label>
+          <label for="">學校類型(最高學歷):</label>
           <div class="flex">
             <q-checkbox v-model="ele" label="國小" />
             <div>
@@ -415,6 +431,21 @@ export default {
                 v-model="ele_select"
               />
             </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-8">
+          <label for="">在學狀態(附帶條件):</label>
+          <div class="flex">
+            <div class="q-mr-md">
+              <q-radio
+                v-for="item in studyStatus_options"
+                :key="item.value"
+                :val="item.value"
+                :label="item.label"
+                v-model="studyStatus_select"
+              />
+            </div>
+            <q-btn label="名單查詢" color="primary" />
           </div>
         </div>
       </div>
