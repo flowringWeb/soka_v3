@@ -1581,9 +1581,6 @@ export default {
 .required {
   color: red;
 }
-.font-s-size {
-  font-size: 55%;
-}
 label {
   color: #000;
   font-size: 14px;
