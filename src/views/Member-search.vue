@@ -13,6 +13,24 @@ export default {
       email: "",
       startDate: "",
       endDate: "",
+
+      //最高學歷
+      ele: true,
+      ele_select: "1",
+      ele_options: [
+        {
+          label: "一",
+          value: "1",
+        },
+        {
+          label: "二",
+          value: "2",
+        },
+        {
+          label: "三",
+          value: "3",
+        },
+      ],
     };
   },
   methods: {
@@ -324,6 +342,83 @@ export default {
         </div>
       </div>
       <div class="row justify-start items-center q-col-gutter-md q-py-md">
+        <div class="col-6 col-md-8">
+          <label for="">最高學歷:</label>
+          <div class="flex">
+            <q-checkbox v-model="ele" label="國小" />
+            <div>
+              <q-radio
+                v-for="item in ele_options"
+                :key="item.value"
+                :val="item.value"
+                :label="item.label"
+                v-model="ele_select"
+              />
+            </div>
+          </div>
+          <div class="flex">
+            <q-checkbox v-model="ele" label="國中" />
+            <div>
+              <q-radio
+                v-for="item in ele_options"
+                :key="item.value"
+                :val="item.value"
+                :label="item.label"
+                v-model="ele_select"
+              />
+            </div>
+          </div>
+          <div class="flex">
+            <q-checkbox v-model="ele" label="高小" />
+            <div>
+              <q-radio
+                v-for="item in ele_options"
+                :key="item.value"
+                :val="item.value"
+                :label="item.label"
+                v-model="ele_select"
+              />
+            </div>
+          </div>
+          <div class="flex">
+            <q-checkbox v-model="ele" label="大學" />
+            <div>
+              <q-radio
+                v-for="item in ele_options"
+                :key="item.value"
+                :val="item.value"
+                :label="item.label"
+                v-model="ele_select"
+              />
+            </div>
+          </div>
+          <div class="flex">
+            <q-checkbox v-model="ele" label="碩士" />
+            <div>
+              <q-radio
+                v-for="item in ele_options"
+                :key="item.value"
+                :val="item.value"
+                :label="item.label"
+                v-model="ele_select"
+              />
+            </div>
+          </div>
+          <div class="flex">
+            <q-checkbox v-model="ele" label="博士" />
+            <div>
+              <q-radio
+                v-for="item in ele_options"
+                :key="item.value"
+                :val="item.value"
+                :label="item.label"
+                v-model="ele_select"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-start items-center q-col-gutter-md q-py-md">
         <div class="col-6 col-md-4">
           <q-select
             id="cboConfidenceBg"
@@ -444,10 +539,90 @@ export default {
             </template>
           </q-select>
         </div>
+        <div class="col-6 col-md-8 q-gutter-y-md">
+          <div class="flex q-gutter-x-md">
+            <q-input
+              id=""
+              type=""
+              outlined
+              dense
+              :label="$q.screen.lt.sm ? '地址' : void 0"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for=""> 地址: </label>
+              </template>
+            </q-input>
+            <q-select
+              id="levelWay"
+              outlined
+              dense
+              emit-value
+              v-model="levelWay"
+              :label="$q.screen.lt.sm ? '選擇' : void 0"
+            >
+            </q-select>
+            <q-input
+              id=""
+              type=""
+              outlined
+              dense
+              :label="$q.screen.lt.sm ? '地址' : void 0"
+            >
+            </q-input>
+          </div>
+          <div class="flex">
+            <q-select
+              id="levelWay"
+              outlined
+              dense
+              emit-value
+              v-model="levelWay"
+              :label="$q.screen.lt.sm ? '選擇' : void 0"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="">
+                  <span class="invisible"> 地址: </span>
+                </label>
+              </template>
+            </q-select>
+          </div>
+          <div class="flex q-gutter-x-md">
+            <q-input
+              id=""
+              type=""
+              outlined
+              dense
+              :label="$q.screen.lt.sm ? '地址' : void 0"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="">
+                  <span class="invisible"> 地址: </span>
+                </label>
+              </template>
+            </q-input>
+            <q-select
+              id="levelWay"
+              outlined
+              dense
+              emit-value
+              v-model="levelWay"
+              :label="$q.screen.lt.sm ? '選擇' : void 0"
+            >
+            </q-select>
+            <q-input
+              id=""
+              type=""
+              outlined
+              dense
+              :label="$q.screen.lt.sm ? '地址' : void 0"
+            >
+            </q-input>
+          </div>
+        </div>
       </div>
-      <div class="row justify-start items-center q-col-gutter-md">
+      <div class="row justify-start items-center q-col-gutter-md q-py-md">
         <div class="col-12 col-md-6">
-          <div class="flex justify-between justify-md-start items-center">
+          <div class="flex items-center">
             <q-input
               id="startDate"
               class="q-pb-none"
@@ -477,7 +652,7 @@ export default {
                 </q-icon>
               </template>
             </q-input>
-            <span v-if="$q.screen.gt.xs">~</span>
+            <span class="q-mx-md" v-if="$q.screen.gt.xs">~</span>
             <q-input
               id="endDate"
               class="q-pb-none"
@@ -579,7 +754,9 @@ export default {
               :rules="['date']"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="startDate" class="font-s-size"> 最新更新日期: </label>
+                <label for="startDate" class="font-s-size">
+                  最新更新日期:
+                </label>
               </template>
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
@@ -745,6 +922,76 @@ export default {
               </template>
             </q-input>
           </div>
+        </div>
+      </div>
+      <div class="row justify-start items-center q-col-gutter-md q-py-md">
+        <div class="col-6 col-md-4">
+          <q-input
+            id=""
+            type="text"
+            outlined
+            dense
+            :label="$q.screen.lt.sm ? '建立人員' : void 0"
+          >
+            <template v-slot:before v-if="$q.screen.gt.xs">
+              <label for=""> 建立人員: </label>
+            </template>
+          </q-input>
+        </div>
+        <div class="col-6 col-md-4">
+          <q-input
+            id=""
+            type="text"
+            outlined
+            dense
+            :label="$q.screen.lt.sm ? '電子幹部卡號(進)' : void 0"
+          >
+            <template v-slot:before v-if="$q.screen.gt.xs">
+              <label for=""> 電子幹部卡號(進): </label>
+            </template>
+          </q-input>
+        </div>
+        <div class="col-6 col-md-4">
+          <div class="flex">
+            <q-input
+              id=""
+              type="text"
+              outlined
+              dense
+              :label="$q.screen.lt.sm ? '維護人員' : void 0"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for=""> 維護人員: </label>
+              </template>
+            </q-input>
+            <q-checkbox v-model="TwsgiMail" label="會員自行更新" size="xs" />
+          </div>
+        </div>
+        <div class="col-6 col-md-4">
+          <q-input
+            id=""
+            type="text"
+            outlined
+            dense
+            :label="$q.screen.lt.sm ? '維護人員編號' : void 0"
+          >
+            <template v-slot:before v-if="$q.screen.gt.xs">
+              <label for=""> 維護人員編號: </label>
+            </template>
+          </q-input>
+        </div>
+        <div class="col-6 col-md-4">
+          <q-select
+            id="cboConfidenceBg"
+            outlined
+            dense
+            emit-value
+            :label="$q.screen.lt.sm ? '月份壽星' : void 0"
+          >
+            <template v-slot:before v-if="$q.screen.gt.xs">
+              <label for="cboConfidenceBg" class=""> 月份壽星: </label>
+            </template>
+          </q-select>
         </div>
       </div>
     </q-form>
