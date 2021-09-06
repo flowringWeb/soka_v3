@@ -11,6 +11,8 @@ export default {
       ageNum2: 30,
       telNumber: "0911111111",
       email: "",
+      startDate: "",
+      endDate: "",
     };
   },
   methods: {
@@ -321,6 +323,430 @@ export default {
           </div>
         </div>
       </div>
+      <div class="row justify-start items-center q-col-gutter-md q-py-md">
+        <div class="col-6 col-md-4">
+          <q-select
+            id="cboConfidenceBg"
+            outlined
+            dense
+            :label="$q.screen.lt.sm ? '最高學歷' : void 0"
+          >
+            <template v-slot:before v-if="$q.screen.gt.xs">
+              <label for="cboConfidenceBg" class=""> 最高學歷: </label>
+            </template>
+          </q-select>
+        </div>
+        <div class="col-6 col-md-4">
+          <q-select
+            id="cboConfidenceBg"
+            outlined
+            dense
+            :label="$q.screen.lt.sm ? '年級' : void 0"
+          >
+            <template v-slot:before v-if="$q.screen.gt.xs">
+              <label for="cboConfidenceBg" class=""> 年級: </label>
+            </template>
+          </q-select>
+        </div>
+        <div class="col-6 col-md-4">
+          <q-select
+            id="cboConfidenceBg"
+            outlined
+            dense
+            :label="$q.screen.lt.sm ? '目前就讀學校' : void 0"
+          >
+            <template v-slot:before v-if="$q.screen.gt.xs">
+              <label for="cboConfidenceBg" class=""> 目前就讀學校: </label>
+            </template>
+          </q-select>
+        </div>
+        <div class="col-6 col-md-4">
+          <q-select
+            id="cboConfidenceBg"
+            outlined
+            dense
+            :label="$q.screen.lt.sm ? '信心背景' : void 0"
+          >
+            <template v-slot:before v-if="$q.screen.gt.xs">
+              <label for="cboConfidenceBg" class=""> 信心背景: </label>
+            </template>
+          </q-select>
+        </div>
+        <div class="col-6 col-md-4">
+          <q-select
+            id="cboConfidenceBg"
+            outlined
+            dense
+            :label="$q.screen.lt.sm ? '活動程度' : void 0"
+          >
+            <template v-slot:before v-if="$q.screen.gt.xs">
+              <label for="cboConfidenceBg" class=""> 活動程度: </label>
+            </template>
+          </q-select>
+        </div>
+        <div class="col-6 col-md-4">
+          <q-select
+            id="cboConfidenceBg"
+            outlined
+            dense
+            :label="$q.screen.lt.sm ? '不列入活動原因' : void 0"
+          >
+            <template v-slot:before v-if="$q.screen.gt.xs">
+              <label for="cboConfidenceBg" class=""> 不列入活動原因: </label>
+            </template>
+          </q-select>
+        </div>
+        <div class="col-6 col-md-4">
+          <q-select
+            id="cboConfidenceBg"
+            outlined
+            dense
+            :label="$q.screen.lt.sm ? '專長' : void 0"
+          >
+            <template v-slot:before v-if="$q.screen.gt.xs">
+              <label for="cboConfidenceBg" class=""> 專長: </label>
+            </template>
+          </q-select>
+        </div>
+        <div class="col-6 col-md-4">
+          <q-select
+            id="cboConfidenceBg"
+            outlined
+            dense
+            :label="$q.screen.lt.sm ? '遷移狀況' : void 0"
+          >
+            <template v-slot:before v-if="$q.screen.gt.xs">
+              <label for="cboConfidenceBg" class=""> 遷移狀況: </label>
+            </template>
+          </q-select>
+        </div>
+        <div class="col-6 col-md-4">
+          <q-select
+            id="cboConfidenceBg"
+            outlined
+            dense
+            :label="$q.screen.lt.sm ? '不列入會員原因' : void 0"
+          >
+            <template v-slot:before v-if="$q.screen.gt.xs">
+              <label for="cboConfidenceBg" class=""> 不列入會員原因: </label>
+            </template>
+          </q-select>
+        </div>
+        <div class="col-6 col-md-4">
+          <q-select
+            id="cboConfidenceBg"
+            outlined
+            dense
+            :label="$q.screen.lt.sm ? '區域代碼' : void 0"
+          >
+            <template v-slot:before v-if="$q.screen.gt.xs">
+              <label for="cboConfidenceBg" class=""> 區域代碼: </label>
+            </template>
+          </q-select>
+        </div>
+      </div>
+      <div class="row justify-start items-center q-col-gutter-md">
+        <div class="col-12 col-md-6">
+          <div class="flex justify-between justify-md-start items-center">
+            <q-input
+              id="startDate"
+              class="q-pb-none"
+              outlined
+              dense
+              :label="$q.screen.lt.sm ? '新增日期' : void 0"
+              v-model="startDate"
+              mask="date"
+              :rules="['date']"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="startDate" class="font-s-size"> 新增日期: </label>
+              </template>
+              <template v-slot:append>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy
+                    ref="qDateProxy"
+                    transition-show="scale"
+                    transition-hide="scale"
+                  >
+                    <q-date v-model="startDate">
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="確認" color="primary" />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+            <span v-if="$q.screen.gt.xs">~</span>
+            <q-input
+              id="endDate"
+              class="q-pb-none"
+              outlined
+              dense
+              :label="$q.screen.lt.sm ? '新增日期' : void 0"
+              v-model="endDate"
+              mask="date"
+              :rules="['date']"
+            >
+              <template v-slot:append>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy
+                    ref="qDateProxy"
+                    transition-show="scale"
+                    transition-hide="scale"
+                  >
+                    <q-date v-model="endDate">
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="確認" color="primary" />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="flex items-center">
+            <q-input
+              id="startDate"
+              class="q-pb-none"
+              outlined
+              dense
+              :label="$q.screen.lt.sm ? '結束日期' : void 0"
+              v-model="startDate"
+              mask="date"
+              :rules="['date']"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="startDate" class="font-s-size"> 結束日期: </label>
+              </template>
+              <template v-slot:append>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy
+                    ref="qDateProxy"
+                    transition-show="scale"
+                    transition-hide="scale"
+                  >
+                    <q-date v-model="startDate">
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="確認" color="primary" />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+            <span class="q-mx-md" v-if="$q.screen.gt.xs">~</span>
+            <q-input
+              id="endDate"
+              class="q-pb-none"
+              outlined
+              dense
+              :label="$q.screen.lt.sm ? '結束日期' : void 0"
+              v-model="endDate"
+              mask="date"
+              :rules="['date']"
+            >
+              <template v-slot:append>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy
+                    ref="qDateProxy"
+                    transition-show="scale"
+                    transition-hide="scale"
+                  >
+                    <q-date v-model="endDate">
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="確認" color="primary" />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="flex items-center">
+            <q-input
+              id="startDate"
+              class="q-pb-none"
+              outlined
+              dense
+              :label="$q.screen.lt.sm ? '最新更新日期' : void 0"
+              v-model="startDate"
+              mask="date"
+              :rules="['date']"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="startDate" class="font-s-size"> 最新更新日期: </label>
+              </template>
+              <template v-slot:append>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy
+                    ref="qDateProxy"
+                    transition-show="scale"
+                    transition-hide="scale"
+                  >
+                    <q-date v-model="startDate">
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="確認" color="primary" />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+            <span class="q-mx-md" v-if="$q.screen.gt.xs">~</span>
+            <q-input
+              id="endDate"
+              class="q-pb-none"
+              outlined
+              dense
+              :label="$q.screen.lt.sm ? '最新更新日期' : void 0"
+              v-model="endDate"
+              mask="date"
+              :rules="['date']"
+            >
+              <template v-slot:append>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy
+                    ref="qDateProxy"
+                    transition-show="scale"
+                    transition-hide="scale"
+                  >
+                    <q-date v-model="endDate">
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="確認" color="primary" />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="flex items-center">
+            <q-input
+              id="startDate"
+              class="q-pb-none"
+              outlined
+              dense
+              :label="$q.screen.lt.sm ? '入信日期' : void 0"
+              v-model="startDate"
+              mask="date"
+              :rules="['date']"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="startDate" class="font-s-size"> 入信日期: </label>
+              </template>
+              <template v-slot:append>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy
+                    ref="qDateProxy"
+                    transition-show="scale"
+                    transition-hide="scale"
+                  >
+                    <q-date v-model="startDate">
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="確認" color="primary" />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+            <span class="q-mx-md" v-if="$q.screen.gt.xs">~</span>
+            <q-input
+              id="endDate"
+              class="q-pb-none"
+              outlined
+              dense
+              :label="$q.screen.lt.sm ? '入信日期' : void 0"
+              v-model="endDate"
+              mask="date"
+              :rules="['date']"
+            >
+              <template v-slot:append>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy
+                    ref="qDateProxy"
+                    transition-show="scale"
+                    transition-hide="scale"
+                  >
+                    <q-date v-model="endDate">
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="確認" color="primary" />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="flex items-center">
+            <q-input
+              id="startDate"
+              class="q-pb-none"
+              outlined
+              dense
+              :label="$q.screen.lt.sm ? '生日' : void 0"
+              v-model="startDate"
+              mask="date"
+              :rules="['date']"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="startDate" class="font-s-size"> 生日: </label>
+              </template>
+              <template v-slot:append>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy
+                    ref="qDateProxy"
+                    transition-show="scale"
+                    transition-hide="scale"
+                  >
+                    <q-date v-model="startDate">
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="確認" color="primary" />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+            <span class="q-mx-md" v-if="$q.screen.gt.xs">~</span>
+            <q-input
+              id="endDate"
+              class="q-pb-none"
+              outlined
+              dense
+              :label="$q.screen.lt.sm ? '生日' : void 0"
+              v-model="endDate"
+              mask="date"
+              :rules="['date']"
+            >
+              <template v-slot:append>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy
+                    ref="qDateProxy"
+                    transition-show="scale"
+                    transition-hide="scale"
+                  >
+                    <q-date v-model="endDate">
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="確認" color="primary" />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+          </div>
+        </div>
+      </div>
     </q-form>
   </div>
 </template>
@@ -328,7 +754,7 @@ export default {
 .level {
   flex: 2 0 auto;
   &--way {
-    flex: 1 0 auto;
+    flex: 0 0 100px;
   }
 }
 label {
