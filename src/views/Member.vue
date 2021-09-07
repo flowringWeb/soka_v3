@@ -98,6 +98,10 @@ export default {
       residentDistirct: "",
       residentDistirct_options: ["請選擇", "汐止區", "新店區"],
       residentStreetAddress: "",
+      
+      /**
+       * 表格字段要與資料庫資段相同。
+       * */
       // 會員家族
       form: {
         memberName: "",
@@ -309,6 +313,267 @@ export default {
         },
       ],
       eduData: [],
+      // 教學資格
+      teachingColumns:[
+        {
+          name: "qualification ",
+          label: "教學資格",
+          field: "qualification ",
+          align: "center",
+        },
+        {
+          name: "name",
+          label: "考試名稱",
+          field: "name",
+          align: "center",
+        },
+        {
+          name: "date",
+          label: "考試日期",
+          field: "date",
+          align: "center",
+        },
+        {
+          name: "note",
+          label: "備註",
+          field: "note",
+          align: "center",
+        },
+      ],
+      teachingData:[],
+      //認證紀錄
+      certiRecordColumns:[
+        {
+          name: "certification",
+          label: "認證資格",
+          field: "certification",
+          align: "center",
+        },
+        {
+          name: "name",
+          label: "認證名稱",
+          field: "name",
+          align: "center",
+        },
+        {
+          name: "date",
+          label: "認證日期",
+          field: "date",
+          align: "center",
+        },
+        {
+          name: "note",
+          label: "備註",
+          field: "note",
+          align: "center",
+        },
+      ],
+      certiRecordData:[],
+      // 研修紀錄
+      trainingColumns:[
+        {
+          name: "name",
+          label: "研修名稱",
+          field: "name",
+          align: "center",
+        },
+        {
+          name: "session",
+          label: "場次",
+          field: "session",
+          align: "center",
+        },
+        {
+          name: "location",
+          label: "地點",
+          field: "location",
+          align: "center",
+        },
+        {
+          name: "started_date",
+          label: "開始日期",
+          field: "started_date",
+          align: "center",
+        },
+        {
+          name: "ended_date",
+          label: "結束日期",
+          field: "ended_date",
+          align: "center",
+        },
+        {
+          name: "note",
+          label: "備註",
+          field: "note",
+          align: "center",
+        },
+      ],
+      trainingData:[],
+      //授獎記錄
+      awardColumns:[
+        {
+          name: "name",
+          label: "授獎名稱",
+          field: "name",
+          align: "center",
+        },
+        {
+          name: "code",
+          label: "授獎代號",
+          field: "code",
+          align: "center",
+        },
+        {
+          name: "location",
+          label: "地點",
+          field: "location",
+          align: "center",
+        },
+        {
+          name: "date",
+          label: "日期",
+          field: "date",
+          align: "center",
+        },
+        {
+          name: "note",
+          label: "備註",
+          field: "note",
+          align: "center",
+        },
+      ],
+      awardData:[],
+      // 御本尊紀錄  
+      Columns:[],
+      Data:[],
+      // 任命資料 talent
+      memOrgColumns:[ // 會員組織任命紀錄 
+        {
+          name: "name",
+          label: "區域名稱",
+          field: "name",
+          align: "center",
+        },
+        {
+          name: "job_title",
+          label: "職務名稱",
+          field: "job_title",
+          align: "center",
+        },
+        
+        {
+          name: "started_date",
+          label: "開始日期",
+          field: "started_date",
+          align: "center",
+        },
+        {
+          name: "ended_date",
+          label: "結束日期",
+          field: "ended_date",
+          align: "center",
+        },
+        {
+          name: "note",
+          label: "備註",
+          field: "note",
+          align: "center",
+        },
+        {
+          name: "status",
+          label: "狀態",
+          field: "status",
+          align: "center",
+        },
+        {
+          name: "record_date",
+          label: "紀錄日期",
+          field: "record_date",
+          align: "center",
+        },
+      ],
+      memOrgData:[],
+      memTalentColumns:[   // 會員人才單位任命紀錄 
+        {
+          name: "name",
+          label: "區域名稱",
+          field: "name",
+          align: "center",
+        },
+        {
+          name: "unit",
+          label: "單位",
+          field: "unit",
+          align: "center",
+        },
+        {
+          name: "job_title",
+          label: "職務名稱",
+          field: "job_title",
+          align: "center",
+        },
+        
+        {
+          name: "started_date",
+          label: "開始日期",
+          field: "started_date",
+          align: "center",
+        },
+        {
+          name: "ended_date",
+          label: "結束日期",
+          field: "ended_date",
+          align: "center",
+        },
+        {
+          name: "note",
+          label: "備註",
+          field: "note",
+          align: "center",
+        },
+        {
+          name: "status",
+          label: "狀態",
+          field: "status",
+          align: "center",
+        },
+        {
+          name: "record_date",
+          label: "紀錄日期",
+          field: "record_date",
+          align: "center",
+        },
+      ],
+      memTalentData:[],
+      // 期刊訂閱資訊
+      journalColumns:[
+        {
+          name: "paper",
+          label: "紙本",
+          field: "paper",
+          align: "center",
+        },
+        {
+          name: "electronic",
+          label: "電子",
+          field: "electronic",
+          align: "center",
+        },
+        {
+          name: "ended_date",
+          label: "到期日",
+          field: "ended_date",
+          align: "center",
+        },
+        {
+          name: "note",
+          label: "備註",
+          field: "note",
+          align: "center",
+        },
+      ],
+      journalData:[],
+
     };
   },
   computed: {},
@@ -329,15 +594,6 @@ export default {
         this.eduData = res.data;
       });
 
-      // switch(tabName){
-      //   case 'm_family':
-      //     getMemberFamilyList().then(res=>{
-      //       console.log(res)
-      //     })
-
-      //   case 'm_edu':
-      //     breaks;
-      // }
     },
     showLoading() {
       this.$q.loading.show();
@@ -1413,40 +1669,87 @@ export default {
             tabTitle="會員學歷"
           ></mem-table>
         </q-tab-panel>
-
+        <!-- 教學資格 -->
         <q-tab-panel name="m_teachingQ">
-          <div class="text-h6">教學資格</div>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          <mem-table
+            :tableColumn="teachingColumns"
+            :tableData="teachingData"
+            :showMultiSelect="false"
+            :operaShow="false"
+            rowKey="name"
+            tabTitle="教學資格"
+          ></mem-table>
         </q-tab-panel>
-
+        <!-- 認證紀錄 -->
         <q-tab-panel name="m_certify">
-          <div class="text-h6">認證紀錄</div>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        </q-tab-panel>
 
+          <mem-table
+            :tableColumn="certiRecordColumns"
+            :tableData="certiRecordData"
+            :showMultiSelect="false"
+            :operaShow="false"
+            rowKey="name"
+            tabTitle="認證紀錄"
+          ></mem-table>
+        </q-tab-panel>
+        <!-- 研修紀錄  -->
         <q-tab-panel name="m_train">
-          <div class="text-h6">研修紀錄</div>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        </q-tab-panel>
 
+          <mem-table
+            :tableColumn="trainingColumns"
+            :tableData="trainingData"
+            :showMultiSelect="false"
+            :operaShow="false"
+            rowKey="name"
+            tabTitle="研修紀錄"
+          ></mem-table>
+        </q-tab-panel>
+        <!-- 授獎記錄 -->
         <q-tab-panel name="m_award">
-          <div class="text-h6">授獎記錄</div>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          <mem-table
+            :tableColumn="awardColumns"
+            :tableData="awardData"
+            :showMultiSelect="false"
+            :operaShow="false"
+            rowKey="name"
+            tabTitle="授獎記錄"
+          ></mem-table>
         </q-tab-panel>
-
+        <!-- 御本尊紀錄 -->
         <q-tab-panel name="m_glory">
           <div class="text-h6">御本尊紀錄</div>
           Lorem ipsum dolor sit amet consectetur adipisicing elit.
         </q-tab-panel>
-
-        <q-tab-panel name="m_appoint">
-          <div class="text-h6">任命資料</div>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        <!-- 任命資料 -->
+        <q-tab-panel name="m_appoint"> 
+          
+          <mem-table
+            :tableColumn="memOrgColumns"
+            :tableData="memOrgData"
+            :showMultiSelect="false"
+            :operaShow="false"
+            rowKey="name"
+            tabTitle="會員組織任命紀錄"
+          ></mem-table>
+          <mem-table
+            :tableColumn="memTalentColumns"
+            :tableData="memTalentData"
+            :showMultiSelect="false"
+            :operaShow="false"
+            rowKey="name"
+            tabTitle="會員人才單位任命紀錄"
+          ></mem-table>
         </q-tab-panel>
-
+        <!-- 期刊訂閱資訊 -->
         <q-tab-panel name="m_subscribe">
-          <div class="text-h6">期刊訂閱資訊</div>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          <mem-table
+            :tableColumn="journalColumns"
+            :tableData="journalData"
+            :showMultiSelect="false"
+            :operaShow="false"
+            rowKey="name"
+            tabTitle="期刊訂閱資訊"
+          ></mem-table>
         </q-tab-panel>
       </q-tab-panels>
     </q-card>

@@ -5,7 +5,12 @@
       <template v-slot:top="props">
         <div class="col-4 q-table__title">{{ tabTitle }}</div>
         <q-space />
-        <q-btn color="primary" label="新增會員" @click="openDialog('add')" />
+        <q-btn
+          v-show="operaShow"
+          color="primary"
+          :label="`新增${tabTitle}`"
+          @click="openDialog('add')"
+        />
 
         <!-- <q-btn class="q-ml-sm" color="primary" label="進階搜尋" /> -->
       </template>
@@ -14,10 +19,11 @@
         <q-th v-for="col in props.cols" :key="col.name" :props="props">
           {{ col.label }}
         </q-th>
-        <q-th auto-width>
+        <q-th auto-width v-show="operaShow">
           操作
         </q-th>
       </q-tr>
+      <!-- body -->
       <template v-slot:body="props">
         <q-tr :props="props" :key="props.row.index">
           <q-td v-for="col in props.cols" :key="col.name" :props="props">
@@ -45,7 +51,7 @@
     <!-- 新增 -->
     <q-dialog v-model="showCheckDialog">
       <q-card style="width: 700px; max-width: 80vw;">
-        <template v-if="tabTitle==='家族會員'">
+        <template v-if="tabTitle === '家族會員'">
           <q-card-section class="row items-center q-pb-none">
             <div class="text-h6">{{ diagleMethod }}家族成員</div>
             <q-space />
@@ -56,7 +62,7 @@
             <el-form
               class=""
               style=""
-              ref="form"
+              ref="familyCheckForm"
               :inline="true"
               :model="checkMemForm"
               label-width="100px"
@@ -84,7 +90,7 @@
             <el-form
               class=""
               style=""
-              ref="form"
+              ref="familyDetailForm"
               :inline="true"
               :model="familyForm"
               label-width="100px"
@@ -124,12 +130,195 @@
             </el-form>
           </q-card-section>
         </template>
-        <template v-else-if="tabTitle==='會員學歷'">
+
+        <template v-else-if="tabTitle === '會員學歷'">
           <q-card-section class="row items-center q-pb-none">
             <div class="text-h6">{{ diagleMethod }}會員學歷</div>
             <q-space />
             <q-btn icon="close" flat round dense v-close-popup />
           </q-card-section>
+          <q-form class="q-pa-md row q-col-gutter-x-xl q-col-gutter-y-md">
+            <!-- 學歷 -->
+            <q-select
+              class="col-12 col-sm-6"
+              outlined
+              dense
+              emit-value
+              v-model="eduForm.level"
+              :label="$q.screen.lt.sm ? '學歷 ' : void 0"
+              :options="eduLevelOptions"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="cboBelongArea" class="font-s-size">
+                  學歷:
+                </label>
+              </template>
+            </q-select>
+            <!-- 學校名稱 -->
+            <q-input
+              class="col-12 col-sm-6"
+              type="text"
+              outlined
+              dense
+              v-model="eduForm.title"
+              :label="$q.screen.lt.sm ? '學校名稱 ' : void 0"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="memberName" class="font-s-size">
+                  學校名稱 :
+                </label>
+              </template>
+            </q-input>
+            <!-- 大學會 -->
+            <q-input
+              class="col-12 col-sm-6"
+              type="text"
+              outlined
+              dense
+              emit-value
+              v-model="eduForm.team"
+              :label="$q.screen.lt.sm ? '大學會' : void 0"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="associationTitle" class="font-s-size">
+                  大學會:
+                </label>
+              </template>
+            </q-input>
+            <!-- 科系 -->
+            <q-input
+              class="col-12 col-sm-6"
+              type="text"
+              outlined
+              dense
+              emit-value
+              v-model="eduForm.department"
+              :label="$q.screen.lt.sm ? '科系' : void 0"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="associationTitle" class="font-s-size">
+                  科系:
+                </label>
+              </template>
+            </q-input>
+            <!-- 年級 -->
+            <q-input
+              class="col-12 col-sm-6"
+              type="text"
+              outlined
+              dense
+              emit-value
+              v-model="eduForm.grade"
+              :label="$q.screen.lt.sm ? '年級' : void 0"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="associationTitle" class="font-s-size">
+                  年級:
+                </label>
+              </template>
+            </q-input>
+            <!-- 入學日期 -->
+            <q-input
+              class="col-12 col-sm-6"
+              mask="date"
+              :rules="['date']"
+              outlined
+              dense
+              v-model="eduForm.started_date"
+              :label="$q.screen.lt.sm ? '入學日期' : void 0"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="associationTitle" class="font-s-size">
+                  入學日期:
+                </label>
+              </template>
+              <template v-slot:append>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy
+                    ref="qDateProxy"
+                    transition-show="scale"
+                    transition-hide="scale"
+                  >
+                    <q-date v-model="eduForm.started_date">
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="確認" color="primary" />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+            <!-- 預計畢業日期 -->
+            <q-input
+              class="col-12 col-sm-6"
+              mask="date"
+              :rules="['date']"
+              outlined
+              dense
+              emit-value
+              v-model="eduForm.ended_date"
+              :label="$q.screen.lt.sm ? '預計畢業日期' : void 0"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="associationTitle" class="font-s-size">
+                  預計畢業日期:
+                </label>
+              </template>
+              <template v-slot:append>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy
+                    ref="qDateProxy"
+                    transition-show="scale"
+                    transition-hide="scale"
+                  >
+                    <q-date v-model="eduForm.ended_date">
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="確認" color="primary" />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+            <!-- 是否畢業 -->
+            <q-select
+              class="col-12 col-sm-6"
+              outlined
+              dense
+              :options="isGraOptions"
+              option-label="label"
+              option-value="value"
+              v-model="eduForm.is_graduated"
+              :label="$q.screen.lt.sm ? '是否畢業' : void 0"
+              @input="handleSelectChange"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="associationTitle" class="font-s-size">
+                  是否畢業:
+                </label>
+              </template>
+            </q-select>
+            <!-- 備註 -->
+            <q-input
+              class="col-12 col-sm-12"
+              type="textarea"
+              outlined
+              dense
+              rows="2"
+              v-model="eduForm.note"
+              :label="$q.screen.lt.sm ? '備註' : void 0"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="note" class="font-s-size">
+                  備註:
+                </label>
+              </template>
+            </q-input>
+          </q-form>
+           <q-card-actions horizontal align="center">
+             <q-btn color="white" text-color="black" label="取消" @click="handleCancle"/>
+             <q-btn color="primary" label="保存" @click="handleSave"/>
+          </q-card-actions>
         </template>
       </q-card>
     </q-dialog>
@@ -159,18 +348,20 @@ const statusArr = [
   { statusId: 2, statusName: "歿/死亡" },
   { statusId: 3, statusName: "移民/出國工作" },
 ];
+// const eduLevelOptions = ["博士", "碩士", "大學", "高中", "國中"];
 export default {
   // 組件參數 接收來自父組件的數據
   props: {
-    tableData: {
+    
+    tableData: {//表單資料
       type: Array,
       required: true,
     },
-    tableColumn: {
+    tableColumn: {//表單欄位
       type: Array,
       required: true,
     },
-    showMultiSelect: {
+    showMultiSelect: { //是否顯示多選
       type: Boolean,
       required: true,
     },
@@ -178,15 +369,31 @@ export default {
       type: String,
       required: true,
     },
-    tabTitle: {
+    tabTitle: { //展開 Table 名稱
       type: String,
       required: true,
     },
+    operaShow:{ //是否顯示操作
+      type: Boolean,
+      default:true,
+    }
   },
   // 局部注冊的組件
   components: {},
   data() {
     return {
+      //
+      eduLevelOptions: ["博士", "碩士", "大學", "高中", "國中"],
+      isGraOptions: [
+        {
+          label: "是",
+          value: 1,
+        },
+        {
+          label: "否",
+          value: 0,
+        },
+      ],
       //
       selected: [],
       showCheckDialog: false, // 是否顯示彈窗
@@ -205,6 +412,18 @@ export default {
         note: "",
       },
       checkedAns: false,
+      // 會員學歷
+      eduForm: {
+        level: "", //學歷
+        title: "", // 學校名稱
+        team: "", //大學會
+        department: "", //科系
+        grade: "", //年級
+        started_date: "", //入學日期
+        ended_date: "", //預計畢業日期
+        is_graduated: "", //是否畢業
+        note: "", //備註
+      },
     };
   },
   created() {},
@@ -214,6 +433,9 @@ export default {
   watch: {},
   // 組件方法
   methods: {
+    handleSelectChange(val) {
+      console.log("select==>", val.value);
+    },
     //
     openDialog(type) {
       if (type == "add") {
@@ -313,10 +535,14 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-input[readonly] {
-  background-color: (可根据需要改颜色);
-}
 .this {
   border: 1px solid red;
+}
+label {
+  color: #000;
+  font-size: 14px;
+}
+.font-s-size {
+  font-size: 55%;
 }
 </style>
