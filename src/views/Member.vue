@@ -1,14 +1,14 @@
 <script>
 import {
-  getMemberList,
+  getAllMember,
   getMemberFamilyList,
   getMemberEduList,
 } from "@/api/member.js";
 import MemTable from "@/components/Member/MemTable";
-
+import MemIndexTable from "@/components/Member/MemIndexTable";
 export default {
   name: "Member",
-  components: { MemTable },
+  components: { MemTable,MemIndexTable },
   data() {
     return {
       //tab
@@ -119,7 +119,7 @@ export default {
         status: "",
         endDate: "",
       },
-      familyColumns: [
+      fullMemColumns: [
         {
           name: "memberCode",
           align: "center",
@@ -594,6 +594,11 @@ export default {
         this.eduData = res.data;
       });
 
+      //
+      getAllMember().then((res) => {
+        this.fullMemData = res.data;
+      });
+
     },
     showLoading() {
       this.$q.loading.show();
@@ -691,6 +696,8 @@ export default {
         narrow-indicator
       >
         <q-tab name="m_data" label="幹部(會員資料)"></q-tab>
+        <!-- test -->
+        <q-tab name="m_test" label="Test Table"></q-tab>
         <q-tab name="m_family" label="會員家族"></q-tab>
         <q-tab name="m_edu" label="會員學歷"></q-tab>
 
@@ -1648,6 +1655,15 @@ export default {
             </div>
           </q-form>
         </q-tab-panel>
+        <q-tab-panel name="m_test">
+           <mem-index-table
+            :tableColumn="fullMemColumns"
+            :tableData="fullMemData"
+            :showMultiSelect="true"
+            rowKey="id"
+            tabTitle="所有會員"
+          ></mem-index-table>
+        </q-tab-panel>
         <!-- 家族會員 -->
         <q-tab-panel name="m_family">
           <mem-table
@@ -1750,6 +1766,7 @@ export default {
             rowKey="name"
             tabTitle="期刊訂閱資訊"
           ></mem-table>
+
         </q-tab-panel>
       </q-tab-panels>
     </q-card>
