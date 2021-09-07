@@ -788,7 +788,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="email" class="font-s-size">
-                      <span class="required">＊</span>Email: 　
+                      <span class="required">＊</span>Email: 
                     </label>
                   </template>
                   <template v-slot:after>
