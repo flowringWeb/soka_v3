@@ -208,7 +208,7 @@ export default {
   watch: {},
   // 組件方法
   methods: {
-       updateSelected(e){
+      updateSelected(e){
       console.log(e)
     }, 
   },

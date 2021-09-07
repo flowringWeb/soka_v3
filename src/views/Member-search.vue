@@ -1,5 +1,10 @@
 <script>
+import { getAllMember } from "@/api/member.js";
+import MemIndexTable from "@/components/Member/MemIndexTable";
 export default {
+  components: {
+    MemIndexTable,
+  },
   name: "Member-search",
   data() {
     return {
@@ -47,6 +52,98 @@ export default {
           value: "3",
         },
       ],
+      fullMemColumns: [
+        {
+          name: "memberCode",
+          align: "center",
+          label: "會員編號",
+          field: "memberCode",
+          sortable: true,
+        },
+        {
+          name: "memberName",
+          label: "姓名",
+          align: "center",
+          field: "memberName",
+          style: "width: 10px",
+        },
+        {
+          name: "area",
+          label: "所屬區域",
+          align: "center",
+          field: "area",
+          format: (val, row) =>
+            areaArr.filter((obj) => obj.areaId === val)[0].areaName,
+        },
+        { name: "mobile", label: "電話", field: "mobile", align: "center" },
+        { name: "address", label: "地址", field: "address", align: "center" },
+        {
+          name: "email",
+          label: "E-mail",
+          field: "email",
+          align: "center",
+        },
+        {
+          name: "birthday",
+          label: "生日",
+          field: "birthday",
+          align: "center",
+        },
+        {
+          name: "department",
+          label: "部別",
+          align: "center",
+          field: "department",
+          format: (val, row) =>
+            departmentArr.filter((obj) => obj.departmentId === val)[0]
+              .departmentName,
+        },
+        {
+          name: "orgJobTitle",
+          label: "組織職務",
+          align: "center",
+          field: "orgJobTitle",
+          format: (val, row) =>
+            jobTitleArr.filter((obj) => obj.jobId === val)[0].jobName,
+        },
+        {
+          name: "departmentStu",
+          label: "學生部別",
+          align: "center",
+          field: "departmentStu",
+        },
+        {
+          name: "grade",
+          label: "年級",
+          align: "center",
+          field: "grade",
+        },
+        {
+          name: "schoolNow",
+          label: "目前就讀學校",
+          align: "center",
+          field: "schoolNow",
+        },
+        {
+          name: "unitTitle",
+          label: "人才單位職務",
+          align: "center",
+          field: "unitTitle",
+        },
+        {
+          name: "status",
+          label: "狀態",
+          field: "status",
+          align: "center",
+        },
+        {
+          name: "endDate",
+          label: "結束日期",
+          align: "center",
+          field: "endDate",
+        },
+      ],
+      fullMemData: [],
     };
   },
   methods: {
@@ -56,9 +153,16 @@ export default {
     handleAgeNum(val) {
       console.log(val);
     },
+    fetchData() {
+      getAllMember().then((res) => {
+        this.fullMemData = res.data;
+      });
+    },
   },
   computed: {},
-  created() {},
+  created() {
+    this.fetchData();
+  },
 };
 </script>
 <template>
@@ -1026,6 +1130,13 @@ export default {
         </div>
       </div>
     </q-form>
+    <mem-index-table
+      :tableColumn="fullMemColumns"
+      :tableData="fullMemData"
+      :showMultiSelect="true"
+      rowKey="id"
+      tabTitle="所有會員"
+    ></mem-index-table>
   </div>
 </template>
 <style lang="scss" scoped>
