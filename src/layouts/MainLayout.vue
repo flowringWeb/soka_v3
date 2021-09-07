@@ -723,7 +723,7 @@ export default {
       </q-list>
     </q-drawer>
 
-    <q-page-container class="bg-grey-2">
+    <q-page-container class="">
       <router-view />
     </q-page-container>
   </q-layout>
