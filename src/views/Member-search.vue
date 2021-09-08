@@ -1,6 +1,8 @@
 <script>
 import { getAllMember } from "@/api/member.js";
 import MemIndexTable from "@/components/Member/MemIndexTable";
+
+const stringOptions = ["Google", "Facebook", "Twitter", "Apple", "Oracle"];
 export default {
   components: {
     MemIndexTable,
@@ -10,7 +12,7 @@ export default {
     return {
       //form
       level: "層級",
-      levelWay: "是",
+      levelWay: "且",
       TwsgiMail: false,
       ageNum: 20,
       ageNum2: 30,
@@ -18,10 +20,12 @@ export default {
       email: "",
       startDate: "",
       endDate: "",
+      teachQual: "",
+      options: stringOptions,
 
       //最高學歷
       ele: true,
-      ele_select: "1",
+      ele_select: ["1"],
       ele_options: [
         {
           label: "一",
@@ -34,6 +38,90 @@ export default {
         {
           label: "三",
           value: "3",
+        },
+      ],
+      junior: false,
+      junior_select: ["1", "3"],
+      junior_options: [
+        {
+          label: "一",
+          value: "1",
+        },
+        {
+          label: "二",
+          value: "2",
+        },
+        {
+          label: "三",
+          value: "3",
+        },
+      ],
+      senior: false,
+      senior_select: ["1", "3"],
+      senior_options: [
+        {
+          label: "一",
+          value: "1",
+        },
+        {
+          label: "二",
+          value: "2",
+        },
+        {
+          label: "三",
+          value: "3",
+        },
+      ],
+      college: false,
+      college_select: ["1", "3"],
+      college_options: [
+        {
+          label: "一",
+          value: "1",
+        },
+        {
+          label: "二",
+          value: "2",
+        },
+        {
+          label: "三",
+          value: "3",
+        },
+      ],
+      master: false,
+      master_select: ["1", "3"],
+      master_options: [
+        {
+          label: "一",
+          value: "1",
+        },
+        {
+          label: "二",
+          value: "2",
+        },
+        {
+          label: "三",
+          value: "3",
+        },
+      ],
+      dr: false,
+      dr_select: ["3"],
+      dr_options: [
+        {
+          label: "一",
+          value: "1",
+        },
+        {
+          label: "二",
+          value: "2",
+        },
+        {
+          label: "三",
+          value: "3",
+        },
+        {
+          label: "四",
+          value: "4",
         },
       ],
       //在學狀態
@@ -147,15 +235,27 @@ export default {
     };
   },
   methods: {
+    //表單送出
     onSubmit() {
       console.log("submit");
     },
+    //age 輸入器
     handleAgeNum(val) {
       console.log(val);
     },
+    //表格資料
     fetchData() {
       getAllMember().then((res) => {
         this.fullMemData = res.data;
+      });
+    },
+    //select filtering
+    filterFn(val, update, abort) {
+      update(() => {
+        const needle = val.toLowerCase();
+        this.options = stringOptions.filter(
+          (v) => v.toLowerCase().indexOf(needle) > -1
+        );
       });
     },
   },
@@ -166,21 +266,6 @@ export default {
 };
 </script>
 <template>
-  <!-- <q-select
-            id="cboConfidenceBg"
-            outlined
-            dense
-            emit-value
-            v-model="cboConfidenceBg"
-            :label="$q.screen.lt.sm ? '信心背景' : void 0"
-            :options="cboConfidenceBg_options.arr"
-          >
-            <template v-slot:before v-if="$q.screen.gt.xs">
-              <label for="cboConfidenceBg" class="">
-                信心背景:
-              </label>
-            </template>
-          </q-select> -->
   <div class="q-pa-md">
     <div>查詢</div>
     <q-form @submit="onSubmit">
@@ -217,13 +302,25 @@ export default {
             <q-select
               id="teachQual"
               class="level"
+              style="width: 250px"
               outlined
               dense
-              emit-value
+              v-model="teachQual"
               :label="$q.screen.lt.sm ? '教學資格' : void 0"
+              :options="options"
+              use-input
+              input-debounce="0"
+              @filter="filterFn"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
                 <label for="teachQual" class=""> 教學資格: </label>
+              </template>
+              <template v-slot:no-option>
+                <q-item>
+                  <q-item-section class="text-grey">
+                    No results
+                  </q-item-section>
+                </q-item>
               </template>
             </q-select>
             <q-select
@@ -467,7 +564,7 @@ export default {
           <div class="flex">
             <q-checkbox v-model="ele" label="國小" />
             <div>
-              <q-radio
+              <q-checkbox
                 v-for="item in ele_options"
                 :key="item.value"
                 :val="item.value"
@@ -477,62 +574,62 @@ export default {
             </div>
           </div>
           <div class="flex">
-            <q-checkbox v-model="ele" label="國中" />
+            <q-checkbox v-model="junior" label="國中" />
             <div>
-              <q-radio
-                v-for="item in ele_options"
+              <q-checkbox
+                v-for="item in junior_options"
                 :key="item.value"
                 :val="item.value"
                 :label="item.label"
-                v-model="ele_select"
+                v-model="junior_select"
               />
             </div>
           </div>
           <div class="flex">
-            <q-checkbox v-model="ele" label="高小" />
+            <q-checkbox v-model="senior" label="高中" />
             <div>
-              <q-radio
-                v-for="item in ele_options"
+              <q-checkbox
+                v-for="item in senior_options"
                 :key="item.value"
                 :val="item.value"
                 :label="item.label"
-                v-model="ele_select"
+                v-model="senior_select"
               />
             </div>
           </div>
           <div class="flex">
-            <q-checkbox v-model="ele" label="大學" />
+            <q-checkbox v-model="college" label="大學" />
             <div>
-              <q-radio
-                v-for="item in ele_options"
+              <q-checkbox
+                v-for="item in college_options"
                 :key="item.value"
                 :val="item.value"
                 :label="item.label"
-                v-model="ele_select"
+                v-model="college_select"
               />
             </div>
           </div>
           <div class="flex">
-            <q-checkbox v-model="ele" label="碩士" />
+            <q-checkbox v-model="master" label="碩士" />
             <div>
-              <q-radio
-                v-for="item in ele_options"
+              <q-checkbox
+                v-for="item in master_options"
                 :key="item.value"
                 :val="item.value"
                 :label="item.label"
-                v-model="ele_select"
+                v-model="master_select"
               />
             </div>
           </div>
           <div class="flex">
-            <q-checkbox v-model="ele" label="博士" />
+            <q-checkbox v-model="dr" label="博士" />
             <div>
-              <q-radio
-                v-for="item in ele_options"
+              <q-checkbox
+                v-for="item in dr_options"
                 :key="item.value"
                 :val="item.value"
                 :label="item.label"
-                v-model="ele_select"
+                v-model="dr_select"
               />
             </div>
           </div>
@@ -541,7 +638,7 @@ export default {
           <label for="">在學狀態(附帶條件):</label>
           <div class="flex">
             <div class="q-mr-md">
-              <q-radio
+              <q-checkbox
                 v-for="item in studyStatus_options"
                 :key="item.value"
                 :val="item.value"
@@ -675,7 +772,7 @@ export default {
           </q-select>
         </div>
         <div class="col-6 col-md-8 q-gutter-y-md">
-          <div class="flex q-gutter-x-md">
+          <div class="flex items-center q-gutter-x-md">
             <q-input
               id=""
               type=""
@@ -684,7 +781,7 @@ export default {
               :label="$q.screen.lt.sm ? '地址' : void 0"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for=""> 地址: </label>
+                <label for=""> 地址: (　</label>
               </template>
             </q-input>
             <q-select
@@ -703,7 +800,8 @@ export default {
               dense
               :label="$q.screen.lt.sm ? '地址' : void 0"
             >
-            </q-input>
+            </q-input
+            >　)
           </div>
           <div class="flex">
             <q-select
@@ -721,7 +819,7 @@ export default {
               </template>
             </q-select>
           </div>
-          <div class="flex q-gutter-x-md">
+          <div class="flex items-center q-gutter-x-md">
             <q-input
               id=""
               type=""
@@ -730,9 +828,7 @@ export default {
               :label="$q.screen.lt.sm ? '地址' : void 0"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="">
-                  <span class="invisible"> 地址: </span>
-                </label>
+                <label for=""> <span class="invisible">地址:</span> (　 </label>
               </template>
             </q-input>
             <q-select
@@ -751,7 +847,8 @@ export default {
               dense
               :label="$q.screen.lt.sm ? '地址' : void 0"
             >
-            </q-input>
+            </q-input
+            >　)
           </div>
         </div>
       </div>

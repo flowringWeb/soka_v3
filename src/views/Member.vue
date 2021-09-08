@@ -1631,6 +1631,10 @@ export default {
               </div>
             </div>
             <div class="divider"></div>
+            <div class="flex">
+              <div class="q-mr-md">條款同意紀錄:</div>
+              <p>會員版本號3 | 2021/07/01</p>
+            </div>
             <div class="row justify-start items-center q-col-gutter-md q-py-md">
               <div class="col-6 col-md-6">
                 <q-input

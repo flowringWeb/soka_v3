@@ -1,6 +1,6 @@
 <template>
   <div class="" style="">
-    <!-- {{ testData }} -->
+    {{ testData }}
     <div class="row">
       <div class="col-6">
         <q-select
@@ -11,7 +11,7 @@
           map-options
           v-model="cboBelongArea"
           :label="$q.screen.lt.sm ? '所屬區域' : void 0"
-          :options="cboBelongArea_options"
+          :options="findCity"
         >
           <template v-slot:before v-if="$q.screen.gt.xs">
             <label for="cboBelongArea" class="font-s-size">
@@ -29,7 +29,7 @@
           map-options
           v-model="cboBelongArea2"
           :label="$q.screen.lt.sm ? '所屬區域' : void 0"
-          :options="cboBelongArea2_options"
+          :options="findArea"
         >
         </q-select>
       </div>
@@ -37,6 +37,36 @@
   </div>
 </template>
 <script>
+const dataArr = [
+  {
+    label: "0001",
+    value: "0001",
+    children: [
+      {
+        label: "A區",
+        value: "A區",
+      },
+      {
+        label: "B區",
+        value: "B區",
+      },
+    ],
+  },
+  {
+    label: "0002",
+    value: "0002",
+    children: [
+      {
+        label: "C區",
+        value: "C區",
+      },
+      {
+        label: "D區",
+        value: "D區",
+      },
+    ],
+  },
+];
 import { getMemberList } from "@/api/test";
 export default {
   // 組件參數 接收來自父組件的數據
@@ -46,46 +76,45 @@ export default {
   data() {
     return {
       testData: [],
-      cboBelongArea: "台北市",
-      cboBelongArea_options: [
-        {
-          label: "台北市",
-          value: "台北市",
-        },
-        {
-          label: "新北市",
-          value: "新北市",
-        },
-      ],
-      cboBelongArea2: "中山區",
-      cboBelongArea2_options: [
-        {
-          label: "中山區",
-          value: "中山區",
-        },
-        {
-          label: "新店區",
-          value: "新店區",
-        },
-      ],
+      cboBelongArea: "0001",
+      cboBelongArea2: "A區",
     };
   },
   created() {
-    // this.fetchData();
+    this.fetchData();
   },
   // 計算屬性
-  computed: {},
+  computed: {
+    findCity() {
+      const map = dataArr.map((item) => {
+        return item.value;
+      })
+      return map;
+    },
+    findArea() {
+      const newMap = dataArr.filter((item) => item.value ===  this.cboBelongArea)[0]['children']
+      return newMap;
+    }
+  },
   // 偵聽器
-  watch: {},
+  watch: {
+    cboBelongArea: {
+      handler() {
+        const newVal = dataArr.filter((item) => item.value ===  this.cboBelongArea)[0]['children'][0];
+        this.cboBelongArea2 = newVal;
+      },
+      deep: true
+    }
+  },
   // 組件方法
   methods: {
-    // fetchData() {
-    //   getMemberList().then((res) => {
-    //     const resData = res.data;
-    //     this.testData = resData;
-    //     console.log(resData);
-    //   });
-    // },
+    fetchData() {
+      getMemberList().then((res) => {
+        const resData = res.data;
+        this.testData = resData;
+        console.log(resData);
+      });
+    },
   },
 };
 </script>
