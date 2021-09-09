@@ -12,19 +12,19 @@
 
 <script>
 import axios from "axios";
-import tinymce from "tinymce/tinymce"; //tinymce默认hidden，不引入不显示
+import tinymce from "tinymce/tinymce"; //tinymce默認hidden，不引入不顯示
 import Editor from "@tinymce/tinymce-vue"; //编辑器引入
-import "tinymce/themes/silver/theme"; //编辑器主题
-import "tinymce/icons/default"; //引入编辑器图标icon，不引入则不显示对应图标
-// 引入编辑器插件（基本免费插件都在这儿了）
-import "tinymce/plugins/advlist"; //高级列表
-import "tinymce/plugins/autolink"; //自动链接
-import "tinymce/plugins/link"; //超链接
-import "tinymce/plugins/image"; //插入编辑图片
-import "tinymce/plugins/lists"; //列表插件
-import "tinymce/plugins/charmap"; //特殊字符
-import "tinymce/plugins/media"; //插入编辑媒体
-import "tinymce/plugins/wordcount"; // 字数统计
+import "tinymce/themes/silver/theme"; //編輯器主題
+import "tinymce/icons/default"; //引入編輯器圖標icon，不引入則不顯示對應圖標
+// 引入編輯器插件（基本免費插件都在這了）
+import "tinymce/plugins/advlist"; //高級列表
+import "tinymce/plugins/autolink"; //自動鏈接
+import "tinymce/plugins/link"; //超鏈接
+import "tinymce/plugins/image"; // 插入編輯圖片
+import "tinymce/plugins/lists"; // 列表插件
+import "tinymce/plugins/charmap"; // 特殊字符
+import "tinymce/plugins/media"; // 插入編輯媒體
+import "tinymce/plugins/wordcount"; // 字數統計
 //   import Cookies from "js-cookie";
 let imageFilePicker = function(callback, value, meta) {
   tinymce.activeEditor.windowManager.open(
@@ -102,7 +102,7 @@ export default {
       type: [String, Array],
       default: "advlist autolink link image lists charmap  media wordcount",
     },
-    //工具栏
+    //工具欄
     toolbar: {
       type: [String, Array],
       default:
@@ -118,19 +118,19 @@ export default {
         selector: "#tinymce",
         language_url: "/tinymce/langs/zh_TW.js",
         language: "zh_TW",
-        skin_url: "/tinymce/skins/ui/oxide", //皮肤
+        skin_url: "/tinymce/skins/ui/oxide", //皮膚
         plugins: this.plugins, //插件
-        //工具栏
+        //工具欄
         toolbar: this.toolbar,
         toolbar_location: "/",
         fontsize_formats:
-          "12px 14px 16px 18px 20px 22px 24px 28px 32px 36px 48px 56px 72px", //字体大小
+          "12px 14px 16px 18px 20px 22px 24px 28px 32px 36px 48px 56px 72px", //字體大小
         font_formats: fonts.join(";"),
 
         height: 500, //高度
-        placeholder: "在这里输入文字",
+        placeholder: "請開始編輯",
 
-        branding: false, //隐藏右下角技术支持
+        branding: false, //隱藏右下角技術支持
         // 原本版本圖片上傳
         //   images_upload_handler: function (blobInfo, success, failure) {
         //     // 文件上傳的formData傳遞
@@ -193,7 +193,7 @@ export default {
     onClick(e) {
       this.$emit("onClick", e, tinymce);
     },
-    //可以添加一些自己的自定义事件，如清空内容
+    //可以添加一些自己的自定義事件，如清空内容
     clear() {
       this.myValue = "";
     },

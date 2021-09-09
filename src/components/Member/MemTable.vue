@@ -29,7 +29,7 @@
           <q-td v-for="col in props.cols" :key="col.name" :props="props">
             {{ col.value }}
           </q-td>
-          <q-td>
+          <q-td v-show="operaShow" >
             <div class="q-pa-md q-gutter-sm">
               <q-btn
                 size="small"

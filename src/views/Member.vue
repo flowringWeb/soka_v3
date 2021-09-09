@@ -316,9 +316,9 @@ export default {
       // 教學資格
       teachingColumns: [
         {
-          name: "qualification ",
+          name: "qualification",
           label: "教學資格",
-          field: "qualification ",
+          field: "qualification",
           align: "center",
         },
         {
@@ -340,7 +340,27 @@ export default {
           align: "center",
         },
       ],
-      teachingData: [],
+      teachingData:[
+        {
+          qualification:"三級講義部員",
+          name:"2012三級講義部員錄用考試",
+          date:"2012/04/29",
+          note:"",
+        },
+        {
+          qualification:"二級講義部員",
+          name:"2015二級講義部員錄用考試",
+          date:"2015/05/23",
+          note:"",
+        },
+        {
+          qualification:"一級講義部員",
+          name:"2019一級講義部員錄用考試",
+          date:"2019/02/17",
+          note:"",
+        },
+        
+      ],
       //認證紀錄
       certiRecordColumns: [
         {
@@ -368,7 +388,26 @@ export default {
           align: "center",
         },
       ],
-      certiRecordData: [],
+      certiRecordData:[
+        {
+          certification:"創價特級認證",
+          name:"109創價特級認證考試",
+          date:"2020/10/02",
+          note:"",
+        },
+        {
+          certification:"創價二級認證",
+          name:"106創價二級認證考試",
+          date:"2017/03/23",
+          note:"",
+        },
+        {
+          certification:"創價一級認證",
+          name:"104創價一級認證考試",
+          date:"2015/08/28",
+          note:"",
+        },
+      ],
       // 研修紀錄
       trainingColumns: [
         {
@@ -408,7 +447,16 @@ export default {
           align: "center",
         },
       ],
-      trainingData: [],
+      trainingData:[
+        {
+          name:"池田大作和平思想研究國際論壇",
+          session:"日本",
+          location:"日本",
+          started_date:"2014/0801",
+          ended_date:"2014/08/08",
+          note:"",
+        }
+      ],
       //授獎記錄
       awardColumns: [
         {
@@ -442,10 +490,18 @@ export default {
           align: "center",
         },
       ],
-      awardData: [],
-      // 御本尊紀錄
-      Columns: [],
-      Data: [],
+      awardData:[
+        {
+          name:"金褒獎",
+          code:"G0009",
+          location:"日本",
+          date:"2014/07/14",
+          note:"",
+        },
+      ],
+      // 御本尊紀錄  
+      Columns:[],
+      Data:[],
       // 任命資料 talent
       memOrgColumns: [
         // 會員組織任命紀錄
@@ -493,9 +549,36 @@ export default {
           align: "center",
         },
       ],
-      memOrgData: [],
-      memTalentColumns: [
-        // 會員人才單位任命紀錄
+      memOrgData:[
+        {
+          name:"台北中區",
+          job_title:"區男子部長",
+          started_date:"2019/08/29",
+          ended_date:"",
+          note:"",
+          status:"恢復會員的任命",
+          record_date:"2019/08/29",
+        },
+        {
+          name:"台北中區",
+          job_title:"區男子部長",
+          started_date:"",
+          ended_date:"2019/08/28",
+          note:"",
+          status:"",
+          record_date:"2019/08/28",
+        },
+        {
+          name:"台北中區",
+          job_title:"區男子部長",
+          started_date:"2019/07/28",
+          ended_date:"",
+          note:"",
+          status:"任命",
+          record_date:"2019/07/28",
+        },
+      ],
+      memTalentColumns:[   // 會員人才單位任命紀錄 
         {
           name: "name",
           label: "區域名稱",
@@ -546,7 +629,39 @@ export default {
           align: "center",
         },
       ],
-      memTalentData: [],
+      memTalentData:[
+        {
+          name:"總和總部",
+          unit:"社會部",
+          job_title:"高屏企劃長",
+          started_date:"2019/07/28",
+          ended_date:"",
+          note:"",
+          status:"",
+          record_date:"2019/07/28",
+        },
+        {
+          name:"台北中區",
+          unit:"研究生部",
+          job_title:"區負責人",
+          started_date:"2012/07/28",
+          ended_date:"2019/07/28",
+          note:"",
+          status:"",
+          record_date:"2012/07/28",
+        },
+        {
+          name:"台北北區",
+          unit:"研究生部",
+          job_title:"區負責人",
+          started_date:"2011/07/28",
+          ended_date:"2018/07/28",
+          note:"",
+          status:"",
+          record_date:"2011/07/28",
+        },
+        
+      ],
       // 期刊訂閱資訊
       journalColumns: [
         {
@@ -574,7 +689,15 @@ export default {
           align: "center",
         },
       ],
-      journalData: [],
+      journalData:[
+        {
+          paper:"1",
+          electronic:"2",
+          ended_date:"2014/08/01",
+          note:"",
+        }
+      ],
+
     };
   },
   computed: {},
