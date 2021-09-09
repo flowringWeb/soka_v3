@@ -819,8 +819,6 @@ export default {
         narrow-indicator
       >
         <q-tab name="m_data" label="幹部(會員資料)"></q-tab>
-        <!-- test -->
-        <q-tab name="m_test" label="Test Table"></q-tab>
         <q-tab name="m_family" label="會員家族"></q-tab>
         <q-tab name="m_edu" label="會員學歷"></q-tab>
 
@@ -1710,10 +1708,6 @@ export default {
               </div>
             </div>
             <div class="divider"></div>
-            <div class="flex">
-              <div class="q-mr-md">會員條款紀錄:</div>
-              <p>3 | 2021/07/01</p>
-            </div>
             <div class="row justify-start items-center q-col-gutter-md q-py-md">
               <div class="col-6 col-md-6">
                 <q-input
@@ -1737,15 +1731,6 @@ export default {
               </div>
             </div>
           </q-form>
-        </q-tab-panel>
-        <q-tab-panel name="m_test">
-          <mem-index-table
-            :tableColumn="fullMemColumns"
-            :tableData="fullMemData"
-            :showMultiSelect="true"
-            rowKey="id"
-            tabTitle="所有會員"
-          ></mem-index-table>
         </q-tab-panel>
         <!-- 家族會員 -->
         <q-tab-panel name="m_family">
