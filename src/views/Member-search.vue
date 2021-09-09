@@ -18,8 +18,12 @@ export default {
       ageNum2: 30,
       telNumber: "0911111111",
       email: "",
-      startDate: "",
+      testDate: "",
       endDate: "",
+      pStartDate: {
+        from: "2020/07/08",
+        to: "2020/07/17",
+      },
       teachQual: "",
       options: stringOptions,
 
@@ -125,7 +129,7 @@ export default {
         },
       ],
       //在學狀態
-      studyStatus_select: "1",
+      studyStatus_select: ["2"],
       studyStatus_options: [
         {
           label: "在學中",
@@ -140,6 +144,8 @@ export default {
           value: "3",
         },
       ],
+      //日期起訖
+      startDate: "2021/09/09~2021/09/10",
       fullMemColumns: [
         {
           name: "memberCode",
@@ -234,6 +240,14 @@ export default {
       fullMemData: [],
     };
   },
+  watch: {
+    startDate: {
+      handler(newVal) {
+        const splitVal = newVal.split("~");
+        this.updateDate(splitVal[0], splitVal[1]);
+      },
+    },
+  },
   methods: {
     //表單送出
     onSubmit() {
@@ -257,6 +271,14 @@ export default {
           (v) => v.toLowerCase().indexOf(needle) > -1
         );
       });
+    },
+    inputDate(val) {
+      const context = `${val.from}~${val.to}`;
+      this.startDate = context;
+    },
+    updateDate(date1, date2) {
+      this.pStartDate.from = date1;
+      this.pStartDate.to = date2;
     },
   },
   computed: {},
@@ -856,17 +878,16 @@ export default {
         <div class="col-12 col-md-6">
           <div class="flex items-center">
             <q-input
-              id="startDate"
+              id="testDate"
               class="q-pb-none"
               outlined
               dense
               :label="$q.screen.lt.sm ? '新增日期' : void 0"
-              v-model="startDate"
+              v-model="testDate"
               mask="date"
-              :rules="['date']"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="startDate" class="font-s-size"> 新增日期: </label>
+                <label for="testDate" class="font-s-size"> 新增日期: </label>
               </template>
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
@@ -875,7 +896,7 @@ export default {
                     transition-show="scale"
                     transition-hide="scale"
                   >
-                    <q-date v-model="startDate">
+                    <q-date v-model="testDate">
                       <div class="row items-center justify-end">
                         <q-btn v-close-popup label="確認" color="primary" />
                       </div>
@@ -893,7 +914,6 @@ export default {
               :label="$q.screen.lt.sm ? '新增日期' : void 0"
               v-model="endDate"
               mask="date"
-              :rules="['date']"
             >
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
@@ -916,17 +936,16 @@ export default {
         <div class="col-12 col-md-6">
           <div class="flex items-center">
             <q-input
-              id="startDate"
+              id="testDate"
               class="q-pb-none"
               outlined
               dense
               :label="$q.screen.lt.sm ? '結束日期' : void 0"
-              v-model="startDate"
+              v-model="testDate"
               mask="date"
-              :rules="['date']"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="startDate" class="font-s-size"> 結束日期: </label>
+                <label for="testDate" class="font-s-size"> 結束日期: </label>
               </template>
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
@@ -935,7 +954,7 @@ export default {
                     transition-show="scale"
                     transition-hide="scale"
                   >
-                    <q-date v-model="startDate">
+                    <q-date v-model="testDate">
                       <div class="row items-center justify-end">
                         <q-btn v-close-popup label="確認" color="primary" />
                       </div>
@@ -953,7 +972,6 @@ export default {
               :label="$q.screen.lt.sm ? '結束日期' : void 0"
               v-model="endDate"
               mask="date"
-              :rules="['date']"
             >
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
@@ -976,17 +994,16 @@ export default {
         <div class="col-12 col-md-6">
           <div class="flex items-center">
             <q-input
-              id="startDate"
+              id="testDate"
               class="q-pb-none"
               outlined
               dense
               :label="$q.screen.lt.sm ? '最新更新日期' : void 0"
-              v-model="startDate"
+              v-model="testDate"
               mask="date"
-              :rules="['date']"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="startDate" class="font-s-size">
+                <label for="testDate" class="font-s-size">
                   最新更新日期:
                 </label>
               </template>
@@ -997,7 +1014,7 @@ export default {
                     transition-show="scale"
                     transition-hide="scale"
                   >
-                    <q-date v-model="startDate">
+                    <q-date v-model="testDate">
                       <div class="row items-center justify-end">
                         <q-btn v-close-popup label="確認" color="primary" />
                       </div>
@@ -1015,7 +1032,6 @@ export default {
               :label="$q.screen.lt.sm ? '最新更新日期' : void 0"
               v-model="endDate"
               mask="date"
-              :rules="['date']"
             >
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
@@ -1038,17 +1054,16 @@ export default {
         <div class="col-12 col-md-6">
           <div class="flex items-center">
             <q-input
-              id="startDate"
+              id="testDate"
               class="q-pb-none"
               outlined
               dense
               :label="$q.screen.lt.sm ? '入信日期' : void 0"
-              v-model="startDate"
+              v-model="testDate"
               mask="date"
-              :rules="['date']"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="startDate" class="font-s-size"> 入信日期: </label>
+                <label for="testDate" class="font-s-size"> 入信日期: </label>
               </template>
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
@@ -1057,7 +1072,7 @@ export default {
                     transition-show="scale"
                     transition-hide="scale"
                   >
-                    <q-date v-model="startDate">
+                    <q-date v-model="testDate">
                       <div class="row items-center justify-end">
                         <q-btn v-close-popup label="確認" color="primary" />
                       </div>
@@ -1075,7 +1090,6 @@ export default {
               :label="$q.screen.lt.sm ? '入信日期' : void 0"
               v-model="endDate"
               mask="date"
-              :rules="['date']"
             >
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
@@ -1098,17 +1112,16 @@ export default {
         <div class="col-12 col-md-6">
           <div class="flex items-center">
             <q-input
-              id="startDate"
+              id="testDate"
               class="q-pb-none"
               outlined
               dense
               :label="$q.screen.lt.sm ? '生日' : void 0"
-              v-model="startDate"
+              v-model="testDate"
               mask="date"
-              :rules="['date']"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="startDate" class="font-s-size"> 生日: </label>
+                <label for="testDate" class="font-s-size"> 生日: </label>
               </template>
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
@@ -1117,7 +1130,7 @@ export default {
                     transition-show="scale"
                     transition-hide="scale"
                   >
-                    <q-date v-model="startDate">
+                    <q-date v-model="testDate">
                       <div class="row items-center justify-end">
                         <q-btn v-close-popup label="確認" color="primary" />
                       </div>
@@ -1135,7 +1148,6 @@ export default {
               :label="$q.screen.lt.sm ? '生日' : void 0"
               v-model="endDate"
               mask="date"
-              :rules="['date']"
             >
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
@@ -1156,6 +1168,156 @@ export default {
           </div>
         </div>
       </div>
+      <div class="row q-col-gutter-md">
+        <div class="col-12 col-md-4">
+          <q-input
+            class="q-pb-none"
+            outlined
+            dense
+            readonly
+            :label="$q.screen.lt.sm ? '新增日期' : void 0"
+            v-model="startDate"
+          >
+            <template v-slot:before v-if="$q.screen.gt.xs">
+              <label for="pStartDate" class="font-s-size"> 新增日期: </label>
+            </template>
+            <template v-slot:append>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy
+                  ref="qDateProxy"
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-date v-model="pStartDate" range @input="inputDate">
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="確認" color="primary" />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+        </div>
+        <div class="col-12 col-md-4">
+          <q-input
+            class="q-pb-none"
+            outlined
+            dense
+            readonly
+            :label="$q.screen.lt.sm ? '結束日期' : void 0"
+            v-model="startDate"
+          >
+            <template v-slot:before v-if="$q.screen.gt.xs">
+              <label for="pStartDate" class="font-s-size"> 結束日期: </label>
+            </template>
+            <template v-slot:append>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy
+                  ref="qDateProxy"
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-date v-model="pStartDate" range @input="inputDate">
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="確認" color="primary" />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+        </div>
+        <div class="col-12 col-md-4">
+          <q-input
+            class="q-pb-none"
+            outlined
+            dense
+            readonly
+            :label="$q.screen.lt.sm ? '最新更新日期' : void 0"
+            v-model="startDate"
+          >
+            <template v-slot:before v-if="$q.screen.gt.xs">
+              <label for="pStartDate" class="font-s-size">
+                最新更新日期:
+              </label>
+            </template>
+            <template v-slot:append>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy
+                  ref="qDateProxy"
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-date v-model="pStartDate" range @input="inputDate">
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="確認" color="primary" />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+        </div>
+        <div class="col-12 col-md-4">
+          <q-input
+            class="q-pb-none"
+            outlined
+            dense
+            readonly
+            :label="$q.screen.lt.sm ? '入信日期' : void 0"
+            v-model="startDate"
+          >
+            <template v-slot:before v-if="$q.screen.gt.xs">
+              <label for="pStartDate" class="font-s-size"> 入信日期: </label>
+            </template>
+            <template v-slot:append>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy
+                  ref="qDateProxy"
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-date v-model="pStartDate" range @input="inputDate">
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="確認" color="primary" />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+        </div>
+        <div class="col-12 col-md-4">
+          <q-input
+            class="q-pb-none"
+            outlined
+            dense
+            readonly
+            :label="$q.screen.lt.sm ? '生日' : void 0"
+            v-model="startDate"
+          >
+            <template v-slot:before v-if="$q.screen.gt.xs">
+              <label for="pStartDate" class="font-s-size"> 生日: </label>
+            </template>
+            <template v-slot:append>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy
+                  ref="qDateProxy"
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-date v-model="pStartDate" range @input="inputDate">
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="確認" color="primary" />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+        </div>
+      </div>
+      <hr />
       <div class="row justify-start items-center q-col-gutter-md q-py-md">
         <div class="col-6 col-md-4">
           <q-input

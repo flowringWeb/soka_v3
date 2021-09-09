@@ -8,7 +8,7 @@ import MemTable from "@/components/Member/MemTable";
 import MemIndexTable from "@/components/Member/MemIndexTable";
 export default {
   name: "Member",
-  components: { MemTable,MemIndexTable },
+  components: { MemTable, MemIndexTable },
   data() {
     return {
       //tab
@@ -98,7 +98,7 @@ export default {
       residentDistirct: "",
       residentDistirct_options: ["請選擇", "汐止區", "新店區"],
       residentStreetAddress: "",
-      
+
       /**
        * 表格字段要與資料庫資段相同。
        * */
@@ -314,7 +314,7 @@ export default {
       ],
       eduData: [],
       // 教學資格
-      teachingColumns:[
+      teachingColumns: [
         {
           name: "qualification ",
           label: "教學資格",
@@ -340,9 +340,9 @@ export default {
           align: "center",
         },
       ],
-      teachingData:[],
+      teachingData: [],
       //認證紀錄
-      certiRecordColumns:[
+      certiRecordColumns: [
         {
           name: "certification",
           label: "認證資格",
@@ -368,9 +368,9 @@ export default {
           align: "center",
         },
       ],
-      certiRecordData:[],
+      certiRecordData: [],
       // 研修紀錄
-      trainingColumns:[
+      trainingColumns: [
         {
           name: "name",
           label: "研修名稱",
@@ -408,9 +408,9 @@ export default {
           align: "center",
         },
       ],
-      trainingData:[],
+      trainingData: [],
       //授獎記錄
-      awardColumns:[
+      awardColumns: [
         {
           name: "name",
           label: "授獎名稱",
@@ -442,12 +442,13 @@ export default {
           align: "center",
         },
       ],
-      awardData:[],
-      // 御本尊紀錄  
-      Columns:[],
-      Data:[],
+      awardData: [],
+      // 御本尊紀錄
+      Columns: [],
+      Data: [],
       // 任命資料 talent
-      memOrgColumns:[ // 會員組織任命紀錄 
+      memOrgColumns: [
+        // 會員組織任命紀錄
         {
           name: "name",
           label: "區域名稱",
@@ -460,7 +461,7 @@ export default {
           field: "job_title",
           align: "center",
         },
-        
+
         {
           name: "started_date",
           label: "開始日期",
@@ -492,8 +493,9 @@ export default {
           align: "center",
         },
       ],
-      memOrgData:[],
-      memTalentColumns:[   // 會員人才單位任命紀錄 
+      memOrgData: [],
+      memTalentColumns: [
+        // 會員人才單位任命紀錄
         {
           name: "name",
           label: "區域名稱",
@@ -512,7 +514,7 @@ export default {
           field: "job_title",
           align: "center",
         },
-        
+
         {
           name: "started_date",
           label: "開始日期",
@@ -544,9 +546,9 @@ export default {
           align: "center",
         },
       ],
-      memTalentData:[],
+      memTalentData: [],
       // 期刊訂閱資訊
-      journalColumns:[
+      journalColumns: [
         {
           name: "paper",
           label: "紙本",
@@ -572,8 +574,7 @@ export default {
           align: "center",
         },
       ],
-      journalData:[],
-
+      journalData: [],
     };
   },
   computed: {},
@@ -598,7 +599,6 @@ export default {
       getAllMember().then((res) => {
         this.fullMemData = res.data;
       });
-
     },
     showLoading() {
       this.$q.loading.show();
@@ -736,7 +736,7 @@ export default {
                       :label="$q.screen.lt.sm ? '會員姓名' : void 0"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="memberName" >
+                        <label for="memberName">
                           <span class="required">＊</span>會員姓名:
                         </label>
                       </template>
@@ -753,9 +753,7 @@ export default {
                       :label="$q.screen.lt.sm ? '學會職務' : void 0"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="associationTitle" >
-                          學會職務:　
-                        </label>
+                        <label for="associationTitle"> 學會職務:　 </label>
                       </template>
                     </q-input>
                   </div>
@@ -771,7 +769,7 @@ export default {
                       :rules="['date']"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="bornDate" >
+                        <label for="bornDate">
                           <span class="required">＊</span>生日:　　
                         </label>
                       </template>
@@ -814,7 +812,7 @@ export default {
                       :options="cboBelongArea_options"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="cboBelongArea" >
+                        <label for="cboBelongArea">
                           <span class="required">＊</span>所屬區域:
                         </label>
                       </template>
@@ -843,7 +841,7 @@ export default {
                       :options="sex_options.arr"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="sex" >
+                        <label for="sex">
                           <span class="required">＊</span>性別:　　
                         </label>
                       </template>
@@ -860,9 +858,7 @@ export default {
                       :options="stuDepartment_options.arr"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="stuDepartment" >
-                          學生部別:　
-                        </label>
+                        <label for="stuDepartment"> 學生部別:　 </label>
                       </template>
                     </q-select>
                   </div>
@@ -877,7 +873,7 @@ export default {
                       :label="$q.screen.lt.sm ? '部別' : void 0"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="department" >
+                        <label for="department">
                           <span class="required">＊</span>部別:　　
                         </label>
                       </template>
@@ -894,7 +890,7 @@ export default {
                       :options="memType_options.arr"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="memType" >
+                        <label for="memType">
                           <span class="required">＊</span>會員類型:
                         </label>
                       </template>
@@ -911,7 +907,7 @@ export default {
                       :options="distNoLive_options"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="distNoLive" >
+                        <label for="distNoLive">
                           <span class="required">＊</span>戶籍區:　
                         </label>
                       </template>
@@ -928,9 +924,7 @@ export default {
                       :label="$q.screen.lt.sm ? '英文姓' : void 0"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="lastName" >
-                          英文姓:　　
-                        </label>
+                        <label for="lastName"> 英文姓:　　 </label>
                       </template>
                     </q-input>
                   </div>
@@ -945,9 +939,7 @@ export default {
                       :label="$q.screen.lt.sm ? '英文名' : void 0"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="firstName" >
-                          英文名:　　
-                        </label>
+                        <label for="firstName"> 英文名:　　 </label>
                       </template>
                     </q-input>
                   </div>
@@ -983,9 +975,7 @@ export default {
                   :label="$q.screen.lt.sm ? '住家電話' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="telNumber" >
-                      住家電話:
-                    </label>
+                    <label for="telNumber"> 住家電話: </label>
                   </template>
                 </q-input>
               </div>
@@ -999,9 +989,7 @@ export default {
                   :label="$q.screen.lt.sm ? '行動電話' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="mobileNumber" >
-                      行動電話:
-                    </label>
+                    <label for="mobileNumber"> 行動電話: </label>
                   </template>
                 </q-input>
               </div>
@@ -1015,9 +1003,7 @@ export default {
                   :label="$q.screen.lt.sm ? '公司電話' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="businessNumber" >
-                      公司電話: 　
-                    </label>
+                    <label for="businessNumber"> 公司電話: 　 </label>
                   </template>
                 </q-input>
               </div>
@@ -1032,15 +1018,13 @@ export default {
                   :options="cboFirstContact_options.arr"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="cboFirstContact" >
-                      優先聯絡方式:
-                    </label>
+                    <label for="cboFirstContact"> 優先聯絡方式: </label>
                   </template>
                 </q-select>
               </div>
             </div>
             <div class="row justify-start items-center q-col-gutter-md q-py-md">
-              <div class="col-12 col-md-6">
+              <div class="col-12 col-md-3">
                 <q-input
                   id="email"
                   type="email"
@@ -1050,21 +1034,21 @@ export default {
                   :label="$q.screen.lt.sm ? 'Email' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="email" >
-                      <span class="required">＊</span>Email: 
+                    <label for="email">
+                      <span class="required">＊</span>Email:
                     </label>
-                  </template>
-                  <template v-slot:after>
-                    <q-btn
-                      color="primary"
-                      label="發驗證信(幹部)"
-                      @click="showLoading"
-                      :class="$q.screen.gt.xs ? 'full-width' : ''"
-                    />
                   </template>
                 </q-input>
               </div>
-              <div class="col-12 col-md-6">
+              <div class="col-12 col-md-3">
+                <q-btn
+                  color="primary"
+                  label="發驗證信"
+                  @click="showLoading"
+                  :class="$q.screen.gt.xs ? '' : 'full-width'"
+                />
+              </div>
+              <div class="col-12 col-md-3">
                 <q-input
                   id="googleNumber"
                   type="email"
@@ -1074,11 +1058,15 @@ export default {
                   :label="$q.screen.lt.sm ? 'Google 帳號' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="googleNumber" >
-                      Google 帳號:
-                    </label>
+                    <label for="googleNumber"> Google 帳號: </label>
                   </template>
                 </q-input>
+              </div>
+              <div class="col-12 col-md-3">
+                <div>
+                  <div>會員條款紀錄:</div>
+                  <div>3 | 2021/07/01</div>
+                </div>
               </div>
             </div>
             <div
@@ -1100,7 +1088,7 @@ export default {
                   placeholder="請輸入郵遞區號"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="mailingPostalCode" >
+                    <label for="mailingPostalCode">
                       <span class="required">＊</span>通訊地址:　
                     </label>
                   </template>
@@ -1166,7 +1154,7 @@ export default {
                   placeholder="請輸入郵遞區號"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="residentPostalCode" >
+                    <label for="residentPostalCode">
                       <span class="invisible">戶籍地址:　</span>
                     </label>
                   </template>
@@ -1222,9 +1210,7 @@ export default {
                   :label="$q.screen.lt.sm ? '公司名稱' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="companyName" >
-                      公司名稱:　
-                    </label>
+                    <label for="companyName"> 公司名稱:　 </label>
                   </template>
                 </q-input>
               </div>
@@ -1238,9 +1224,7 @@ export default {
                   :label="$q.screen.lt.sm ? '公司職稱' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="jobTitle" >
-                      公司職稱:
-                    </label>
+                    <label for="jobTitle"> 公司職稱: </label>
                   </template>
                 </q-input>
               </div>
@@ -1254,9 +1238,7 @@ export default {
                   :label="$q.screen.lt.sm ? '職業' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="profession" >
-                      職業:　　</label
-                    >
+                    <label for="profession"> 職業:　　</label>
                   </template>
                 </q-input>
               </div>
@@ -1271,9 +1253,7 @@ export default {
                   :options="cboSpecialty_options.arr"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="cboSpecialty" >
-                      專長:　　　　
-                    </label>
+                    <label for="cboSpecialty"> 專長:　　　　 </label>
                   </template>
                 </q-select>
               </div>
@@ -1287,9 +1267,7 @@ export default {
                   :label="$q.screen.lt.sm ? '最高學歷' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="highestEducation" >
-                      最高學歷:　
-                    </label>
+                    <label for="highestEducation"> 最高學歷:　 </label>
                   </template>
                 </q-input>
               </div>
@@ -1303,9 +1281,7 @@ export default {
                   :label="$q.screen.lt.sm ? '教學資格' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="teacherQualification" >
-                      教學資格:
-                    </label>
+                    <label for="teacherQualification"> 教學資格: </label>
                   </template>
                 </q-input>
               </div>
@@ -1319,9 +1295,7 @@ export default {
                   :label="$q.screen.lt.sm ? '最高職務' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="highestJob" >
-                      最高職務:
-                    </label>
+                    <label for="highestJob"> 最高職務: </label>
                   </template>
                 </q-input>
               </div>
@@ -1335,9 +1309,7 @@ export default {
                   :label="$q.screen.lt.sm ? '最終職務' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="finalJob" >
-                      最終職務:　　
-                    </label>
+                    <label for="finalJob"> 最終職務:　　 </label>
                   </template>
                 </q-input>
               </div>
@@ -1353,7 +1325,7 @@ export default {
                   :rules="['date']"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="incomingDate" >
+                    <label for="incomingDate">
                       <span class="required">＊</span>入信日期:
                     </label>
                   </template>
@@ -1385,9 +1357,7 @@ export default {
                   :options="cboConfidenceBg_options.arr"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="cboConfidenceBg" >
-                      信心背景:
-                    </label>
+                    <label for="cboConfidenceBg"> 信心背景: </label>
                   </template>
                 </q-select>
               </div>
@@ -1401,9 +1371,7 @@ export default {
                   :label="$q.screen.lt.sm ? '活動程度' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="cboActiveTimes" >
-                      活動程度:
-                    </label>
+                    <label for="cboActiveTimes"> 活動程度: </label>
                   </template>
                 </q-input>
               </div>
@@ -1417,9 +1385,7 @@ export default {
                   :label="$q.screen.lt.sm ? '電子幹部卡號' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="cardNumber" >
-                      電子幹部卡號:
-                    </label>
+                    <label for="cardNumber"> 電子幹部卡號: </label>
                   </template>
                 </q-input>
               </div>
@@ -1438,7 +1404,7 @@ export default {
                     :label="$q.screen.lt.sm ? '姓名' : void 0"
                   >
                     <template v-slot:before v-if="$q.screen.gt.xs">
-                      <label for="introducerName" >
+                      <label for="introducerName">
                         <span class="required">＊</span>姓名:　
                       </label>
                     </template>
@@ -1454,9 +1420,7 @@ export default {
                     :label="$q.screen.lt.sm ? '電話' : void 0"
                   >
                     <template v-slot:before v-if="$q.screen.gt.xs">
-                      <label for="introducerTel" >
-                        電話:　
-                      </label>
+                      <label for="introducerTel"> 電話:　 </label>
                     </template>
                     <template v-slot:after>
                       <q-btn
@@ -1477,9 +1441,7 @@ export default {
                     :label="$q.screen.lt.sm ? '部別' : void 0"
                   >
                     <template v-slot:before v-if="$q.screen.gt.xs">
-                      <label for="introducerDepartment" >
-                        部別:　　
-                      </label>
+                      <label for="introducerDepartment"> 部別:　　 </label>
                     </template>
                   </q-input>
                 </div>
@@ -1493,9 +1455,7 @@ export default {
                     :label="$q.screen.lt.sm ? '所屬區域' : void 0"
                   >
                     <template v-slot:before v-if="$q.screen.gt.xs">
-                      <label for="introducerArea" >
-                        所屬區域:
-                      </label>
+                      <label for="introducerArea"> 所屬區域: </label>
                     </template>
                   </q-input>
                 </div>
@@ -1521,7 +1481,7 @@ export default {
                   :options="countGradeArea_options.arr"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="countGradeArea" >
+                    <label for="countGradeArea">
                       <span class="required">＊</span>計算成績區域:
                     </label>
                   </template>
@@ -1538,7 +1498,7 @@ export default {
                   :label="$q.screen.lt.sm ? '計算成績部別' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="countGradeDepartment" >
+                    <label for="countGradeDepartment">
                       <span class="required">＊</span>計算成績部別:
                     </label>
                   </template>
@@ -1564,9 +1524,7 @@ export default {
                   :options="noIncludedReason_options.arr"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="noIncludedReason" >
-                      不列入會員原因:
-                    </label>
+                    <label for="noIncludedReason"> 不列入會員原因: </label>
                   </template>
                 </q-select>
               </div>
@@ -1592,9 +1550,7 @@ export default {
                   :options="noIncludedQuestion_options.arr"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="noIncludedQuestion" >
-                      不列入活動原因:
-                    </label>
+                    <label for="noIncludedQuestion"> 不列入活動原因: </label>
                   </template>
                 </q-select>
               </div>
@@ -1610,7 +1566,7 @@ export default {
                   :rules="['date']"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="endDate" > 結束日期: </label>
+                    <label for="endDate"> 結束日期: </label>
                   </template>
                   <template v-slot:append>
                     <q-icon name="event" class="cursor-pointer">
@@ -1632,8 +1588,8 @@ export default {
             </div>
             <div class="divider"></div>
             <div class="flex">
-              <div class="q-mr-md">條款同意紀錄:</div>
-              <p>會員版本號3 | 2021/07/01</p>
+              <div class="q-mr-md">會員條款紀錄:</div>
+              <p>3 | 2021/07/01</p>
             </div>
             <div class="row justify-start items-center q-col-gutter-md q-py-md">
               <div class="col-6 col-md-6">
@@ -1646,7 +1602,7 @@ export default {
                   :label="$q.screen.lt.sm ? '備註' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="note" > 備註: </label>
+                    <label for="note"> 備註: </label>
                   </template>
                 </q-input>
               </div>
@@ -1660,7 +1616,7 @@ export default {
           </q-form>
         </q-tab-panel>
         <q-tab-panel name="m_test">
-           <mem-index-table
+          <mem-index-table
             :tableColumn="fullMemColumns"
             :tableData="fullMemData"
             :showMultiSelect="true"
@@ -1702,7 +1658,6 @@ export default {
         </q-tab-panel>
         <!-- 認證紀錄 -->
         <q-tab-panel name="m_certify">
-
           <mem-table
             :tableColumn="certiRecordColumns"
             :tableData="certiRecordData"
@@ -1714,7 +1669,6 @@ export default {
         </q-tab-panel>
         <!-- 研修紀錄  -->
         <q-tab-panel name="m_train">
-
           <mem-table
             :tableColumn="trainingColumns"
             :tableData="trainingData"
@@ -1741,8 +1695,7 @@ export default {
           Lorem ipsum dolor sit amet consectetur adipisicing elit.
         </q-tab-panel>
         <!-- 任命資料 -->
-        <q-tab-panel name="m_appoint"> 
-          
+        <q-tab-panel name="m_appoint">
           <mem-table
             :tableColumn="memOrgColumns"
             :tableData="memOrgData"
@@ -1770,7 +1723,6 @@ export default {
             rowKey="name"
             tabTitle="期刊訂閱資訊"
           ></mem-table>
-
         </q-tab-panel>
       </q-tab-panels>
     </q-card>
@@ -1814,7 +1766,7 @@ export default {
               :label="$q.screen.lt.sm ? '新版本號' : void 0"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="txtVersion" > 新版本號: </label>
+                <label for="txtVersion"> 新版本號: </label>
               </template>
             </q-input>
 
@@ -1828,9 +1780,7 @@ export default {
               :rules="['date']"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="txtVersionDate" >
-                  設置生效時間:
-                </label>
+                <label for="txtVersionDate"> 設置生效時間: </label>
               </template>
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
@@ -1858,9 +1808,7 @@ export default {
             v-model="txtVersionState"
           >
             <template v-slot:before v-if="$q.screen.gt.xs">
-              <label for="txtVersionState" >
-                版本說明:
-              </label>
+              <label for="txtVersionState"> 版本說明: </label>
             </template>
           </q-input>
           <div>
