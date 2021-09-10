@@ -1,6 +1,11 @@
 <template>
   <div class="q-pa-md">
-    <q-table :data="tableData" :columns="tableColumn" :row-key="rowKey">
+    <q-table
+      :data="tableData"
+      :columns="tableColumn"
+      :row-key="rowKey"
+      :separator="separator"
+    >
       <!-- 頭部 -->
       <template v-slot:top="props">
         <div class="col-4 q-table__title">{{ tabTitle }}</div>
@@ -25,11 +30,12 @@
       </q-tr>
       <!-- body -->
       <template v-slot:body="props">
-        <q-tr :props="props" :key="props.row.index">
+        <q-tr :props="props" :key="props.row.index" :no-hover="!operaShow">
+          <!-- {{props}} -->
           <q-td v-for="col in props.cols" :key="col.name" :props="props">
             {{ col.value }}
           </q-td>
-          <q-td v-show="operaShow" >
+          <q-td v-show="operaShow">
             <div class="q-pa-md q-gutter-sm">
               <q-btn
                 size="small"
@@ -45,7 +51,29 @@
             </div>
           </q-td>
         </q-tr>
+        <!-- <template v-if="tableData.length - 1 === props.rowIndex && separator==='vertical'" class="">
+          <q-tr :props="props" style="border-top:1px;">
+            <q-td v-for="col in props.cols" :key="col.name" :props="props" style="border-top:1px solid rgba(0, 0, 0, 0.12);">
+            {{ idolCalTotal[col.name]}}
+            </q-td>
+          </q-tr>
+        </template> -->
       </template>
+      <!-- bottom-row -->
+      <template v-slot:bottom-row="props" v-if="separator==='vertical'">
+          <q-tr no-hover :props="props" >
+            <q-td align="center" style="border-top:1px solid rgba(0, 0, 0, 0.12);">
+              {{ idolCalTotal.normal}}
+            </q-td>
+            <q-td align="center" style="border-top:1px solid rgba(0, 0, 0, 0.12);">
+              {{ idolCalTotal.special}}
+            </q-td>
+            <q-td align="center" style="border-top:1px solid rgba(0, 0, 0, 0.12);border-right:1px solid rgba(0, 0, 0, 0.12);">
+              {{ idolCalTotal.guard}}
+            </q-td>
+            <q-td v-for="i in (tableColumn.length-3)" :key="i" style="border:none;border-top:1px solid rgba(0, 0, 0, 0.12);"></q-td>
+          </q-tr>
+        </template>
     </q-table>
 
     <!-- 新增 -->
@@ -59,76 +87,168 @@
           </q-card-section>
 
           <q-card-section style="padding-bottom:0px;">
-            <el-form
-              class=""
-              style=""
-              ref="familyCheckForm"
-              :inline="true"
-              :model="checkMemForm"
-              label-width="100px"
-            >
-              <el-form-item label="親屬姓名">
-                <el-input v-model="checkMemForm.f_name"></el-input>
-              </el-form-item>
-              <el-form-item label="親屬電話號碼">
-                <el-input
-                  v-model="checkMemForm.f_phone"
-                ></el-input> </el-form-item
-              ><el-form-item>
-                <el-button
-                  type="primary"
-                  @click="checkIsMember((id = 0))"
-                  style="margin-right:0;"
-                  >查詢會員</el-button
-                >
-              </el-form-item></el-form
-            >
+            <!-- q-pa-md q-col-gutter-x-md q-col-gutter-y-md -->
+            <q-form class=" row q-col-gutter-x-sm q-py-sm">
+             
+              <q-input
+                class="col-12 col-sm-5"
+                type="text"
+                outlined
+                dense
+                v-model="checkMemForm.f_name"
+                :label="$q.screen.lt.sm ? '親屬姓名 ' : void 0"
+                :style="$q.screen.lt.sm ? 'margin-bottom:10px;':''"
+              >
+                <template v-slot:before v-if="$q.screen.gt.xs">
+                  <label for="memberName" class="font-s-size" style="font-size: 55%;">
+                    親屬姓名 :
+                  </label>
+                </template>
+              </q-input>
+              <q-input
+                class="col-12 col-sm-5"
+                type="text"
+                outlined
+                dense
+                v-model="checkMemForm.f_phone"
+                :label="$q.screen.lt.sm ? '親屬電話號碼 ' : void 0"
+                :style="$q.screen.lt.sm ? 'margin-bottom:10px;':''"
+              >
+                <template v-slot:before v-if="$q.screen.gt.xs">
+                  <label for="memberName" class="font-s-size" style="font-size: 55%;">
+                    親屬電話號碼 :
+                  </label>
+                </template>
+              </q-input>
+              <div class="col-12 col-sm-2" style="padding: 2px 10px;">
+              <q-btn
+                color="primary"
+                label="查詢會員"
+                :style="$q.screen.lt.sm ? 'float:right;':''"
+                @click="checkIsMember((id = 0))"
+              /></div>
+            </q-form>
           </q-card-section>
 
           <q-card-section v-show="checkedAns" style="padding-top:0px;">
             <el-divider content-position="center">檢查結果</el-divider>
-            <el-form
-              class=""
-              style=""
-              ref="familyDetailForm"
-              :inline="true"
-              :model="familyForm"
-              label-width="100px"
-            >
-              <el-form-item label="親屬姓名">
-                <el-input v-model="familyForm.f_name" readonly></el-input>
-              </el-form-item>
-              <el-form-item label="親屬電話號碼">
-                <el-input v-model="familyForm.f_phone" readonly></el-input>
-              </el-form-item>
-              <el-form-item label="是否入信">
-                <el-input v-model="familyForm.f_isin" readonly></el-input>
-              </el-form-item>
-              <el-form-item label="會員編號">
-                <el-input v-model="familyForm.f_mcode" readonly></el-input>
-              </el-form-item>
-              <el-form-item label="所屬區域">
-                <el-input v-model="familyForm.area" readonly></el-input>
-              </el-form-item>
-              <el-form-item label="稱謂">
-                <el-input v-model="familyForm.f_nickedname"></el-input>
-              </el-form-item>
-              <el-form-item label="備註">
-                <el-input
-                  type="textarea"
-                  v-model="familyForm.note"
-                  :autosize="{ minRows: 2, maxRows: 4 }"
-                  style="width:500px;"
-                ></el-input>
-              </el-form-item>
-              <el-form-item
-                style="display:flex; align-item:center;justify-content:center;"
+            <q-form class=" row q-col-gutter-x-sm q-col-gutter-y-sm q-py-sm">
+              <q-input
+                class="col-6 col-sm-6"
+                type="text"
+                outlined
+                dense
+                v-model="familyForm.f_name"
+                :label="$q.screen.lt.sm ? '親屬姓名' : void 0"
+                :style="$q.screen.lt.sm ? 'margin-bottom:10px;':''"
               >
-                <el-button type="warning" @click="handleCancle">取消</el-button>
-                <el-button type="primary" @click="handleSave">保存</el-button>
-              </el-form-item>
-            </el-form>
+                <template v-slot:before v-if="$q.screen.gt.xs">
+                  <label for="memberName" class="font-s-size" style="width: 60px;font-size: 55%;">
+                    親屬姓名 :
+                  </label>
+                </template>
+              </q-input>
+              <q-input
+                class="col-6 col-sm-6"
+                type="text"
+                outlined
+                dense
+                v-model="familyForm.f_phone"
+                :label="$q.screen.lt.sm ? '親屬電話號碼' : void 0"
+                :style="$q.screen.lt.sm ? 'margin-bottom:10px;':''"
+              >
+                <template v-slot:before v-if="$q.screen.gt.xs">
+                  <label for="memberName" class="font-s-size" style="width: 60px;font-size: 55%;">
+                    親屬電話號碼 :
+                  </label>
+                </template>
+              </q-input>
+              <q-input
+                class="col-6 col-sm-6"
+                type="text"
+                outlined
+                dense
+                v-model="familyForm.f_isin"
+                :label="$q.screen.lt.sm ? '是否入信' : void 0"
+                :style="$q.screen.lt.sm ? 'margin-bottom:10px;':''"
+              >
+                <template v-slot:before v-if="$q.screen.gt.xs">
+                  <label for="memberName" class="font-s-size" style="width: 60px;font-size: 55%;">
+                    是否入信 :
+                  </label>
+                </template>
+              </q-input>
+              <q-input
+                class="col-6 col-sm-6"
+                type="text"
+                outlined
+                dense
+                v-model="familyForm.f_mcode"
+                :label="$q.screen.lt.sm ? '會員編號' : void 0"
+                :style="$q.screen.lt.sm ? 'margin-bottom:10px;':''"
+              >
+                <template v-slot:before v-if="$q.screen.gt.xs">
+                  <label for="memberName" class="font-s-size" style="width: 60px;font-size: 55%;">
+                    會員編號 :
+                  </label>
+                </template>
+              </q-input>
+              <q-input
+                class="col-6 col-sm-6"
+                type="text"
+                outlined
+                dense
+                v-model="familyForm.area"
+                :label="$q.screen.lt.sm ? '所屬區域' : void 0"
+                :style="$q.screen.lt.sm ? 'margin-bottom:10px;':''"
+              >
+                <template v-slot:before v-if="$q.screen.gt.xs">
+                  <label for="memberName" class="font-s-size" style="width: 60px;font-size: 55%;">
+                    所屬區域 :
+                  </label>
+                </template>
+              </q-input>
+              <q-input
+                class="col-6 col-sm-6"
+                type="text"
+                outlined
+                dense
+                v-model="familyForm.f_nickedname"
+                :label="$q.screen.lt.sm ? '稱謂' : void 0"
+                :style="$q.screen.lt.sm ? 'margin-bottom:10px;':''"
+              >
+                <template v-slot:before v-if="$q.screen.gt.xs">
+                  <label for="memberName" class="font-s-size" style="width: 60px;font-size: 55%;">
+                    稱謂 :
+                  </label>
+                </template>
+              </q-input>
+              <q-input
+                class="col-12 col-sm-12"
+                type="text"
+                outlined
+                dense
+                v-model="familyForm.note"
+                :label="$q.screen.lt.sm ? '備註' : void 0"
+                :style="$q.screen.lt.sm ? 'margin-bottom:10px;':''"
+              >
+                <template v-slot:before v-if="$q.screen.gt.xs">
+                  <label for="memberName" class="font-s-size" style="width: 60px;font-size: 14px;">
+                    備註 :
+                  </label>
+                </template>
+              </q-input>
+            </q-form>
+           
           </q-card-section>
+          <q-card-actions v-show="checkedAns" horizontal align="center">
+            <q-btn
+              color="primary"
+              label="取消"
+              @click="handleCancle"
+            />
+            <q-btn color="primary" label="保存" @click="handleSave" />
+          </q-card-actions>
         </template>
 
         <template v-else-if="tabTitle === '會員學歷'">
@@ -315,9 +435,14 @@
               </template>
             </q-input>
           </q-form>
-           <q-card-actions horizontal align="center">
-             <q-btn color="white" text-color="black" label="取消" @click="handleCancle"/>
-             <q-btn color="primary" label="保存" @click="handleSave"/>
+          <q-card-actions horizontal align="center">
+            <q-btn
+              color="white"
+              text-color="black"
+              label="取消"
+              @click="handleCancle"
+            />
+            <q-btn color="primary" label="保存" @click="handleSave" />
           </q-card-actions>
         </template>
       </q-card>
@@ -352,16 +477,18 @@ const statusArr = [
 export default {
   // 組件參數 接收來自父組件的數據
   props: {
-    
-    tableData: {//表單資料
+    tableData: {
+      //表單資料
       type: Array,
       required: true,
     },
-    tableColumn: {//表單欄位
+    tableColumn: {
+      //表單欄位
       type: Array,
       required: true,
     },
-    showMultiSelect: { //是否顯示多選
+    showMultiSelect: {
+      //是否顯示多選
       type: Boolean,
       required: true,
     },
@@ -369,14 +496,20 @@ export default {
       type: String,
       required: true,
     },
-    tabTitle: { //展開 Table 名稱
+    tabTitle: {
+      //展開 Table 名稱
       type: String,
       required: true,
     },
-    operaShow:{ //是否顯示操作
+    operaShow: {
+      //是否顯示操作
       type: Boolean,
-      default:true,
-    }
+      default: true,
+    },
+    separator: {
+      type: String,
+      default: "horizontal",
+    },
   },
   // 局部注冊的組件
   components: {},
@@ -424,15 +557,37 @@ export default {
         is_graduated: "", //是否畢業
         note: "", //備註
       },
+      
     };
   },
   created() {},
   // 計算屬性
-  computed: {},
+  computed: {
+    idolCalTotal(){  //計算御本尊
+      let objval={
+        normal:0,
+        special:0,
+        guard:0,
+      }
+      if(this.tableData.length > 0 && this.separator==='vertical'){
+        this.tableData.forEach(item=>{
+          let normal = item.normal != '' ? 1:0
+          let special = item.special != '' ? 1:0
+          let guard = item.guard != '' ? 1:0
+          objval.normal = objval.normal +normal
+          objval.special = objval.special +special
+          objval.guard = objval.guard +guard
+          
+        })
+      }
+      return objval
+    },
+  },
   // 偵聽器
   watch: {},
   // 組件方法
   methods: {
+  
     handleSelectChange(val) {
       console.log("select==>", val.value);
     },
@@ -468,27 +623,62 @@ export default {
     // 之後會開api 去接
     setDetail(status, mem) {
       this.checkedAns = true;
-      if (mem) {
-        this.checkMemForm.f_name = mem.f_name;
-        this.checkMemForm.f_phone = mem.f_phone;
+      switch(this.tabTitle){
+        case '會員家族':
+          if (mem) {
+            this.checkMemForm.f_name = mem.f_name;
+            this.checkMemForm.f_phone = mem.f_phone;
+          }
+          this.familyForm.f_name= mem ? mem.f_name : this.checkMemForm.f_name;
+          this.familyForm.f_phone = mem ? mem.f_phone : this.checkMemForm.f_phone;
+          this.familyForm.f_isin = status ? "是" : "否";
+          this.familyForm.f_mcode = mem ? mem.f_mcode : "";
+          this.familyForm.area = mem ? mem.area : "";
+          this.familyForm.f_nickedname = mem ? mem.f_nickedname : "";
+ 
+        case '會員學歷':
+          
+          this.eduForm.level=mem.level
+          this.eduForm.title=mem.title
+          this.eduForm.team=mem.team
+          this.eduForm.department=mem.department
+          this.eduForm.grade=mem.grade
+          this.eduForm.started_date=mem.started_date
+          this.eduForm.ended_date=mem.ended_date
+          this.eduForm.is_graduated=mem.is_graduated
+          this.eduForm.note=mem.note
+
       }
-      this.familyForm.f_name = mem ? mem.f_name : this.checkMemForm.f_name;
-      this.familyForm.f_phone = mem ? mem.f_phone : this.checkMemForm.f_phone;
-      this.familyForm.f_isin = status ? "是" : "否";
-      this.familyForm.f_mcode = mem ? mem.f_mcode : "";
-      this.familyForm.area = mem ? mem.area : "";
-      this.familyForm.f_nickedname = mem ? mem.f_nickedname : "";
+      
+      
     },
     resetDetail() {
-      this.checkMemForm.f_name = "";
-      this.checkMemForm.f_phone = "";
-      this.familyForm.f_name = "";
-      this.familyForm.f_phone = "";
-      this.familyForm.f_isin = "否";
-      this.familyForm.f_mcode = "";
-      this.familyForm.area = "";
-      this.familyForm.f_nickedname = "";
-      this.familyForm.note = "";
+      switch(this.tabTitle){
+        case '會員家族':
+          this.checkMemForm.f_name = "";
+          this.checkMemForm.f_phone = "";
+          this.familyForm.f_name = "";
+          this.familyForm.f_phone = "";
+          this.familyForm.f_isin = "否";
+          this.familyForm.f_mcode = "";
+          this.familyForm.area = "";
+          this.familyForm.f_nickedname = "";
+          this.familyForm.note = "";
+ 
+        case '會員學歷':
+          
+          this.eduForm.level=""
+          this.eduForm.title=""
+          this.eduForm.team=""
+          this.eduForm.department=""
+          this.eduForm.grade=""
+          this.eduForm.started_date=""
+          this.eduForm.ended_date=""
+          this.eduForm.is_graduated=""
+          this.eduForm.note=""
+
+      }
+      
     },
     // 保存
     handleSave() {
@@ -539,8 +729,7 @@ export default {
   border: 1px solid red;
 }
 label {
-  color: #000;
-  font-size: 14px;
+  color: #000;font-size: 14px;
 }
 .font-s-size {
   font-size: 55%;
