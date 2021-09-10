@@ -88,7 +88,7 @@ export default {
       content-class="bg-primary text-white"
     >
       <q-list>
-        <q-expansion-item icon="pages" label="首頁">
+        <q-expansion-item icon="pages" label="首頁" expand-icon-class="text-white">
           <q-list class="q-pl-lg">
             <q-item to="/頁面" active-class="q-item-no-link-highlighting">
               <q-item-section avatar><q-icon name="" /></q-item-section>
@@ -102,7 +102,7 @@ export default {
             </q-item>
           </q-list>
         </q-expansion-item>
-        <q-item to="/流程作業" active-class="q-item-no-link-highlighting">
+        <q-item to="/流程作業" active-class="q-item-no-link-highlighting" expand-icon-class="text-white">
           <q-item-section avatar
             ><q-icon name="check_circle_outline"
           /></q-item-section>
@@ -111,7 +111,7 @@ export default {
           >
         </q-item>
 
-        <q-expansion-item icon="pages" label="(2)系統管理">
+        <q-expansion-item icon="pages" label="(2)系統管理" expand-icon-class="text-white">
           <q-list class="q-pl-lg">
             <q-item to="/頁面" active-class="q-item-no-link-highlighting">
               <q-item-section avatar><q-icon name="" /></q-item-section>
@@ -158,7 +158,7 @@ export default {
           </q-list>
         </q-expansion-item>
 
-        <q-expansion-item icon="pages" label="(3)訊息管理">
+        <q-expansion-item icon="pages" label="(3)訊息管理" expand-icon-class="text-white">
           <q-list class="q-pl-lg">
             <q-item to="/頁面" active-class="q-item-no-link-highlighting">
               <q-item-section avatar><q-icon name="" /></q-item-section>
@@ -205,7 +205,7 @@ export default {
           </q-list>
         </q-expansion-item>
 
-        <q-expansion-item icon="pages" label="(4)報表管理">
+        <q-expansion-item icon="pages" label="(4)報表管理" expand-icon-class="text-white">
           <q-list class="q-pl-lg">
             <q-item to="/頁面" active-class="q-item-no-link-highlighting">
               <q-item-section avatar><q-icon name="" /></q-item-section>
@@ -222,7 +222,7 @@ export default {
           </q-list>
         </q-expansion-item>
 
-        <q-expansion-item icon="pages" label="(5)組織劃分">
+        <q-expansion-item icon="pages" label="(5)組織劃分" expand-icon-class="text-white">
           <q-list class="q-pl-lg">
             <q-item to="/頁面" active-class="q-item-no-link-highlighting">
               <q-item-section avatar><q-icon name="" /></q-item-section>
@@ -273,7 +273,7 @@ export default {
           </q-list>
         </q-expansion-item>
 
-        <q-expansion-item icon="pages" label="(6)會員管理">
+        <q-expansion-item icon="pages" label="(6)會員管理" expand-icon-class="text-white">
           <q-list class="q-pl-lg">
             <q-item to="/頁面" active-class="q-item-no-link-highlighting">
               <q-item-section avatar><q-icon name="" /></q-item-section>
@@ -352,7 +352,7 @@ export default {
           </q-list>
         </q-expansion-item>
 
-        <q-expansion-item icon="pages" label="(7)活動管理(活動&講師)">
+        <q-expansion-item icon="pages" label="(7)活動管理(活動&講師)" expand-icon-class="text-white">
           <q-list class="q-pl-lg">
             <q-item to="/頁面" active-class="q-item-no-link-highlighting">
               <q-item-section avatar><q-icon name="" /></q-item-section>
@@ -401,7 +401,7 @@ export default {
           </q-list>
         </q-expansion-item>
 
-        <q-expansion-item icon="pages" label="(8)考試管理">
+        <q-expansion-item icon="pages" label="(8)考試管理" expand-icon-class="text-white">
           <q-list class="q-pl-lg">
             <q-item to="/頁面" active-class="q-item-no-link-highlighting">
               <q-item-section avatar><q-icon name="" /></q-item-section>
@@ -418,7 +418,7 @@ export default {
           </q-list>
         </q-expansion-item>
 
-        <q-expansion-item icon="pages" label="(9)廣宣流布(目標管理)">
+        <q-expansion-item icon="pages" label="(9)廣宣流布(目標管理)" expand-icon-class="text-white">
           <q-list class="q-pl-lg">
             <q-item to="/頁面" active-class="q-item-no-link-highlighting">
               <q-item-section avatar><q-icon name="" /></q-item-section>
@@ -471,7 +471,7 @@ export default {
           </q-list>
         </q-expansion-item>
 
-        <q-expansion-item icon="pages" label="(10)法人事務(御本尊)">
+        <q-expansion-item icon="pages" label="(10)法人事務(御本尊)" expand-icon-class="text-white">
           <q-list class="q-pl-lg">
             <q-item to="/頁面" active-class="q-item-no-link-highlighting">
               <q-item-section avatar><q-icon name="" /></q-item-section>
@@ -506,7 +506,7 @@ export default {
           </q-list>
         </q-expansion-item>
 
-        <q-expansion-item icon="pages" label="(11)代碼表">
+        <q-expansion-item icon="pages" label="(11)代碼表" expand-icon-class="text-white">
           <q-list class="q-pl-lg">
             <q-item to="/頁面" active-class="q-item-no-link-highlighting">
               <q-item-section avatar><q-icon name="" /></q-item-section>

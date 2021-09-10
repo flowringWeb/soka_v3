@@ -14,7 +14,7 @@
           :options="findCity"
         >
           <template v-slot:before v-if="$q.screen.gt.xs">
-            <label for="cboBelongArea" class="font-s-size">
+            <label for="cboBelongArea" class="">
               <span class="required">＊</span>所屬區域:
             </label>
           </template>
@@ -45,7 +45,7 @@
           v-model="trueDate"
         >
           <template v-slot:before v-if="$q.screen.gt.xs">
-            <label for="pStartDates" class="font-s-size"> 新增日期: </label>
+            <label for="pStartDates" class=""> 新增日期: </label>
           </template>
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
@@ -65,9 +65,66 @@
         </q-input>
       </div>
     </div>
+    <div class="row">
+      <div class="col-6">
+        <q-input
+          style="max-width: 70%"
+          class="q-pb-none"
+          outlined
+          dense
+          :label="$q.screen.lt.sm ? '測試起訖日期' : void 0"
+          v-model="aDate"
+        >
+          <template v-slot:before v-if="$q.screen.gt.xs">
+            <label for="" class=""> 測試起訖日期: </label>
+          </template>
+          <template v-slot:append>
+            <q-icon name="event" class="cursor-pointer">
+              <q-popup-proxy
+                ref="qDateProxy"
+                transition-show="scale"
+                transition-hide="scale"
+              >
+                <q-date v-model="aDate">
+                  <div class="row items-center justify-end">
+                    <q-btn v-close-popup label="確認" color="primary" />
+                  </div>
+                </q-date>
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
+
+        <q-input
+          style="max-width: 70%"
+          class="q-pb-none"
+          outlined
+          dense
+          :label="$q.screen.lt.sm ? '測試日期2' : void 0"
+          v-model="bDate"
+        >
+          <template v-slot:append>
+            <q-icon name="event" class="cursor-pointer">
+              <q-popup-proxy
+                ref="qDateProxy"
+                transition-show="scale"
+                transition-hide="scale"
+              >
+                <q-date v-model="bDate" :options="optionsFn">
+                  <div class="row items-center justify-end">
+                    <q-btn v-close-popup label="確認" color="primary" />
+                  </div>
+                </q-date>
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
+      </div>
+    </div>
   </div>
 </template>
 <script>
+import { getMemberList } from "@/api/test";
 const dataArr = [
   {
     label: "0001",
@@ -98,7 +155,6 @@ const dataArr = [
     ],
   },
 ];
-import { getMemberList } from "@/api/test";
 export default {
   name: "TestApi",
   // 組件參數 接收來自父組件的數據
@@ -115,6 +171,9 @@ export default {
         from: "2021/09/09",
         to: "2021/09/10",
       },
+      aDate: "",
+      bDate: "",
+      bProxyDate: ""
     };
   },
   created() {
@@ -152,6 +211,11 @@ export default {
         this.updateDate(splitVal[0], splitVal[1]);
       },
     },
+    aDate: {
+      handler(newVal) {
+        this.bProxyDate = newVal;
+      },
+    },
   },
   // 組件方法
   methods: {
@@ -170,6 +234,9 @@ export default {
     updateDate(date1, date2) {
       this.pStartDates.from = date1;
       this.pStartDates.to = date2;
+    },
+    optionsFn(date) {
+      return date > this.bProxyDate;
     },
   },
 };
