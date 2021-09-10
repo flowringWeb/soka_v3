@@ -48,8 +48,8 @@
         <q-tr :props="props" >
           <q-td>
             <div class="q-pa-md q-gutter-sm">
-              <q-btn size="small" color="secondary" label="檢視" />
-              <q-btn size="small" color="amber" label="修改" />
+              <q-btn size="small" color="secondary" label="檢視" @click="goTo(type='view',props.row)"/>
+              <q-btn size="small" color="amber" label="修改" @click="goTo(type='edit',props.row)"/>
               <q-btn
                 size="small"
                 style="color: white;background: red;"
@@ -209,8 +209,29 @@ export default {
   // 組件方法
   methods: {
       updateSelected(e){
-      console.log(e)
-    }, 
+        console.log(e)
+      }, 
+      goTo(type,row){
+        this.$router.push({
+          name:"Member",
+          params: { userId: '',userName:row.memberName,mCode:row.memberCode,type }
+        })
+        // switch(type){
+        //   case 'view':
+        //     this.$router.push({
+        //       name:"Member",
+        //       params: { userId: '',userName:row.memberName,mCode:row.memberCode,type }
+        //     })
+        //     break;
+        //   case 'edit':
+        //     this.$router.push({
+        //       name:"Member",
+        //       params: { userId: '',userName:row.memberName,mCode:row.memberCode,type }
+        //     })
+        //     break;
+        // }
+        
+      },
   },
   filters: {
     

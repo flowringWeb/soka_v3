@@ -132,7 +132,7 @@
 
           <q-card-section v-show="checkedAns" style="padding-top:0px;">
             <el-divider content-position="center">檢查結果</el-divider>
-            <q-form class=" row q-col-gutter-x-sm q-col-gutter-y-sm q-py-sm">
+            <q-form class="row q-col-gutter-x-sm q-col-gutter-y-sm q-py-sm">
               <q-input
                 class="col-6 col-sm-6"
                 type="text"
@@ -238,16 +238,16 @@
                   </label>
                 </template>
               </q-input>
-            </q-form>
-           
+            </q-form> 
           </q-card-section>
           <q-card-actions v-show="checkedAns" horizontal align="center">
             <q-btn
               color="primary"
               label="取消"
+              size="small"
               @click="handleCancle"
             />
-            <q-btn color="primary" label="保存" @click="handleSave" />
+            <q-btn size="small" color="primary" label="保存" @click="handleSave" />
           </q-card-actions>
         </template>
 
@@ -257,10 +257,11 @@
             <q-space />
             <q-btn icon="close" flat round dense v-close-popup />
           </q-card-section>
-          <q-form class="q-pa-md row q-col-gutter-x-xl q-col-gutter-y-md">
+          <q-card-section style="padding-top:0px;">
+          <q-form class="row q-col-gutter-x-sm q-col-gutter-y-sm q-py-sm">
             <!-- 學歷 -->
             <q-select
-              class="col-12 col-sm-6"
+              class="col-6 col-sm-6"
               outlined
               dense
               emit-value
@@ -269,14 +270,14 @@
               :options="eduLevelOptions"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="cboBelongArea" class="font-s-size">
+                <label for="cboBelongArea" class="font-s-size" style="width:60px;">
                   學歷:
                 </label>
               </template>
             </q-select>
             <!-- 學校名稱 -->
             <q-input
-              class="col-12 col-sm-6"
+              class="col-6 col-sm-6"
               type="text"
               outlined
               dense
@@ -284,14 +285,14 @@
               :label="$q.screen.lt.sm ? '學校名稱 ' : void 0"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="memberName" class="font-s-size">
+                <label for="memberName" class="font-s-size" style="width:60px;">
                   學校名稱 :
                 </label>
               </template>
             </q-input>
             <!-- 大學會 -->
             <q-input
-              class="col-12 col-sm-6"
+              class="col-6 col-sm-6"
               type="text"
               outlined
               dense
@@ -300,14 +301,14 @@
               :label="$q.screen.lt.sm ? '大學會' : void 0"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="associationTitle" class="font-s-size">
+                <label for="associationTitle" class="font-s-size" style="width:60px;">
                   大學會:
                 </label>
               </template>
             </q-input>
             <!-- 科系 -->
             <q-input
-              class="col-12 col-sm-6"
+              class="col-6 col-sm-6"
               type="text"
               outlined
               dense
@@ -316,14 +317,14 @@
               :label="$q.screen.lt.sm ? '科系' : void 0"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="associationTitle" class="font-s-size">
+                <label for="associationTitle" class="font-s-size" style="width:60px;">
                   科系:
                 </label>
               </template>
             </q-input>
             <!-- 年級 -->
             <q-input
-              class="col-12 col-sm-6"
+              class="col-6 col-sm-6"
               type="text"
               outlined
               dense
@@ -332,14 +333,14 @@
               :label="$q.screen.lt.sm ? '年級' : void 0"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="associationTitle" class="font-s-size">
+                <label for="associationTitle" class="font-s-size" style="width:60px;">
                   年級:
                 </label>
               </template>
             </q-input>
             <!-- 入學日期 -->
             <q-input
-              class="col-12 col-sm-6"
+              class="col-6 col-sm-6"
               mask="date"
               :rules="['date']"
               outlined
@@ -348,7 +349,7 @@
               :label="$q.screen.lt.sm ? '入學日期' : void 0"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="associationTitle" class="font-s-size">
+                <label for="associationTitle" class="font-s-size" style="width:60px;">
                   入學日期:
                 </label>
               </template>
@@ -370,7 +371,7 @@
             </q-input>
             <!-- 預計畢業日期 -->
             <q-input
-              class="col-12 col-sm-6"
+              class="col-6 col-sm-6"
               mask="date"
               :rules="['date']"
               outlined
@@ -380,7 +381,7 @@
               :label="$q.screen.lt.sm ? '預計畢業日期' : void 0"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="associationTitle" class="font-s-size">
+                <label for="associationTitle" class="font-s-size" style="width:60px;">
                   預計畢業日期:
                 </label>
               </template>
@@ -402,7 +403,7 @@
             </q-input>
             <!-- 是否畢業 -->
             <q-select
-              class="col-12 col-sm-6"
+              class="col-6 col-sm-6"
               outlined
               dense
               :options="isGraOptions"
@@ -413,7 +414,7 @@
               @input="handleSelectChange"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="associationTitle" class="font-s-size">
+                <label for="associationTitle" class="font-s-size" style="width:60px;">
                   是否畢業:
                 </label>
               </template>
@@ -429,13 +430,14 @@
               :label="$q.screen.lt.sm ? '備註' : void 0"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="note" class="font-s-size">
+                <label for="note" class="font-s-size" style="width:60px;">
                   備註:
                 </label>
               </template>
             </q-input>
           </q-form>
-          <q-card-actions horizontal align="center">
+          </q-card-section>
+          <q-card-actions horizontal align="center" style="padding-top:0px;">
             <q-btn
               color="white"
               text-color="black"

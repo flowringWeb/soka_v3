@@ -23,4 +23,7 @@ export default {
 </script>
 
 <style>
+.this{
+  border:1px solid red;
+}
 </style>

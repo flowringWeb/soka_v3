@@ -4,11 +4,12 @@ import {
   getMemberFamilyList,
   getMemberEduList,
 } from "@/api/member.js";
+import MemNamePhoneShow from "@/components/Member/MemNamePhoneShow";
 import MemTable from "@/components/Member/MemTable";
 import MemIndexTable from "@/components/Member/MemIndexTable";
 export default {
   name: "Member",
-  components: { MemTable, MemIndexTable },
+  components: { MemTable, MemIndexTable, MemNamePhoneShow },
   data() {
     return {
       //tab
@@ -340,26 +341,25 @@ export default {
           align: "center",
         },
       ],
-      teachingData:[
+      teachingData: [
         {
-          qualification:"三級講義部員",
-          name:"2012三級講義部員錄用考試",
-          date:"2012/04/29",
-          note:"",
+          qualification: "三級講義部員",
+          name: "2012三級講義部員錄用考試",
+          date: "2012/04/29",
+          note: "",
         },
         {
-          qualification:"二級講義部員",
-          name:"2015二級講義部員錄用考試",
-          date:"2015/05/23",
-          note:"",
+          qualification: "二級講義部員",
+          name: "2015二級講義部員錄用考試",
+          date: "2015/05/23",
+          note: "",
         },
         {
-          qualification:"一級講義部員",
-          name:"2019一級講義部員錄用考試",
-          date:"2019/02/17",
-          note:"",
+          qualification: "一級講義部員",
+          name: "2019一級講義部員錄用考試",
+          date: "2019/02/17",
+          note: "",
         },
-        
       ],
       //認證紀錄
       certiRecordColumns: [
@@ -388,24 +388,24 @@ export default {
           align: "center",
         },
       ],
-      certiRecordData:[
+      certiRecordData: [
         {
-          certification:"創價特級認證",
-          name:"109創價特級認證考試",
-          date:"2020/10/02",
-          note:"",
+          certification: "創價特級認證",
+          name: "109創價特級認證考試",
+          date: "2020/10/02",
+          note: "",
         },
         {
-          certification:"創價二級認證",
-          name:"106創價二級認證考試",
-          date:"2017/03/23",
-          note:"",
+          certification: "創價二級認證",
+          name: "106創價二級認證考試",
+          date: "2017/03/23",
+          note: "",
         },
         {
-          certification:"創價一級認證",
-          name:"104創價一級認證考試",
-          date:"2015/08/28",
-          note:"",
+          certification: "創價一級認證",
+          name: "104創價一級認證考試",
+          date: "2015/08/28",
+          note: "",
         },
       ],
       // 研修紀錄
@@ -447,15 +447,15 @@ export default {
           align: "center",
         },
       ],
-      trainingData:[
+      trainingData: [
         {
-          name:"池田大作和平思想研究國際論壇",
-          session:"日本",
-          location:"日本",
-          started_date:"2014/0801",
-          ended_date:"2014/08/08",
-          note:"",
-        }
+          name: "池田大作和平思想研究國際論壇",
+          session: "日本",
+          location: "日本",
+          started_date: "2014/0801",
+          ended_date: "2014/08/08",
+          note: "",
+        },
       ],
       //授獎記錄
       awardColumns: [
@@ -490,65 +490,65 @@ export default {
           align: "center",
         },
       ],
-      awardData:[
+      awardData: [
         {
-          name:"金褒獎",
-          code:"G0009",
-          location:"日本",
-          date:"2014/07/14",
-          note:"",
+          name: "金褒獎",
+          code: "G0009",
+          location: "日本",
+          date: "2014/07/14",
+          note: "",
         },
       ],
-      // 御本尊紀錄 
-      idolColumns:[
+      // 御本尊紀錄
+      idolColumns: [
         {
           name: "normal",
           label: "一般御本尊",
           field: "normal",
           align: "center",
-          format: val => val!=''? 1:'',
+          format: (val) => (val != "" ? 1 : ""),
         },
         {
           name: "special",
           label: "特別御本尊",
           field: "special",
           align: "center",
-          format: val => val!=''? 1:'',
+          format: (val) => (val != "" ? 1 : ""),
         },
         {
           name: "guard",
           label: "守護御本尊",
           field: "guard",
           align: "center",
-          format: val => val!=''? 1:'',
+          format: (val) => (val != "" ? 1 : ""),
         },
         {
           name: "personal",
           label: "個人",
           field: "personal",
           align: "center",
-          format: val => val==1? 'O':'',
+          format: (val) => (val == 1 ? "O" : ""),
         },
         {
           name: "location",
           label: "據點",
           field: "location",
           align: "center",
-          format: val => val==1? 'O':'',
+          format: (val) => (val == 1 ? "O" : ""),
         },
         {
           name: "inherit",
           label: "承繼",
           field: "inherit",
           align: "center",
-          format: val => val==1? 'O':'',
+          format: (val) => (val == 1 ? "O" : ""),
         },
         {
           name: "abroad",
           label: "海外",
           field: "abroad",
           align: "center",
-          format: val => val==1? 'O':'',
+          format: (val) => (val == 1 ? "O" : ""),
         },
         {
           name: "started_date",
@@ -563,50 +563,50 @@ export default {
           align: "center",
         },
       ],
-      idolData:[
+      idolData: [
         {
-          normal:"xxx一般御本尊", 
-          special:"", 
-          guard:"", 
-          personal:1,  
-          location:0, 
-          inherit:0, 
-          abroad:0, 
-          started_date:"2020/12/30", 
-          note:"",
+          normal: "xxx一般御本尊",
+          special: "",
+          guard: "",
+          personal: 1,
+          location: 0,
+          inherit: 0,
+          abroad: 0,
+          started_date: "2020/12/30",
+          note: "",
         },
         {
-          normal:"", 
-          special:"xxx特別御本尊", 
-          guard:"", 
-          personal:0,  
-          location:1, 
-          inherit:0, 
-          abroad:0, 
-          started_date:"2020/12/30", 
-          note:"",
+          normal: "",
+          special: "xxx特別御本尊",
+          guard: "",
+          personal: 0,
+          location: 1,
+          inherit: 0,
+          abroad: 0,
+          started_date: "2020/12/30",
+          note: "",
         },
         {
-          normal:"", 
-          special:"", 
-          guard:"xxx守護御本尊", 
-          personal:0,  
-          location:1, 
-          inherit:0, 
-          abroad:1, 
-          started_date:"2020/12/30", 
-          note:"",
+          normal: "",
+          special: "",
+          guard: "xxx守護御本尊",
+          personal: 0,
+          location: 1,
+          inherit: 0,
+          abroad: 1,
+          started_date: "2020/12/30",
+          note: "",
         },
         {
-          normal:"", 
-          special:"", 
-          guard:"xxx守護御本尊", 
-          personal:0,  
-          location:1, 
-          inherit:1, 
-          abroad:0, 
-          started_date:"2020/12/30", 
-          note:"",
+          normal: "",
+          special: "",
+          guard: "xxx守護御本尊",
+          personal: 0,
+          location: 1,
+          inherit: 1,
+          abroad: 0,
+          started_date: "2020/12/30",
+          note: "",
         },
       ],
       // 任命資料 talent
@@ -656,36 +656,37 @@ export default {
           align: "center",
         },
       ],
-      memOrgData:[
+      memOrgData: [
         {
-          name:"台北中區",
-          job_title:"區男子部長",
-          started_date:"2019/08/29",
-          ended_date:"",
-          note:"",
-          status:"恢復會員的任命",
-          record_date:"2019/08/29",
+          name: "台北中區",
+          job_title: "區男子部長",
+          started_date: "2019/08/29",
+          ended_date: "",
+          note: "",
+          status: "恢復會員的任命",
+          record_date: "2019/08/29",
         },
         {
-          name:"台北中區",
-          job_title:"區男子部長",
-          started_date:"",
-          ended_date:"2019/08/28",
-          note:"",
-          status:"",
-          record_date:"2019/08/28",
+          name: "台北中區",
+          job_title: "區男子部長",
+          started_date: "",
+          ended_date: "2019/08/28",
+          note: "",
+          status: "",
+          record_date: "2019/08/28",
         },
         {
-          name:"台北中區",
-          job_title:"區男子部長",
-          started_date:"2019/07/28",
-          ended_date:"",
-          note:"",
-          status:"任命",
-          record_date:"2019/07/28",
+          name: "台北中區",
+          job_title: "區男子部長",
+          started_date: "2019/07/28",
+          ended_date: "",
+          note: "",
+          status: "任命",
+          record_date: "2019/07/28",
         },
       ],
-      memTalentColumns:[   // 會員人才單位任命紀錄 
+      memTalentColumns: [
+        // 會員人才單位任命紀錄
         {
           name: "name",
           label: "區域名稱",
@@ -736,38 +737,37 @@ export default {
           align: "center",
         },
       ],
-      memTalentData:[
+      memTalentData: [
         {
-          name:"總和總部",
-          unit:"社會部",
-          job_title:"高屏企劃長",
-          started_date:"2019/07/28",
-          ended_date:"",
-          note:"",
-          status:"",
-          record_date:"2019/07/28",
+          name: "總和總部",
+          unit: "社會部",
+          job_title: "高屏企劃長",
+          started_date: "2019/07/28",
+          ended_date: "",
+          note: "",
+          status: "",
+          record_date: "2019/07/28",
         },
         {
-          name:"台北中區",
-          unit:"研究生部",
-          job_title:"區負責人",
-          started_date:"2012/07/28",
-          ended_date:"2019/07/28",
-          note:"",
-          status:"",
-          record_date:"2012/07/28",
+          name: "台北中區",
+          unit: "研究生部",
+          job_title: "區負責人",
+          started_date: "2012/07/28",
+          ended_date: "2019/07/28",
+          note: "",
+          status: "",
+          record_date: "2012/07/28",
         },
         {
-          name:"台北北區",
-          unit:"研究生部",
-          job_title:"區負責人",
-          started_date:"2011/07/28",
-          ended_date:"2018/07/28",
-          note:"",
-          status:"",
-          record_date:"2011/07/28",
+          name: "台北北區",
+          unit: "研究生部",
+          job_title: "區負責人",
+          started_date: "2011/07/28",
+          ended_date: "2018/07/28",
+          note: "",
+          status: "",
+          record_date: "2011/07/28",
         },
-        
       ],
       // 期刊訂閱資訊
       journalColumns: [
@@ -796,22 +796,18 @@ export default {
           align: "center",
         },
       ],
-      journalData:[
+      journalData: [
         {
-          paper:"1",
-          electronic:"2",
-          ended_date:"2014/08/01",
-          note:"",
-        }
+          paper: "1",
+          electronic: "2",
+          ended_date: "2014/08/01",
+          note: "",
+        },
       ],
-
     };
   },
-  computed: {
-    
-  },
+  computed: {},
   methods: {
-    
     showNotif() {
       this.$q.notify({
         message: "檢查狀態ok",
@@ -984,7 +980,7 @@ export default {
                       :label="$q.screen.lt.sm ? '學會職務' : void 0"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="associationTitle"> 學會職務:　 </label>
+                        <label for="associationTitle"> 學會職務: </label>
                       </template>
                     </q-input>
                   </div>
@@ -1001,7 +997,7 @@ export default {
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="bornDate">
-                          <span class="required">＊</span>生日:　　
+                          <span class="required">＊</span>生日:
                         </label>
                       </template>
                       <template v-slot:append>
@@ -1073,7 +1069,7 @@ export default {
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="sex">
-                          <span class="required">＊</span>性別:　　
+                          <span class="required">＊</span>性別:
                         </label>
                       </template>
                     </q-select>
@@ -1089,7 +1085,7 @@ export default {
                       :options="stuDepartment_options.arr"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="stuDepartment"> 學生部別:　 </label>
+                        <label for="stuDepartment"> 學生部別: </label>
                       </template>
                     </q-select>
                   </div>
@@ -1105,7 +1101,7 @@ export default {
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="department">
-                          <span class="required">＊</span>部別:　　
+                          <span class="required">＊</span>部別:
                         </label>
                       </template>
                     </q-select>
@@ -1139,7 +1135,7 @@ export default {
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="distNoLive">
-                          <span class="required">＊</span>戶籍區:　
+                          <span class="required">＊</span>戶籍區:
                         </label>
                       </template>
                     </q-select>
@@ -1155,7 +1151,7 @@ export default {
                       :label="$q.screen.lt.sm ? '英文姓' : void 0"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="lastName"> 英文姓:　　 </label>
+                        <label for="lastName"> 英文姓: </label>
                       </template>
                     </q-input>
                   </div>
@@ -1170,7 +1166,7 @@ export default {
                       :label="$q.screen.lt.sm ? '英文名' : void 0"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="firstName"> 英文名:　　 </label>
+                        <label for="firstName"> 英文名: </label>
                       </template>
                     </q-input>
                   </div>
@@ -1234,7 +1230,7 @@ export default {
                   :label="$q.screen.lt.sm ? '公司電話' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="businessNumber"> 公司電話: 　 </label>
+                    <label for="businessNumber"> 公司電話: </label>
                   </template>
                 </q-input>
               </div>
@@ -1320,7 +1316,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="mailingPostalCode">
-                      <span class="required">＊</span>通訊地址:　
+                      <span class="required">＊</span>通訊地址:
                     </label>
                   </template>
                 </q-input>
@@ -1365,7 +1361,7 @@ export default {
             </div>
             <div class="row q-mb-sm">
               <div class="items-center">
-                <label v-if="$q.screen.gt.xs">戶籍地址:　</label>
+                <label v-if="$q.screen.gt.xs">戶籍地址: </label>
                 <q-checkbox
                   v-model="theSameWithMailing"
                   label="同通訊地址(學生部必填)"
@@ -1386,7 +1382,7 @@ export default {
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="residentPostalCode">
-                      <span class="invisible">戶籍地址:　</span>
+                      <span class="invisible">戶籍地址: </span>
                     </label>
                   </template>
                 </q-input>
@@ -1441,7 +1437,7 @@ export default {
                   :label="$q.screen.lt.sm ? '公司名稱' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="companyName"> 公司名稱:　 </label>
+                    <label for="companyName"> 公司名稱: </label>
                   </template>
                 </q-input>
               </div>
@@ -1469,7 +1465,7 @@ export default {
                   :label="$q.screen.lt.sm ? '職業' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="profession"> 職業:　　</label>
+                    <label for="profession"> 職業: </label>
                   </template>
                 </q-input>
               </div>
@@ -1484,7 +1480,7 @@ export default {
                   :options="cboSpecialty_options.arr"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="cboSpecialty"> 專長:　　　　 </label>
+                    <label for="cboSpecialty"> 專長: </label>
                   </template>
                 </q-select>
               </div>
@@ -1498,7 +1494,7 @@ export default {
                   :label="$q.screen.lt.sm ? '最高學歷' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="highestEducation"> 最高學歷:　 </label>
+                    <label for="highestEducation"> 最高學歷: </label>
                   </template>
                 </q-input>
               </div>
@@ -1540,7 +1536,7 @@ export default {
                   :label="$q.screen.lt.sm ? '最終職務' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for="finalJob"> 最終職務:　　 </label>
+                    <label for="finalJob"> 最終職務: </label>
                   </template>
                 </q-input>
               </div>
@@ -1636,7 +1632,7 @@ export default {
                   >
                     <template v-slot:before v-if="$q.screen.gt.xs">
                       <label for="introducerName">
-                        <span class="required">＊</span>姓名:　
+                        <span class="required">＊</span>姓名:
                       </label>
                     </template>
                   </q-input>
@@ -1651,7 +1647,7 @@ export default {
                     :label="$q.screen.lt.sm ? '電話' : void 0"
                   >
                     <template v-slot:before v-if="$q.screen.gt.xs">
-                      <label for="introducerTel"> 電話:　 </label>
+                      <label for="introducerTel"> 電話: </label>
                     </template>
                     <template v-slot:after>
                       <q-btn
@@ -1672,7 +1668,7 @@ export default {
                     :label="$q.screen.lt.sm ? '部別' : void 0"
                   >
                     <template v-slot:before v-if="$q.screen.gt.xs">
-                      <label for="introducerDepartment"> 部別:　　 </label>
+                      <label for="introducerDepartment"> 部別: </label>
                     </template>
                   </q-input>
                 </div>
@@ -1844,10 +1840,18 @@ export default {
         </q-tab-panel>
         <!-- 家族會員 -->
         <q-tab-panel name="m_family">
+          <mem-name-phone-show
+            :mem-name="
+              !$route.params.userName ? '王小明' : $route.params.userName
+            "
+            :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
+          ></mem-name-phone-show>
+
           <mem-table
             :tableColumn="familyColumns"
             :tableData="familyData"
             :showMultiSelect="false"
+            :operaShow="$route.params.type === 'view' ? false : true"
             rowKey="name"
             tabTitle="家族會員"
           ></mem-table>
@@ -1855,16 +1859,29 @@ export default {
 
         <!-- 會員學歷 -->
         <q-tab-panel name="m_edu">
+          <mem-name-phone-show
+            :mem-name="
+              !$route.params.userName ? '王小明' : $route.params.userName
+            "
+            :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
+          ></mem-name-phone-show>
           <mem-table
             :tableColumn="eduColumns"
             :tableData="eduData"
             :showMultiSelect="false"
+            :operaShow="$route.params.type === 'view' ? false : true"
             rowKey="name"
             tabTitle="會員學歷"
           ></mem-table>
         </q-tab-panel>
         <!-- 教學資格 -->
         <q-tab-panel name="m_teachingQ">
+          <mem-name-phone-show
+            :mem-name="
+              !$route.params.userName ? '王小明' : $route.params.userName
+            "
+            :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
+          ></mem-name-phone-show>
           <mem-table
             :tableColumn="teachingColumns"
             :tableData="teachingData"
@@ -1876,6 +1893,12 @@ export default {
         </q-tab-panel>
         <!-- 認證紀錄 -->
         <q-tab-panel name="m_certify">
+          <mem-name-phone-show
+            :mem-name="
+              !$route.params.userName ? '王小明' : $route.params.userName
+            "
+            :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
+          ></mem-name-phone-show>
           <mem-table
             :tableColumn="certiRecordColumns"
             :tableData="certiRecordData"
@@ -1887,6 +1910,12 @@ export default {
         </q-tab-panel>
         <!-- 研修紀錄  -->
         <q-tab-panel name="m_train">
+          <mem-name-phone-show
+            :mem-name="
+              !$route.params.userName ? '王小明' : $route.params.userName
+            "
+            :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
+          ></mem-name-phone-show>
           <mem-table
             :tableColumn="trainingColumns"
             :tableData="trainingData"
@@ -1898,6 +1927,12 @@ export default {
         </q-tab-panel>
         <!-- 授獎記錄 -->
         <q-tab-panel name="m_award">
+          <mem-name-phone-show
+            :mem-name="
+              !$route.params.userName ? '王小明' : $route.params.userName
+            "
+            :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
+          ></mem-name-phone-show>
           <mem-table
             :tableColumn="awardColumns"
             :tableData="awardData"
@@ -1909,19 +1944,30 @@ export default {
         </q-tab-panel>
         <!-- 御本尊紀錄 -->
         <q-tab-panel name="m_glory">
+          <mem-name-phone-show
+            :mem-name="
+              !$route.params.userName ? '王小明' : $route.params.userName
+            "
+            :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
+          ></mem-name-phone-show>
           <mem-table
             :tableColumn="idolColumns"
             :tableData="idolData"
             :showMultiSelect="false"
             :operaShow="false"
             rowKey="name"
-            separator='vertical'
+            separator="vertical"
             tabTitle="會員組織任命紀錄"
           ></mem-table>
-      
         </q-tab-panel>
         <!-- 任命資料 -->
         <q-tab-panel name="m_appoint">
+          <mem-name-phone-show
+            :mem-name="
+              !$route.params.userName ? '王小明' : $route.params.userName
+            "
+            :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
+          ></mem-name-phone-show>
           <mem-table
             :tableColumn="memOrgColumns"
             :tableData="memOrgData"
@@ -1941,6 +1987,12 @@ export default {
         </q-tab-panel>
         <!-- 期刊訂閱資訊 -->
         <q-tab-panel name="m_subscribe">
+          <mem-name-phone-show
+            :mem-name="
+              !$route.params.userName ? '王小明' : $route.params.userName
+            "
+            :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
+          ></mem-name-phone-show>
           <mem-table
             :tableColumn="journalColumns"
             :tableData="journalData"
