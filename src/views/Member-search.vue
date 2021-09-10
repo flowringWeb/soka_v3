@@ -253,10 +253,6 @@ export default {
     onSubmit() {
       console.log("submit");
     },
-    //age 輸入器
-    handleAgeNum(val) {
-      console.log(val);
-    },
     //表格資料
     fetchData() {
       getAllMember().then((res) => {
@@ -293,15 +289,20 @@ export default {
     <q-form @submit="onSubmit">
       <div class="row justify-start items-center q-col-gutter-md q-py-md">
         <div class="col-6 col-md-4">
-          <div class="flex">
+          <div :class="$q.screen.lt.sm ? '' : 'flex'">
             <q-select
               id="level"
-              class="level"
+              :class="$q.screen.lt.sm ? 'flex-auto' : 'level'"
+              class="q-mr-none q-mr-md-md"
               outlined
               dense
               emit-value
               v-model="level"
               :label="$q.screen.lt.sm ? '層級' : void 0"
+              :options="options"
+              use-input
+              input-debounce="0"
+              @filter="filterFn"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
                 <label for="level"> 層級: </label>
@@ -320,11 +321,11 @@ export default {
           </div>
         </div>
         <div class="col-6 col-md-4">
-          <div class="flex">
+          <div :class="$q.screen.lt.sm ? '' : 'flex'">
             <q-select
               id="teachQual"
-              class="level"
-              style="width: 250px"
+              :class="$q.screen.lt.sm ? 'flex-auto' : 'level'"
+              class="q-mr-none q-mr-md-md"
               outlined
               dense
               v-model="teachQual"
@@ -526,8 +527,32 @@ export default {
           </q-select>
         </div>
 
-        <div class="col-6 col-md-8">
+        <div class="col-6 col-md-4">
           <div class="flex items-center">
+            <q-input
+              style="flex: 1 0 150px"
+              v-model.number="ageNum"
+              type="number"
+              outlined
+              dense
+              :label="$q.screen.lt.sm ? '年紀' : void 0"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for=""> 年紀: </label>
+              </template>
+            </q-input>
+            <span class="q-mx-md" v-if="$q.screen.gt.xs">~</span>
+            <q-input
+              style="flex: 0 0 auto"
+              v-model.number="ageNum2"
+              type="number"
+              outlined
+              dense
+              :label="$q.screen.lt.sm ? '年紀' : void 0"
+            >
+            </q-input>
+          </div>
+          <!-- <div class="flex items-center">
             <label for="" class="q-mr-sm">年紀:</label>
             <el-input-number
               id=""
@@ -546,7 +571,7 @@ export default {
               :min="1"
               :max="70"
             ></el-input-number>
-          </div>
+          </div> -->
         </div>
         <div class="col-6 col-md-4">
           <q-input
@@ -557,7 +582,7 @@ export default {
             :label="$q.screen.lt.sm ? '電話' : void 0"
           >
             <template v-slot:before v-if="$q.screen.gt.xs">
-              <label for="introducerTel" class="font-s-size"> 電話:　 </label>
+              <label for="introducerTel" class=""> 電話:　 </label>
             </template>
           </q-input>
         </div>
@@ -590,7 +615,7 @@ export default {
           :header-style="{ backgroundColor: '#418163' }"
         >
           <div class="row justify-start items-center q-col-gutter-md q-py-md">
-            <div class="col-6 col-md-8">
+            <div class="col-12 col-md-8">
               <label for="">學校類型(最高學歷):</label>
               <div class="flex">
                 <q-checkbox v-model="ele" label="國小" />
@@ -665,7 +690,7 @@ export default {
                 </div>
               </div>
             </div>
-            <div class="col-6 col-md-8">
+            <div class="col-12 col-md-8">
               <label for="">在學狀態(附帶條件):</label>
               <div class="flex">
                 <div class="q-mr-md">
@@ -761,7 +786,9 @@ export default {
                 :label="$q.screen.lt.sm ? '不列入活動原因' : void 0"
               >
                 <template v-slot:before v-if="$q.screen.gt.xs">
-                  <label for="cboConfidenceBg" class=""> 不列入活動原因: </label>
+                  <label for="cboConfidenceBg" class="">
+                    不列入活動原因:
+                  </label>
                 </template>
               </q-select>
             </div>
@@ -797,7 +824,9 @@ export default {
                 :label="$q.screen.lt.sm ? '不列入會員原因' : void 0"
               >
                 <template v-slot:before v-if="$q.screen.gt.xs">
-                  <label for="cboConfidenceBg" class=""> 不列入會員原因: </label>
+                  <label for="cboConfidenceBg" class="">
+                    不列入會員原因:
+                  </label>
                 </template>
               </q-select>
             </div>
@@ -813,8 +842,9 @@ export default {
                 </template>
               </q-select>
             </div>
-            <div class="col-6 col-md-8 q-gutter-y-md">
+            <div class="col-12 q-gutter-y-md">
               <div class="flex items-center q-gutter-x-md">
+                <span v-if="$q.screen.lt.sm">(</span>
                 <q-input
                   id=""
                   type=""
@@ -832,7 +862,7 @@ export default {
                   dense
                   emit-value
                   v-model="levelWay"
-                  :label="$q.screen.lt.sm ? '選擇' : void 0"
+                  
                 >
                 </q-select>
                 <q-input
@@ -843,16 +873,26 @@ export default {
                   :label="$q.screen.lt.sm ? '地址' : void 0"
                 >
                 </q-input
-                >　)
-              </div>
-              <div class="flex">
+                >
+                <span>)</span>　
                 <q-select
                   id="levelWay"
                   outlined
                   dense
                   emit-value
                   v-model="levelWay"
-                  :label="$q.screen.lt.sm ? '選擇' : void 0"
+                  
+                >
+                </q-select>
+              </div>
+              <!-- <div class="flex">
+                <q-select
+                  id="levelWay"
+                  outlined
+                  dense
+                  emit-value
+                  v-model="levelWay"
+                  :label="$q.screen.lt.sm ? 'a' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="">
@@ -860,8 +900,9 @@ export default {
                     </label>
                   </template>
                 </q-select>
-              </div>
+              </div> -->
               <div class="flex items-center q-gutter-x-md">
+                <span v-if="$q.screen.lt.sm">(</span>
                 <q-input
                   id=""
                   type=""
@@ -870,7 +911,9 @@ export default {
                   :label="$q.screen.lt.sm ? '地址' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for=""> <span class="invisible">地址:</span> (　 </label>
+                    <label for="">
+                      <span class="invisible">地址:</span> (　
+                    </label>
                   </template>
                 </q-input>
                 <q-select
@@ -879,7 +922,7 @@ export default {
                   dense
                   emit-value
                   v-model="levelWay"
-                  :label="$q.screen.lt.sm ? '選擇' : void 0"
+                  
                 >
                 </q-select>
                 <q-input
@@ -890,7 +933,8 @@ export default {
                   :label="$q.screen.lt.sm ? '地址' : void 0"
                 >
                 </q-input
-                >　)
+                >　
+                <span>)</span>
               </div>
             </div>
           </div>
@@ -901,7 +945,7 @@ export default {
           <div class="flex items-center">
             <q-input
               id="testDate"
-              class="q-pb-none"
+              class="flex-1 q-mr-sm q-mr-md-none"
               outlined
               dense
               :label="$q.screen.lt.sm ? '新增日期' : void 0"
@@ -909,7 +953,7 @@ export default {
               mask="date"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="testDate" class="font-s-size"> 新增日期: </label>
+                <label for="testDate" class=""> 新增日期: </label>
               </template>
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
@@ -930,7 +974,7 @@ export default {
             <span class="q-mx-md" v-if="$q.screen.gt.xs">~</span>
             <q-input
               id="endDate"
-              class="q-pb-none"
+              class="flex-1 q-ml-sm q-ml-md-none"
               outlined
               dense
               :label="$q.screen.lt.sm ? '新增日期' : void 0"
@@ -959,7 +1003,7 @@ export default {
           <div class="flex items-center">
             <q-input
               id="testDate"
-              class="q-pb-none"
+              class="flex-1 q-mr-sm q-mr-md-none"
               outlined
               dense
               :label="$q.screen.lt.sm ? '結束日期' : void 0"
@@ -967,7 +1011,7 @@ export default {
               mask="date"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="testDate" class="font-s-size"> 結束日期: </label>
+                <label for="testDate" class=""> 結束日期: </label>
               </template>
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
@@ -988,7 +1032,7 @@ export default {
             <span class="q-mx-md" v-if="$q.screen.gt.xs">~</span>
             <q-input
               id="endDate"
-              class="q-pb-none"
+              class="flex-1 q-ml-sm q-ml-md-none"
               outlined
               dense
               :label="$q.screen.lt.sm ? '結束日期' : void 0"
@@ -1017,7 +1061,7 @@ export default {
           <div class="flex items-center">
             <q-input
               id="testDate"
-              class="q-pb-none"
+              class="flex-1 q-mr-sm q-mr-md-none"
               outlined
               dense
               :label="$q.screen.lt.sm ? '最新更新日期' : void 0"
@@ -1025,9 +1069,7 @@ export default {
               mask="date"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="testDate" class="font-s-size">
-                  最新更新日期:
-                </label>
+                <label for="testDate" class=""> 最新更新日期: </label>
               </template>
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
@@ -1048,7 +1090,7 @@ export default {
             <span class="q-mx-md" v-if="$q.screen.gt.xs">~</span>
             <q-input
               id="endDate"
-              class="q-pb-none"
+              class="flex-1 q-ml-sm q-ml-md-none"
               outlined
               dense
               :label="$q.screen.lt.sm ? '最新更新日期' : void 0"
@@ -1077,7 +1119,7 @@ export default {
           <div class="flex items-center">
             <q-input
               id="testDate"
-              class="q-pb-none"
+              class="flex-1 q-mr-sm q-mr-md-none"
               outlined
               dense
               :label="$q.screen.lt.sm ? '入信日期' : void 0"
@@ -1085,7 +1127,7 @@ export default {
               mask="date"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="testDate" class="font-s-size"> 入信日期: </label>
+                <label for="testDate" class=""> 入信日期: </label>
               </template>
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
@@ -1106,7 +1148,7 @@ export default {
             <span class="q-mx-md" v-if="$q.screen.gt.xs">~</span>
             <q-input
               id="endDate"
-              class="q-pb-none"
+              class="flex-1 q-ml-sm q-ml-md-none"
               outlined
               dense
               :label="$q.screen.lt.sm ? '入信日期' : void 0"
@@ -1135,7 +1177,7 @@ export default {
           <div class="flex items-center">
             <q-input
               id="testDate"
-              class="q-pb-none"
+              class="flex-1 q-mr-sm q-mr-md-none"
               outlined
               dense
               :label="$q.screen.lt.sm ? '生日' : void 0"
@@ -1143,7 +1185,7 @@ export default {
               mask="date"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="testDate" class="font-s-size"> 生日: </label>
+                <label for="testDate" class=""> 生日: </label>
               </template>
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
@@ -1164,7 +1206,7 @@ export default {
             <span class="q-mx-md" v-if="$q.screen.gt.xs">~</span>
             <q-input
               id="endDate"
-              class="q-pb-none"
+              class="flex-1 q-ml-sm q-ml-md-none"
               outlined
               dense
               :label="$q.screen.lt.sm ? '生日' : void 0"
@@ -1201,7 +1243,7 @@ export default {
             v-model="startDate"
           >
             <template v-slot:before v-if="$q.screen.gt.xs">
-              <label for="pStartDate" class="font-s-size"> 新增日期: </label>
+              <label for="pStartDate" class=""> 新增日期: </label>
             </template>
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
@@ -1230,7 +1272,7 @@ export default {
             v-model="startDate"
           >
             <template v-slot:before v-if="$q.screen.gt.xs">
-              <label for="pStartDate" class="font-s-size"> 結束日期: </label>
+              <label for="pStartDate" class=""> 結束日期: </label>
             </template>
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
@@ -1259,9 +1301,7 @@ export default {
             v-model="startDate"
           >
             <template v-slot:before v-if="$q.screen.gt.xs">
-              <label for="pStartDate" class="font-s-size">
-                最新更新日期:
-              </label>
+              <label for="pStartDate" class=""> 最新更新日期: </label>
             </template>
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
@@ -1290,7 +1330,7 @@ export default {
             v-model="startDate"
           >
             <template v-slot:before v-if="$q.screen.gt.xs">
-              <label for="pStartDate" class="font-s-size"> 入信日期: </label>
+              <label for="pStartDate" class=""> 入信日期: </label>
             </template>
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
@@ -1319,7 +1359,7 @@ export default {
             v-model="startDate"
           >
             <template v-slot:before v-if="$q.screen.gt.xs">
-              <label for="pStartDate" class="font-s-size"> 生日: </label>
+              <label for="pStartDate" class=""> 生日: </label>
             </template>
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
@@ -1422,11 +1462,18 @@ export default {
 </template>
 <style lang="scss" scoped>
 .level {
-  flex: 2 0 auto;
+  flex: 1 1 auto;
   &--way {
     flex: 0 0 100px;
   }
 }
+.flex-1 {
+  flex: 1 0 auto;
+}
+.flex-auto {
+  flex: auto;
+}
+
 label {
   color: #000;
   font-size: 14px;
