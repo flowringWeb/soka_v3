@@ -499,9 +499,116 @@ export default {
           note:"",
         },
       ],
-      // 御本尊紀錄  
-      Columns:[],
-      Data:[],
+      // 御本尊紀錄 
+      idolColumns:[
+        {
+          name: "normal",
+          label: "一般御本尊",
+          field: "normal",
+          align: "center",
+          format: val => val!=''? 1:'',
+        },
+        {
+          name: "special",
+          label: "特別御本尊",
+          field: "special",
+          align: "center",
+          format: val => val!=''? 1:'',
+        },
+        {
+          name: "guard",
+          label: "守護御本尊",
+          field: "guard",
+          align: "center",
+          format: val => val!=''? 1:'',
+        },
+        {
+          name: "personal",
+          label: "個人",
+          field: "personal",
+          align: "center",
+          format: val => val==1? 'O':'',
+        },
+        {
+          name: "location",
+          label: "據點",
+          field: "location",
+          align: "center",
+          format: val => val==1? 'O':'',
+        },
+        {
+          name: "inherit",
+          label: "承繼",
+          field: "inherit",
+          align: "center",
+          format: val => val==1? 'O':'',
+        },
+        {
+          name: "abroad",
+          label: "海外",
+          field: "abroad",
+          align: "center",
+          format: val => val==1? 'O':'',
+        },
+        {
+          name: "started_date",
+          label: "敬領日期",
+          field: "started_date",
+          align: "center",
+        },
+        {
+          name: "note",
+          label: "備註",
+          field: "note",
+          align: "center",
+        },
+      ],
+      idolData:[
+        {
+          normal:"xxx一般御本尊", 
+          special:"", 
+          guard:"", 
+          personal:1,  
+          location:0, 
+          inherit:0, 
+          abroad:0, 
+          started_date:"2020/12/30", 
+          note:"",
+        },
+        {
+          normal:"", 
+          special:"xxx特別御本尊", 
+          guard:"", 
+          personal:0,  
+          location:1, 
+          inherit:0, 
+          abroad:0, 
+          started_date:"2020/12/30", 
+          note:"",
+        },
+        {
+          normal:"", 
+          special:"", 
+          guard:"xxx守護御本尊", 
+          personal:0,  
+          location:1, 
+          inherit:0, 
+          abroad:1, 
+          started_date:"2020/12/30", 
+          note:"",
+        },
+        {
+          normal:"", 
+          special:"", 
+          guard:"xxx守護御本尊", 
+          personal:0,  
+          location:1, 
+          inherit:1, 
+          abroad:0, 
+          started_date:"2020/12/30", 
+          note:"",
+        },
+      ],
       // 任命資料 talent
       memOrgColumns: [
         // 會員組織任命紀錄
@@ -700,8 +807,11 @@ export default {
 
     };
   },
-  computed: {},
+  computed: {
+    
+  },
   methods: {
+    
     showNotif() {
       this.$q.notify({
         message: "檢查狀態ok",
@@ -1799,8 +1909,16 @@ export default {
         </q-tab-panel>
         <!-- 御本尊紀錄 -->
         <q-tab-panel name="m_glory">
-          <div class="text-h6">御本尊紀錄</div>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          <mem-table
+            :tableColumn="idolColumns"
+            :tableData="idolData"
+            :showMultiSelect="false"
+            :operaShow="false"
+            rowKey="name"
+            separator='vertical'
+            tabTitle="會員組織任命紀錄"
+          ></mem-table>
+      
         </q-tab-panel>
         <!-- 任命資料 -->
         <q-tab-panel name="m_appoint">
