@@ -12,7 +12,7 @@ const routes = [
     children: [
       {path: '/TestEditor', component: () => import('@/views/TestEditor.vue')},
       {path: '/TestZipCode', component: () => import('@/views/TestZipCode.vue')},
-      {path: '/Member', component: () => import('@/views/Member.vue')},
+      {path: '/Member',name: 'Member', component: () => import('@/views/Member.vue')},
       {path: '/TestApi', component: () => import('@/views/TestApi.vue')},
       {path: '/Member-search', component: () => import('@/views/Member-search.vue')},
     ]
