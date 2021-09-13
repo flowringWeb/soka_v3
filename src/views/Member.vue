@@ -1621,7 +1621,7 @@ export default {
             <section class="intro q-pt-md">
               <div class="q-mb-md">介紹人</div>
               <div class="row justify-start items-center q-col-gutter-md">
-                <div class="col-6 col-md-3">
+                <div class="col-6 col-md-2">
                   <q-input
                     id="introducerName"
                     type="text"
@@ -1637,7 +1637,7 @@ export default {
                     </template>
                   </q-input>
                 </div>
-                <div class="col-6 col-md-3">
+                <div class="col-6 col-md-2">
                   <q-input
                     id="introducerTel"
                     type="tel"
@@ -1649,14 +1649,16 @@ export default {
                     <template v-slot:before v-if="$q.screen.gt.xs">
                       <label for="introducerTel"> 電話: </label>
                     </template>
-                    <template v-slot:after>
-                      <q-btn
-                        color="primary"
-                        label="查詢會員"
-                        @click="showLoading"
-                      />
-                    </template>
                   </q-input>
+                </div>
+                <div class="col-6 col-md-2">
+                  <div class="">
+                    <q-btn
+                      color="primary"
+                      label="查詢會員"
+                      @click="showLoading"
+                    />
+                  </div>
                 </div>
                 <div class="col-6 col-md-3">
                   <q-input

@@ -26,6 +26,7 @@ export default {
       },
       teachQual: "",
       options: stringOptions,
+      isClickSearchBtn: false,
 
       //最高學歷
       ele: true,
@@ -275,6 +276,15 @@ export default {
     updateDate(date1, date2) {
       this.pStartDate.from = date1;
       this.pStartDate.to = date2;
+    },
+    scrollToBottom() {
+      this.isClickSearchBtn = true;
+      setTimeout(() => {
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: "smooth",
+        });
+      }, 500);
     },
   },
   computed: {},
@@ -657,7 +667,9 @@ export default {
           </div>
         </div>
       </div>
-      <div class="row justify-start items-center q-col-gutter-md q-py-md q-mb-md">
+      <div
+        class="row justify-start items-center q-col-gutter-md q-py-md q-mb-md"
+      >
         <div class="col-12 col-md-6">
           <div class="row items-center q-col-gutter-md">
             <div class="col-6 col-md-4">
@@ -720,6 +732,9 @@ export default {
             </div>
           </div>
         </div>
+      </div>
+      <div class="flex justify-end q-my-md">
+        <q-btn label="查詢" color="primary" @click="scrollToBottom" />
       </div>
       <q-list class="q-mb-md">
         <q-expansion-item
@@ -870,6 +885,9 @@ export default {
                 </div>
               </div>
             </div>
+          </div>
+          <div class="flex justify-end q-my-md">
+            <q-btn label="查詢" color="primary" />
           </div>
         </q-expansion-item>
       </q-list>
@@ -1033,7 +1051,7 @@ export default {
             </div>
             <div class="row justify-start items-center q-col-gutter-md q-py-md">
               <div class="col-12 col-md-6">
-                <div class="row items-center q-col-gutter-sm">
+                <div class="row items-center q-col-gutter-md">
                   <div class="col-6 col-md-5">
                     <q-input
                       id=""
@@ -1103,7 +1121,7 @@ export default {
                 </div>
               </div>
               <div class="col-12 col-md-6">
-                <div class="row items-center q-col-gutter-sm">
+                <div class="row items-center q-col-gutter-md">
                   <div class="col-6 col-md-5">
                     <q-input
                       id=""
@@ -1173,7 +1191,7 @@ export default {
                 </div>
               </div>
               <div class="col-12 col-md-6">
-                <div class="row items-center q-col-gutter-sm">
+                <div class="row items-center q-col-gutter-md">
                   <div class="col-6 col-md-5">
                     <q-input
                       id=""
@@ -1243,7 +1261,7 @@ export default {
                 </div>
               </div>
               <div class="col-12 col-md-6">
-                <div class="row items-center q-col-gutter-sm">
+                <div class="row items-center q-col-gutter-md">
                   <div class="col-6 col-md-5">
                     <q-input
                       id=""
@@ -1314,30 +1332,31 @@ export default {
               </div>
             </div>
           </div>
+          <div class="flex justify-end q-my-md">
+            <q-btn label="查詢" color="primary" />
+          </div>
         </q-expansion-item>
       </q-list>
     </q-form>
     <mem-index-table
+      v-show="isClickSearchBtn"
       :tableColumn="fullMemColumns"
       :tableData="fullMemData"
       :showMultiSelect="true"
       rowKey="id"
       tabTitle="所有會員"
     ></mem-index-table>
+    <q-footer elevated v-if="$q.screen.lt.sm">
+      <q-toolbar class="flex justify-around">
+          <q-btn flat dense padding="sm lg" text-color="white" color="primary" label="條件設置" />
+          <q-btn flat dense padding="sm lg" text-color="white" color="accent" label="取消"/>
+      </q-toolbar>
+    </q-footer>
   </div>
 </template>
 <style lang="scss" scoped>
-.level {
-  flex: 1 1 auto;
-  &--way {
-    flex: 0 0 100px;
-  }
-}
 .flex-1 {
   flex: 1 0 auto;
-}
-.flex-auto {
-  flex: auto;
 }
 
 label {
