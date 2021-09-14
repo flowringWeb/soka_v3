@@ -12,6 +12,8 @@ export default {
   components: { MemTable, MemIndexTable, MemNamePhoneShow },
   data() {
     return {
+      //footbar 傳值
+      isSearchTablePage: true,
       //tab
       tab: "m_data",
       // editor
@@ -806,7 +808,6 @@ export default {
       ],
     };
   },
-  computed: {},
   methods: {
     showNotif() {
       this.$q.notify({
@@ -817,7 +818,7 @@ export default {
     },
     fetchData() {
       getMemberFamilyList().then((res) => {
-        console.log(res);
+        // console.log(res);
         this.familyData = res.data;
       });
       getMemberEduList().then((res) => {
@@ -840,11 +841,17 @@ export default {
     onSubmit() {
       console.log("submit");
     },
+    changeStatus() {
+      this.readStatus = true;
+      console.log('2', this.readStatus);
+    }
   },
   created() {
+    console.log('1',this.readStatus);
+    bus.on("mitt", this.changeStatus());
     this.fetchData();
     import("../json/member.json").then((res) => {
-      console.log("1", res);
+      // console.log("1", res);
       this.memberName = res.memberName;
       this.associationTitle = res.associationTitle;
       this.bornDate = res.bornDate;
@@ -959,6 +966,7 @@ export default {
                       type="text"
                       outlined
                       dense
+                      :readonly="$route.params.type === 'view' ? true : false"
                       v-model="memberName"
                       :label="$q.screen.lt.sm ? '會員姓名' : void 0"
                     >
@@ -1838,6 +1846,19 @@ export default {
                 </div>
               </div>
             </div>
+            <q-footer elevated v-if="$q.screen.lt.sm">
+              <q-toolbar class="flex justify-center">
+                <q-btn
+                  flat
+                  dense
+                  padding="sm lg"
+                  text-color="white"
+                  color="primary"
+                  label="開啟查詢"
+                >
+                </q-btn>
+              </q-toolbar>
+            </q-footer>
           </q-form>
         </q-tab-panel>
         <!-- 家族會員 -->

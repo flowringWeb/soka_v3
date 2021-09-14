@@ -1,7 +1,6 @@
 <script>
 import { getAllMember } from "@/api/member.js";
 import MemIndexTable from "@/components/Member/MemIndexTable";
-
 const stringOptions = ["Google", "Facebook", "Twitter", "Apple", "Oracle"];
 export default {
   components: {
@@ -1339,7 +1338,6 @@ export default {
       </q-list>
     </q-form>
     <mem-index-table
-      v-show="isClickSearchBtn"
       :tableColumn="fullMemColumns"
       :tableData="fullMemData"
       :showMultiSelect="true"
@@ -1348,10 +1346,18 @@ export default {
     ></mem-index-table>
     <q-footer elevated v-if="$q.screen.lt.sm">
       <q-toolbar class="flex justify-around">
-          <q-btn flat dense padding="sm lg" text-color="white" color="primary" label="條件設置" />
-          <q-btn flat dense padding="sm lg" text-color="white" color="accent" label="取消"/>
+        <q-btn flat dense padding="sm lg" text-color="white" color="primary" label="條件設置">
+        </q-btn>
+        <q-btn flat dense padding="sm lg" text-color="white" color="accent" label="取消">
+        </q-btn>
       </q-toolbar>
     </q-footer>
+    <!-- mobile -Search List -->
+
+
+
+
+    <!-- mobile -Search List -->
   </div>
 </template>
 <style lang="scss" scoped>

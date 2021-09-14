@@ -214,7 +214,12 @@ export default {
       goTo(type,row){
         this.$router.push({
           name:"Member",
-          params: { userId: '',userName:row.memberName,mCode:row.memberCode,type }
+          params: { 
+            userId: '',
+            userName:row.memberName,
+            mCode:row.memberCode,
+            type 
+          }
         })
         // switch(type){
         //   case 'view':
