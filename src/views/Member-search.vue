@@ -238,6 +238,275 @@ export default {
         },
       ],
       fullMemData: [],
+      // ========== Moblie Buttons Layout ================
+      mobileLayout: [
+        {
+          name: "基本設定",
+          btns: [
+            {
+              bname: "會員姓名",
+              bkey: "", //填入v-model
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "會員電話",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "所屬區域",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "組織職務",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "人才單位",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "人才單位職務",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+          ],
+        },
+        {
+          name: "資格&紀錄",
+          btns: [
+            {
+              bname: "層級",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "教學資格",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "御本尊",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "認證資格",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "研修紀錄",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "受獎紀錄",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+          ],
+        },
+        {
+          name: "個人資料",
+          btns: [
+            {
+              bname: "電話",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "Email",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "專長",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "地址",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "年紀From",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "年紀To",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "生日From",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "生日To",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+          ],
+        },
+        {
+          name: "學生",
+          btns: [
+            {
+              bname: "學生部別",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "目前就讀學校",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "在學狀態",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "最高學歷",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "年級",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+          ],
+        },
+        {
+          name: "進階搜尋",
+          btns: [
+            {
+              bname: "信心背景",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "活動程度",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "遷移狀態",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "不列入活動",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "不列入會員",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "區域代碼",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "建立人員",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "維護人員",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "電子幹部卡號",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "維護人員編號",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "月份壽星",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "新增日期(From~To)",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "結束日期(From~To)",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "最新更新日期(From~To)",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+            {
+              bname: "入信日期(From~To)",
+              bkey: "",
+              ischeck: false,
+              colVal: 6,
+            },
+          ],
+        },
+      ],
+      chooseBtns: [],
+      // ========== End of Moblie Buttons Layout =========
     };
   },
   watch: {
@@ -285,8 +554,34 @@ export default {
         });
       }, 500);
     },
+    // ========== Moblie Buttons Layout ================
+    addCondition(obj) {
+      if (!this.mobileLayout[obj.index].btns[obj.bI].ischeck) {
+        this.chooseBtns.push(obj);
+
+        this.mobileLayout[obj.index].btns[obj.bI].ischeck = !this.mobileLayout[
+          obj.index
+        ].btns[obj.bI].ischeck;
+      } else {
+        let chooseIndex = this.chooseBtns.findIndex(
+          (item) => item.bname === obj.bname
+        );
+        this.mobileLayout[obj.index].btns[obj.bI].ischeck = !this.mobileLayout[
+          obj.index
+        ].btns[obj.bI].ischeck;
+        this.chooseBtns.splice(chooseIndex, 1);
+      }
+    },
+
+    // ========== End of Moblie Buttons Layout =========
   },
-  computed: {},
+  computed: {
+    // ========== Moblie Buttons Layout ================
+    dynamicQuestions() {
+      return this.chooseBtns.map((item) => item.bkey);
+    },
+    // ========== End of Moblie Buttons Layout =========
+  },
   created() {
     this.fetchData();
   },
@@ -495,7 +790,7 @@ export default {
             :label="$q.screen.lt.sm ? '電話' : void 0"
           >
             <template v-slot:before v-if="$q.screen.gt.xs">
-              <label for="introducerTel" class=""> 電話:　 </label>
+              <label for="introducerTel" class=""> 電話: </label>
             </template>
           </q-input>
         </div>
@@ -571,7 +866,7 @@ export default {
               :label="$q.screen.lt.sm ? '地址' : void 0"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for=""> 地址: (　</label>
+                <label for=""> 地址: ( </label>
               </template>
             </q-input>
             <q-select
@@ -592,7 +887,7 @@ export default {
               :label="$q.screen.lt.sm ? '地址' : void 0"
             >
             </q-input>
-            <span>)</span>　
+            <span>)</span>
             <q-select id="" outlined dense emit-value v-model="levelWay">
             </q-select>
           </div>
@@ -611,7 +906,7 @@ export default {
               :label="$q.screen.lt.sm ? '地址' : void 0"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for=""> <span class="invisible">地址:</span> (　 </label>
+                <label for=""> <span class="invisible">地址:</span> ( </label>
               </template>
             </q-input>
             <q-select
@@ -630,8 +925,7 @@ export default {
               dense
               :label="$q.screen.lt.sm ? '地址' : void 0"
             >
-            </q-input
-            >　
+            </q-input>
             <span>)</span>
           </div>
         </div>
@@ -1346,16 +1640,51 @@ export default {
     ></mem-index-table>
     <q-footer elevated v-if="$q.screen.lt.sm">
       <q-toolbar class="flex justify-around">
-        <q-btn flat dense padding="sm lg" text-color="white" color="primary" label="條件設置">
+        <q-btn
+          flat
+          dense
+          padding="sm lg"
+          text-color="white"
+          color="primary"
+          label="條件設置"
+        >
         </q-btn>
-        <q-btn flat dense padding="sm lg" text-color="white" color="accent" label="取消">
+        <q-btn
+          flat
+          dense
+          padding="sm lg"
+          text-color="white"
+          color="accent"
+          label="取消"
+        >
         </q-btn>
       </q-toolbar>
     </q-footer>
     <!-- mobile -Search List -->
-
-
-
+    <div v-for="(item, index) in mobileLayout" :key="index" class="row q-pa-xs">
+      <div class="col-12 text-center q-pa-sm shadow-1 bg-lale-comple-orange">
+        {{ item.name }}
+      </div>
+      <div
+        v-for="(btn, bI) in item.btns"
+        :key="bI"
+        class="text-center q-pa-sm shadow-1"
+        :class="[`col-${btn.colVal}`, { 'bg-secondary': btn.ischeck }]"
+        @click="addCondition({ bkey: btn.bkey, index, bI, bname: btn.bname })"
+      >
+        {{ btn.bname }}
+      </div>
+    </div>
+    <!--
+      @之後每一個問題的樣貌綁model@
+    <div
+      v-if="dynamicQuestions.includes('basic1')"
+      v-model="mobileForm.basic1"
+      class="col-12"
+    >
+      會員姓名-綁定Mode的Key。bkey:
+    </div>
+    -->
 
     <!-- mobile -Search List -->
   </div>
