@@ -19,4 +19,28 @@ $negative  : #C10015;
 $info      : #31CCEC;
 $warning   : #F2C037;
 
+$laleComplementaryYallow: #F4EA77;
+$laleComplementaryOrange: #DF992D;
+
+.bg-secondary{
+    background-color: $secondary;
+}
+.bg-primary{
+    background-color: $primary;
+}
+.bg-accent{
+    background-color: $accent;
+}
+.bg-positive{
+    background-color: $positive;
+}
+
+
+
+.bg-lale-comple-yallow{
+    background-color: $laleComplementaryYallow;
+}
+.bg-lale-comple-orange{
+    background-color: $laleComplementaryOrange;
+}
 @import '~quasar-variables-styl'
