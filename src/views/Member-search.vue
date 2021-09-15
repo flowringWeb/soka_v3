@@ -1,10 +1,12 @@
 <script>
 import { getAllMember } from "@/api/member.js";
 import MemIndexTable from "@/components/Member/MemIndexTable";
+import MobileBtnsSearch from "@/components/Common/mobile/MobileBtnsSearch.vue";
 const stringOptions = ["Google", "Facebook", "Twitter", "Apple", "Oracle"];
 export default {
   components: {
     MemIndexTable,
+    MobileBtnsSearch,
   },
   name: "Member-search",
   data() {
@@ -146,6 +148,7 @@ export default {
       ],
       //日期起訖
       startDate: "2021/09/09~2021/09/10",
+      // ========== Member Table ================
       fullMemColumns: [
         {
           name: "memberCode",
@@ -238,6 +241,8 @@ export default {
         },
       ],
       fullMemData: [],
+      fullMemDataLoading: false,
+      // ========== End of Member Table =========
       // ========== Moblie Buttons Layout ================
       mobileLayout: [
         {
@@ -523,10 +528,28 @@ export default {
       console.log("submit");
     },
     //表格資料
-    fetchData() {
-      getAllMember().then((res) => {
-        this.fullMemData = res.data;
-      });
+    async fetchData() {
+      if (this.fullMemData.length > 0) return;
+      try {
+        // 尚未取得資料
+        this.fullMemDataLoading = true;
+        let res = await getAllMember();
+
+        return new Promise((resolve) => {
+          if (res.data.length > 0) {
+            this.fullMemData = res.data;
+            this.fullMemDataLoading = false;
+            resolve(res);
+          } else {
+            this.fullMemDataLoading = false;
+            resolve(res);
+          }
+        });
+      } catch (err) {
+        alert("服務器出错");
+        console.log(err);
+      }
+      
     },
     //select filtering
     filterFn(val, update, abort) {
@@ -583,7 +606,7 @@ export default {
     // ========== End of Moblie Buttons Layout =========
   },
   created() {
-    this.fetchData();
+    
   },
 };
 </script>
@@ -1635,6 +1658,7 @@ export default {
       :tableColumn="fullMemColumns"
       :tableData="fullMemData"
       :showMultiSelect="true"
+      :table-loading="fullMemDataLoading"
       rowKey="id"
       tabTitle="所有會員"
     ></mem-index-table>
@@ -1661,20 +1685,12 @@ export default {
       </q-toolbar>
     </q-footer>
     <!-- mobile -Search List -->
-    <div v-for="(item, index) in mobileLayout" :key="index" class="row q-pa-xs">
-      <div class="col-12 text-center q-pa-sm shadow-1 bg-lale-comple-orange">
-        {{ item.name }}
-      </div>
-      <div
-        v-for="(btn, bI) in item.btns"
-        :key="bI"
-        class="text-center q-pa-sm shadow-1"
-        :class="[`col-${btn.colVal}`, { 'bg-secondary': btn.ischeck }]"
-        @click="addCondition({ bkey: btn.bkey, index, bI, bname: btn.bname })"
-      >
-        {{ btn.bname }}
-      </div>
-    </div>
+    <mobile-btns-search
+      :mobile-layout="mobileLayout"
+      :choose-btns="chooseBtns"
+      @addCondition="addCondition"
+    ></mobile-btns-search>
+
     <!--
       @之後每一個問題的樣貌綁model@
     <div

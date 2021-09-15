@@ -122,98 +122,7 @@ export default {
         status: "",
         endDate: "",
       },
-      fullMemColumns: [
-        {
-          name: "memberCode",
-          align: "center",
-          label: "會員編號",
-          field: "memberCode",
-          sortable: true,
-        },
-        {
-          name: "memberName",
-          label: "姓名",
-          align: "center",
-          field: "memberName",
-          style: "width: 10px",
-        },
-        {
-          name: "area",
-          label: "所屬區域",
-          align: "center",
-          field: "area",
-          format: (val, row) =>
-            areaArr.filter((obj) => obj.areaId === val)[0].areaName,
-        },
-        { name: "mobile", label: "電話", field: "mobile", align: "center" },
-        { name: "address", label: "地址", field: "address", align: "center" },
-        {
-          name: "email",
-          label: "E-mail",
-          field: "email",
-          align: "center",
-        },
-        {
-          name: "birthday",
-          label: "生日",
-          field: "birthday",
-          align: "center",
-        },
-        {
-          name: "department",
-          label: "部別",
-          align: "center",
-          field: "department",
-          format: (val, row) =>
-            departmentArr.filter((obj) => obj.departmentId === val)[0]
-              .departmentName,
-        },
-        {
-          name: "orgJobTitle",
-          label: "組織職務",
-          align: "center",
-          field: "orgJobTitle",
-          format: (val, row) =>
-            jobTitleArr.filter((obj) => obj.jobId === val)[0].jobName,
-        },
-        {
-          name: "departmentStu",
-          label: "學生部別",
-          align: "center",
-          field: "departmentStu",
-        },
-        {
-          name: "grade",
-          label: "年級",
-          align: "center",
-          field: "grade",
-        },
-        {
-          name: "schoolNow",
-          label: "目前就讀學校",
-          align: "center",
-          field: "schoolNow",
-        },
-        {
-          name: "unitTitle",
-          label: "人才單位職務",
-          align: "center",
-          field: "unitTitle",
-        },
-        {
-          name: "status",
-          label: "狀態",
-          field: "status",
-          align: "center",
-        },
-        {
-          name: "endDate",
-          label: "結束日期",
-          align: "center",
-          field: "endDate",
-        },
-      ],
-      fullMemData: [],
+      
       // 會員家族
       familyColumns: [
         {
@@ -258,6 +167,7 @@ export default {
         },
       ],
       familyData: [],
+      familyDataLoading:false,
       // 會員學歷
       eduColumns: [
         {
@@ -316,6 +226,7 @@ export default {
         },
       ],
       eduData: [],
+      eduDataLoading:false,
       // 教學資格
       teachingColumns: [
         {
@@ -816,19 +727,70 @@ export default {
         position: "top-right",
       });
     },
-    fetchData() {
-      getMemberFamilyList().then((res) => {
-        // console.log(res);
-        this.familyData = res.data;
-      });
-      getMemberEduList().then((res) => {
-        this.eduData = res.data;
-      });
+    async fetchData(currentTab) {
+      switch (currentTab) {
+        case "m_family":
+          // 已有資料
+          if(this.familyData.length>0) return
+          try {// 尚未取得資料
+            // this.$q.loading.show();  //全局loading顯示
+            this.familyDataLoading=true
+            let res = await getMemberFamilyList();
+            
+            return new Promise((resolve) => {
+              // if (res.code === 0) {
+              //   resolve(res);
+              // } else {
+              //   resolve(res);
+              // }
+              if (res.data.length > 0) {
+                this.familyData = res.data;
+                this.familyDataLoading=false
+                resolve(res);
+              } else {
+                this.familyDataLoading=false
+                resolve(res);
+              }
+         
+            });
+          } catch (err) {
+            alert("服務器出错");
+            console.log(err);
+          }
+          breaks;
+        case "m_edu":
+          // 已有資料
+          if(this.eduData.length>0) return
+          try {
+            // 尚未取得資料
+            this.eduDataLoading=true
+            let res = await getMemberEduList();
+            
+            return new Promise((resolve) => { 
+              if (res.data.length > 0) {
+                this.eduData = res.data;
+                this.eduDataLoading=false
+                resolve(res);
+              } else {
+                this.eduDataLoading=false
+                resolve(res);
+              }
+              
+            });
+          } catch (err) {
+            alert("服務器出错");
+            console.log(err);
+          }
+          breaks;
+      }
 
-      //
-      getAllMember().then((res) => {
-        this.fullMemData = res.data;
-      });
+      // //
+      // await getAllMember().then((res) => {
+      //   this.fullMemData = res.data;
+      // });
+    },
+    changeTab(e) {
+      this.fetchData(e)
     },
     showLoading() {
       this.$q.loading.show();
@@ -843,13 +805,13 @@ export default {
     },
     changeStatus() {
       this.readStatus = true;
-      console.log('2', this.readStatus);
-    }
+      console.log("2", this.readStatus);
+    },
   },
   created() {
-    console.log('1',this.readStatus);
+    console.log("1", this.readStatus);
     bus.on("mitt", this.changeStatus());
-    this.fetchData();
+
     import("../json/member.json").then((res) => {
       // console.log("1", res);
       this.memberName = res.memberName;
@@ -930,6 +892,7 @@ export default {
         indicator-color="primary"
         align="justify"
         narrow-indicator
+        @input="changeTab"
       >
         <q-tab name="m_data" label="幹部(會員資料)"></q-tab>
         <q-tab name="m_family" label="會員家族"></q-tab>
@@ -1868,16 +1831,20 @@ export default {
               !$route.params.userName ? '王小明' : $route.params.userName
             "
             :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
+            style="margin-bottom:10px;"
           ></mem-name-phone-show>
 
+          
           <mem-table
             :tableColumn="familyColumns"
             :tableData="familyData"
             :showMultiSelect="false"
             :operaShow="$route.params.type === 'view' ? false : true"
+            :table-loading="familyDataLoading"
             rowKey="name"
             tabTitle="家族會員"
           ></mem-table>
+          
         </q-tab-panel>
 
         <!-- 會員學歷 -->
@@ -1887,12 +1854,14 @@ export default {
               !$route.params.userName ? '王小明' : $route.params.userName
             "
             :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
+            style="margin-bottom:10px;"
           ></mem-name-phone-show>
           <mem-table
             :tableColumn="eduColumns"
             :tableData="eduData"
             :showMultiSelect="false"
             :operaShow="$route.params.type === 'view' ? false : true"
+            :table-loading="eduDataLoading"
             rowKey="name"
             tabTitle="會員學歷"
           ></mem-table>
@@ -1904,6 +1873,7 @@ export default {
               !$route.params.userName ? '王小明' : $route.params.userName
             "
             :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
+            style="margin-bottom:10px;"
           ></mem-name-phone-show>
           <mem-table
             :tableColumn="teachingColumns"
@@ -1921,6 +1891,7 @@ export default {
               !$route.params.userName ? '王小明' : $route.params.userName
             "
             :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
+            style="margin-bottom:10px;"
           ></mem-name-phone-show>
           <mem-table
             :tableColumn="certiRecordColumns"
@@ -1938,6 +1909,7 @@ export default {
               !$route.params.userName ? '王小明' : $route.params.userName
             "
             :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
+            style="margin-bottom:10px;"
           ></mem-name-phone-show>
           <mem-table
             :tableColumn="trainingColumns"
@@ -1955,6 +1927,7 @@ export default {
               !$route.params.userName ? '王小明' : $route.params.userName
             "
             :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
+            style="margin-bottom:10px;"
           ></mem-name-phone-show>
           <mem-table
             :tableColumn="awardColumns"
@@ -1972,6 +1945,7 @@ export default {
               !$route.params.userName ? '王小明' : $route.params.userName
             "
             :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
+            style="margin-bottom:10px;"
           ></mem-name-phone-show>
           <mem-table
             :tableColumn="idolColumns"
@@ -1990,6 +1964,7 @@ export default {
               !$route.params.userName ? '王小明' : $route.params.userName
             "
             :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
+            style="margin-bottom:10px;"
           ></mem-name-phone-show>
           <mem-table
             :tableColumn="memOrgColumns"
@@ -2015,6 +1990,7 @@ export default {
               !$route.params.userName ? '王小明' : $route.params.userName
             "
             :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
+            style="margin-bottom:10px;"
           ></mem-name-phone-show>
           <mem-table
             :tableColumn="journalColumns"
