@@ -1810,14 +1810,23 @@ export default {
               </div>
             </div>
             <q-footer elevated v-if="$q.screen.lt.sm">
-              <q-toolbar class="flex justify-center">
+              <q-toolbar class="flex justify-around">
                 <q-btn
                   flat
                   dense
                   padding="sm lg"
                   text-color="white"
                   color="primary"
-                  label="開啟查詢"
+                  label="返回會員管理"
+                >
+                </q-btn>
+                <q-btn
+                  flat
+                  dense
+                  padding="sm lg"
+                  text-color="white"
+                  color="accent"
+                  label="儲存"
                 >
                 </q-btn>
               </q-toolbar>
