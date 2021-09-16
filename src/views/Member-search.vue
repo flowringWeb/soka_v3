@@ -26,6 +26,8 @@ export default {
       teachQual: "",
       options: stringOptions,
       isClickSearchBtn: false,
+      isSearchListPage: false,
+      isSearchPage: true,
 
       //最高學歷
       ele: true,
@@ -559,20 +561,25 @@ export default {
       if (!this.mobileLayout[obj.index].btns[obj.bI].ischeck) {
         this.chooseBtns.push(obj);
 
-        this.mobileLayout[obj.index].btns[obj.bI].ischeck = !this.mobileLayout[
-          obj.index
-        ].btns[obj.bI].ischeck;
+        this.mobileLayout[obj.index].btns[obj.bI].ischeck =
+          !this.mobileLayout[obj.index].btns[obj.bI].ischeck;
       } else {
         let chooseIndex = this.chooseBtns.findIndex(
           (item) => item.bname === obj.bname
         );
-        this.mobileLayout[obj.index].btns[obj.bI].ischeck = !this.mobileLayout[
-          obj.index
-        ].btns[obj.bI].ischeck;
+        this.mobileLayout[obj.index].btns[obj.bI].ischeck =
+          !this.mobileLayout[obj.index].btns[obj.bI].ischeck;
         this.chooseBtns.splice(chooseIndex, 1);
       }
     },
-
+    openSearchListPage() {
+      this.isSearchListPage = true;
+      this.isSearchPage = false;
+    },
+    backSearchPage() {
+      this.isSearchPage = true;
+      this.isSearchListPage = false;
+    }
     // ========== End of Moblie Buttons Layout =========
   },
   computed: {
@@ -589,1092 +596,1128 @@ export default {
 </script>
 <template>
   <div class="q-pa-md">
-    <div>查詢</div>
-    <q-form @submit="onSubmit">
-      <div class="row justify-start items-center q-col-gutter-md q-py-md">
-        <div class="col-6 col-md-4">
-          <q-select
-            id="cboConfidenceBg"
-            outlined
-            dense
-            emit-value
-            :label="$q.screen.lt.sm ? '會員姓名' : void 0"
-          >
-            <template v-slot:before v-if="$q.screen.gt.xs">
-              <label for="cboConfidenceBg" class=""> 會員姓名: </label>
-            </template>
-          </q-select>
-        </div>
-        <div class="col-6 col-md-4">
-          <q-input
-            id=""
-            type=""
-            outlined
-            dense
-            :label="$q.screen.lt.sm ? '會員編號' : void 0"
-          >
-            <template v-slot:before v-if="$q.screen.gt.xs">
-              <label for=""> 會員編號: </label>
-            </template>
-          </q-input>
-        </div>
-        <div class="col-6 col-md-4">
-          <q-select
-            id="cboConfidenceBg"
-            outlined
-            dense
-            :label="$q.screen.lt.sm ? '所屬區域' : void 0"
-          >
-            <template v-slot:before v-if="$q.screen.gt.xs">
-              <label for="cboConfidenceBg" class=""> 所屬區域: </label>
-            </template>
-          </q-select>
-        </div>
-        <div class="col-6 col-md-4">
-          <q-select
-            id="cboConfidenceBg"
-            outlined
-            dense
-            :label="$q.screen.lt.sm ? '組織職務' : void 0"
-          >
-            <template v-slot:before v-if="$q.screen.gt.xs">
-              <label for="cboConfidenceBg" class=""> 組織職務: </label>
-            </template>
-          </q-select>
-        </div>
-        <div class="col-6 col-md-4">
-          <q-select
-            id="cboConfidenceBg"
-            outlined
-            dense
-            emit-value
-            :label="$q.screen.lt.sm ? '人才單位' : void 0"
-          >
-            <template v-slot:before v-if="$q.screen.gt.xs">
-              <label for="cboConfidenceBg" class=""> 人才單位: </label>
-            </template>
-          </q-select>
-        </div>
-        <div class="col-6 col-md-4">
-          <q-select
-            id="cboConfidenceBg"
-            outlined
-            dense
-            :label="$q.screen.lt.sm ? '人才單位職務' : void 0"
-          >
-            <template v-slot:before v-if="$q.screen.gt.xs">
-              <label for="cboConfidenceBg" class=""> 人才單位職務: </label>
-            </template>
-          </q-select>
-        </div>
-        <div class="col-12 col-md-4">
-          <div class="flex items-center">
+    <template v-if="isSearchPage">
+      <div>查詢</div>
+      <q-form @submit="onSubmit">
+        <div class="row justify-start items-center q-col-gutter-md q-py-md">
+          <div class="col-6 col-md-4">
             <q-select
-              id="level"
-              class="flex-1 q-mr-sm q-mr-md-md"
+              id="cboConfidenceBg"
               outlined
               dense
               emit-value
-              v-model="level"
-              :label="$q.screen.lt.sm ? '層級' : void 0"
-              :options="options"
-              use-input
-              input-debounce="0"
-              @filter="filterFn"
+              :label="$q.screen.lt.sm ? '會員姓名' : void 0"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="level"> 層級: </label>
+                <label for="cboConfidenceBg" class=""> 會員姓名: </label>
               </template>
             </q-select>
-            <q-select
-              id="levelWay"
-              class="flex-1 q-ml-sm q-ml-md-none"
-              outlined
-              dense
-              emit-value
-              v-model="levelWay"
-              :label="$q.screen.lt.sm ? '層級方式' : void 0"
-            >
-            </q-select>
           </div>
-        </div>
-        <div class="col-12 col-md-4">
-          <div class="flex items-center">
-            <q-select
-              id="level"
-              class="flex-1 q-mr-sm q-mr-md-md"
+          <div class="col-6 col-md-4">
+            <q-input
+              id=""
+              type=""
               outlined
               dense
-              emit-value
-              v-model="level"
-              :label="$q.screen.lt.sm ? '教學資格' : void 0"
-              :options="options"
-              use-input
-              input-debounce="0"
-              @filter="filterFn"
+              :label="$q.screen.lt.sm ? '會員編號' : void 0"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="level"> 教學資格: </label>
+                <label for=""> 會員編號: </label>
+              </template>
+            </q-input>
+          </div>
+          <div class="col-6 col-md-4">
+            <q-select
+              id="cboConfidenceBg"
+              outlined
+              dense
+              :label="$q.screen.lt.sm ? '所屬區域' : void 0"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="cboConfidenceBg" class=""> 所屬區域: </label>
               </template>
             </q-select>
+          </div>
+          <div class="col-6 col-md-4">
             <q-select
-              id="levelWay"
-              class="flex-1 q-ml-sm q-ml-md-none"
+              id="cboConfidenceBg"
+              outlined
+              dense
+              :label="$q.screen.lt.sm ? '組織職務' : void 0"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="cboConfidenceBg" class=""> 組織職務: </label>
+              </template>
+            </q-select>
+          </div>
+          <div class="col-6 col-md-4">
+            <q-select
+              id="cboConfidenceBg"
               outlined
               dense
               emit-value
-              v-model="levelWay"
-              :label="$q.screen.lt.sm ? '教學資格方式' : void 0"
+              :label="$q.screen.lt.sm ? '人才單位' : void 0"
             >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="cboConfidenceBg" class=""> 人才單位: </label>
+              </template>
             </q-select>
           </div>
-        </div>
-        <div class="col-6 col-md-4">
-          <q-select
-            id="cboConfidenceBg"
-            outlined
-            dense
-            emit-value
-            :label="$q.screen.lt.sm ? '御本尊' : void 0"
-          >
-            <template v-slot:before v-if="$q.screen.gt.xs">
-              <label for="cboConfidenceBg" class=""> 御本尊: </label>
-            </template>
-          </q-select>
-        </div>
-        <div class="col-6 col-md-4">
-          <q-select
-            id="cboConfidenceBg"
-            outlined
-            dense
-            emit-value
-            :label="$q.screen.lt.sm ? '認證資格' : void 0"
-          >
-            <template v-slot:before v-if="$q.screen.gt.xs">
-              <label for="cboConfidenceBg" class=""> 認證資格: </label>
-            </template>
-          </q-select>
-        </div>
-        <div class="col-6 col-md-4">
-          <q-select
-            id="cboConfidenceBg"
-            outlined
-            dense
-            emit-value
-            :label="$q.screen.lt.sm ? '研修紀錄' : void 0"
-          >
-            <template v-slot:before v-if="$q.screen.gt.xs">
-              <label for="cboConfidenceBg" class=""> 研修紀錄: </label>
-            </template>
-          </q-select>
-        </div>
-        <div class="col-6 col-md-4">
-          <q-select
-            id="cboConfidenceBg"
-            outlined
-            dense
-            emit-value
-            :label="$q.screen.lt.sm ? '授獎記錄' : void 0"
-          >
-            <template v-slot:before v-if="$q.screen.gt.xs">
-              <label for="cboConfidenceBg" class=""> 授獎記錄: </label>
-            </template>
-          </q-select>
-        </div>
-        <div class="col-6 col-md-4">
-          <q-input
-            id="introducerTel"
-            type="tel"
-            outlined
-            dense
-            :label="$q.screen.lt.sm ? '電話' : void 0"
-          >
-            <template v-slot:before v-if="$q.screen.gt.xs">
-              <label for="introducerTel" class=""> 電話: </label>
-            </template>
-          </q-input>
-        </div>
-        <div class="col-12 col-md-4">
-          <div class="flex items-center">
-            <q-input
-              style="flex: 1 0 auto"
-              id="email"
-              type="email"
-              outlined
-              dense
-              v-model="email"
-              :label="$q.screen.lt.sm ? 'Email' : void 0"
-            >
-              <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="email"> Email: </label>
-              </template>
-            </q-input>
-            <q-checkbox v-model="TwsgiMail" label="TWSGI 信箱" size="xs" />
-          </div>
-        </div>
-        <div class="col-6 col-md-4">
-          <q-select
-            id="cboConfidenceBg"
-            outlined
-            dense
-            :label="$q.screen.lt.sm ? '專長' : void 0"
-          >
-            <template v-slot:before v-if="$q.screen.gt.xs">
-              <label for="cboConfidenceBg" class=""> 專長: </label>
-            </template>
-          </q-select>
-        </div>
-        <div class="col-6 col-md-4">
-          <q-select
-            id="cboConfidenceBg"
-            outlined
-            dense
-            emit-value
-            :label="$q.screen.lt.sm ? '部別' : void 0"
-          >
-            <template v-slot:before v-if="$q.screen.gt.xs">
-              <label for="cboConfidenceBg" class=""> 部別: </label>
-            </template>
-          </q-select>
-        </div>
-        <div class="col-6 col-md-4">
-          <q-select
-            id="cboConfidenceBg"
-            outlined
-            dense
-            emit-value
-            :label="$q.screen.lt.sm ? '會員類型' : void 0"
-          >
-            <template v-slot:before v-if="$q.screen.gt.xs">
-              <label for="cboConfidenceBg" class=""> 會員類型: </label>
-            </template>
-          </q-select>
-        </div>
-        <div class="col-12 q-gutter-y-md">
-          <div class="flex items-center q-gutter-x-md">
-            <span
-              v-if="$q.screen.lt.sm"
-              :class="$q.screen.lt.sm ? 'q-mb-md' : ''"
-              >(</span
-            >
-            <q-input
-              id=""
-              :class="$q.screen.lt.sm ? 'q-mb-md' : ''"
-              type="text"
-              outlined
-              dense
-              :label="$q.screen.lt.sm ? '地址' : void 0"
-            >
-              <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for=""> 地址: ( </label>
-              </template>
-            </q-input>
+          <div class="col-6 col-md-4">
             <q-select
-              id=""
-              class=""
-              :class="$q.screen.lt.sm ? 'q-mb-md' : ''"
+              id="cboConfidenceBg"
               outlined
               dense
-              emit-value
-              v-model="levelWay"
-            >
-            </q-select>
-            <q-input
-              id=""
-              type="text"
-              outlined
-              dense
-              :label="$q.screen.lt.sm ? '地址' : void 0"
-            >
-            </q-input>
-            <span>)</span>
-            <q-select id="" outlined dense emit-value v-model="levelWay">
-            </q-select>
-          </div>
-          <div class="flex items-center q-gutter-x-md">
-            <span
-              v-if="$q.screen.lt.sm"
-              :class="$q.screen.lt.sm ? 'q-mb-md' : ''"
-              >(</span
-            >
-            <q-input
-              id=""
-              :class="$q.screen.lt.sm ? 'q-mb-md' : ''"
-              type="text"
-              outlined
-              dense
-              :label="$q.screen.lt.sm ? '地址' : void 0"
+              :label="$q.screen.lt.sm ? '人才單位職務' : void 0"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for=""> <span class="invisible">地址:</span> ( </label>
+                <label for="cboConfidenceBg" class=""> 人才單位職務: </label>
               </template>
-            </q-input>
-            <q-select
-              id=""
-              :class="$q.screen.lt.sm ? 'q-mb-md' : ''"
-              outlined
-              dense
-              emit-value
-              v-model="levelWay"
-            >
             </q-select>
-            <q-input
-              id=""
-              type="text"
-              outlined
-              dense
-              :label="$q.screen.lt.sm ? '地址' : void 0"
-            >
-            </q-input>
-            <span>)</span>
           </div>
-        </div>
-      </div>
-      <div class="row justify-start items-center q-col-gutter-md q-py-md">
-        <div class="col-12 col-md-6">
-          <div class="row items-center q-col-gutter-md">
-            <div class="col-6 col-md-4">
-              <q-input
-                v-model.number="ageNum"
-                type="number"
-                outlined
-                dense
-                :label="$q.screen.lt.sm ? '年紀' : void 0"
-              >
-                <template v-slot:before v-if="$q.screen.gt.xs">
-                  <label for=""> 年紀: </label>
-                </template>
-              </q-input>
-            </div>
-            <span class="q-mx-xs" v-if="$q.screen.gt.xs">~</span>
-            <div class="col-6 col-md-4">
-              <q-input
-                v-model.number="ageNum2"
-                type="number"
-                outlined
-                dense
-                :label="$q.screen.lt.sm ? '年紀' : void 0"
-              >
-              </q-input>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="row justify-start items-center q-col-gutter-md q-py-md q-mb-md"
-      >
-        <div class="col-12 col-md-6">
-          <div class="row items-center q-col-gutter-md">
-            <div class="col-6 col-md-4">
-              <q-input
-                id=""
-                class=""
-                outlined
-                dense
-                :label="$q.screen.lt.sm ? '生日' : void 0"
-                v-model="testDate"
-                mask="date"
-              >
-                <template v-slot:before v-if="$q.screen.gt.xs">
-                  <label for="testDate" class=""> 生日: </label>
-                </template>
-                <template v-slot:append>
-                  <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy
-                      ref="qDateProxy"
-                      transition-show="scale"
-                      transition-hide="scale"
-                    >
-                      <q-date v-model="testDate">
-                        <div class="row items-center justify-end">
-                          <q-btn v-close-popup label="確認" color="primary" />
-                        </div>
-                      </q-date>
-                    </q-popup-proxy>
-                  </q-icon>
-                </template>
-              </q-input>
-            </div>
-            <span class="q-mx-xs" v-if="$q.screen.gt.xs">~</span>
-            <div class="col-6 col-md-4">
-              <q-input
-                id=""
-                class=""
-                outlined
-                dense
-                :label="$q.screen.lt.sm ? '生日' : void 0"
-                v-model="endDate"
-                mask="date"
-              >
-                <template v-slot:append>
-                  <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy
-                      ref="qDateProxy"
-                      transition-show="scale"
-                      transition-hide="scale"
-                    >
-                      <q-date v-model="endDate">
-                        <div class="row items-center justify-end">
-                          <q-btn v-close-popup label="確認" color="primary" />
-                        </div>
-                      </q-date>
-                    </q-popup-proxy>
-                  </q-icon>
-                </template>
-              </q-input>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="flex justify-end q-my-md">
-        <q-btn label="查詢" color="primary" @click="scrollToBottom" />
-      </div>
-      <q-list class="q-mb-md">
-        <q-expansion-item
-          dense-toggle
-          expand-icon-class="text-white"
-          expand-separator
-          label="學校類型 & 年級"
-          header-class="text-white"
-          :header-style="{ backgroundColor: '#418163' }"
-        >
-          <div class="row justify-start items-center q-col-gutter-md q-py-md">
-            <div class="col-6 col-md-4">
+          <div class="col-12 col-md-4">
+            <div class="flex items-center">
               <q-select
-                id="cboConfidenceBg"
+                id="level"
+                class="flex-1 q-mr-sm q-mr-md-md"
                 outlined
                 dense
                 emit-value
-                :label="$q.screen.lt.sm ? '學生部別' : void 0"
+                v-model="level"
+                :label="$q.screen.lt.sm ? '層級' : void 0"
+                :options="options"
+                use-input
+                input-debounce="0"
+                @filter="filterFn"
               >
                 <template v-slot:before v-if="$q.screen.gt.xs">
-                  <label for="cboConfidenceBg" class=""> 學生部別: </label>
+                  <label for="level"> 層級: </label>
                 </template>
               </q-select>
-            </div>
-            <div class="col-6 col-md-4">
               <q-select
-                id="cboConfidenceBg"
+                id="levelWay"
+                class="flex-1 q-ml-sm q-ml-md-none"
                 outlined
                 dense
-                :label="$q.screen.lt.sm ? '目前就讀學校' : void 0"
+                emit-value
+                v-model="levelWay"
+                :label="$q.screen.lt.sm ? '層級方式' : void 0"
               >
-                <template v-slot:before v-if="$q.screen.gt.xs">
-                  <label for="cboConfidenceBg" class=""> 目前就讀學校: </label>
-                </template>
               </q-select>
-            </div>
-            <div class="col-6 col-md-4">
-              <q-select
-                id="cboConfidenceBg"
-                outlined
-                dense
-                :label="$q.screen.lt.sm ? '最高學歷' : void 0"
-              >
-                <template v-slot:before v-if="$q.screen.gt.xs">
-                  <label for="cboConfidenceBg" class=""> 最高學歷: </label>
-                </template>
-              </q-select>
-            </div>
-            <div class="col-6 col-md-4">
-              <q-select
-                id="cboConfidenceBg"
-                outlined
-                dense
-                :label="$q.screen.lt.sm ? '年級' : void 0"
-              >
-                <template v-slot:before v-if="$q.screen.gt.xs">
-                  <label for="cboConfidenceBg" class=""> 年級: </label>
-                </template>
-              </q-select>
-            </div>
-            <div class="col-12 col-md-8">
-              <label for="">在學狀態(附帶條件):</label>
-              <div class="flex">
-                <div class="q-mr-md">
-                  <q-checkbox
-                    v-for="item in studyStatus_options"
-                    :key="item.value"
-                    :val="item.value"
-                    :label="item.label"
-                    v-model="studyStatus_select"
-                  />
-                </div>
-                <q-btn label="名單查詢" color="primary" />
-              </div>
-            </div>
-            <div class="col-12 col-md-12">
-              <label for="">學校類型(最高學歷):</label>
-              <div class="flex">
-                <q-checkbox v-model="ele" label="國小" />
-                <div>
-                  <q-checkbox
-                    v-for="item in ele_options"
-                    :key="item.value"
-                    :val="item.value"
-                    :label="item.label"
-                    v-model="ele_select"
-                  />
-                </div>
-              </div>
-              <div class="flex">
-                <q-checkbox v-model="junior" label="國中" />
-                <div>
-                  <q-checkbox
-                    v-for="item in junior_options"
-                    :key="item.value"
-                    :val="item.value"
-                    :label="item.label"
-                    v-model="junior_select"
-                  />
-                </div>
-              </div>
-              <div class="flex">
-                <q-checkbox v-model="senior" label="高中" />
-                <div>
-                  <q-checkbox
-                    v-for="item in senior_options"
-                    :key="item.value"
-                    :val="item.value"
-                    :label="item.label"
-                    v-model="senior_select"
-                  />
-                </div>
-              </div>
-              <div class="flex">
-                <q-checkbox v-model="college" label="大學" />
-                <div>
-                  <q-checkbox
-                    v-for="item in college_options"
-                    :key="item.value"
-                    :val="item.value"
-                    :label="item.label"
-                    v-model="college_select"
-                  />
-                </div>
-              </div>
-              <div class="flex">
-                <q-checkbox v-model="master" label="碩士" />
-                <div>
-                  <q-checkbox
-                    v-for="item in master_options"
-                    :key="item.value"
-                    :val="item.value"
-                    :label="item.label"
-                    v-model="master_select"
-                  />
-                </div>
-              </div>
-              <div class="flex">
-                <q-checkbox v-model="dr" label="博士" />
-                <div>
-                  <q-checkbox
-                    v-for="item in dr_options"
-                    :key="item.value"
-                    :val="item.value"
-                    :label="item.label"
-                    v-model="dr_select"
-                  />
-                </div>
-              </div>
             </div>
           </div>
-          <div class="flex justify-end q-my-md">
-            <q-btn label="查詢" color="primary" />
+          <div class="col-12 col-md-4">
+            <div class="flex items-center">
+              <q-select
+                id="level"
+                class="flex-1 q-mr-sm q-mr-md-md"
+                outlined
+                dense
+                emit-value
+                v-model="level"
+                :label="$q.screen.lt.sm ? '教學資格' : void 0"
+                :options="options"
+                use-input
+                input-debounce="0"
+                @filter="filterFn"
+              >
+                <template v-slot:before v-if="$q.screen.gt.xs">
+                  <label for="level"> 教學資格: </label>
+                </template>
+              </q-select>
+              <q-select
+                id="levelWay"
+                class="flex-1 q-ml-sm q-ml-md-none"
+                outlined
+                dense
+                emit-value
+                v-model="levelWay"
+                :label="$q.screen.lt.sm ? '教學資格方式' : void 0"
+              >
+              </q-select>
+            </div>
           </div>
-        </q-expansion-item>
-      </q-list>
-      <q-list>
-        <q-expansion-item
-          dense-toggle
-          expand-icon-class="text-white"
-          expand-separator
-          label="進階搜尋"
-          header-class="text-white"
-          :header-style="{ backgroundColor: '#418163' }"
-        >
-          <div class="row justify-start items-center q-col-gutter-md q-py-md">
-            <div class="col-6 col-md-4">
-              <q-select
-                id="cboConfidenceBg"
+          <div class="col-6 col-md-4">
+            <q-select
+              id="cboConfidenceBg"
+              outlined
+              dense
+              emit-value
+              :label="$q.screen.lt.sm ? '御本尊' : void 0"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="cboConfidenceBg" class=""> 御本尊: </label>
+              </template>
+            </q-select>
+          </div>
+          <div class="col-6 col-md-4">
+            <q-select
+              id="cboConfidenceBg"
+              outlined
+              dense
+              emit-value
+              :label="$q.screen.lt.sm ? '認證資格' : void 0"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="cboConfidenceBg" class=""> 認證資格: </label>
+              </template>
+            </q-select>
+          </div>
+          <div class="col-6 col-md-4">
+            <q-select
+              id="cboConfidenceBg"
+              outlined
+              dense
+              emit-value
+              :label="$q.screen.lt.sm ? '研修紀錄' : void 0"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="cboConfidenceBg" class=""> 研修紀錄: </label>
+              </template>
+            </q-select>
+          </div>
+          <div class="col-6 col-md-4">
+            <q-select
+              id="cboConfidenceBg"
+              outlined
+              dense
+              emit-value
+              :label="$q.screen.lt.sm ? '授獎記錄' : void 0"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="cboConfidenceBg" class=""> 授獎記錄: </label>
+              </template>
+            </q-select>
+          </div>
+          <div class="col-6 col-md-4">
+            <q-input
+              id="introducerTel"
+              type="tel"
+              outlined
+              dense
+              :label="$q.screen.lt.sm ? '電話' : void 0"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="introducerTel" class=""> 電話: </label>
+              </template>
+            </q-input>
+          </div>
+          <div class="col-12 col-md-4">
+            <div class="flex items-center">
+              <q-input
+                style="flex: 1 0 auto"
+                id="email"
+                type="email"
                 outlined
                 dense
-                :label="$q.screen.lt.sm ? '信心背景' : void 0"
+                v-model="email"
+                :label="$q.screen.lt.sm ? 'Email' : void 0"
               >
                 <template v-slot:before v-if="$q.screen.gt.xs">
-                  <label for="cboConfidenceBg" class=""> 信心背景: </label>
+                  <label for="email"> Email: </label>
                 </template>
-              </q-select>
+              </q-input>
+              <q-checkbox v-model="TwsgiMail" label="TWSGI 信箱" size="xs" />
             </div>
-            <div class="col-6 col-md-4">
-              <q-select
-                id="cboConfidenceBg"
+          </div>
+          <div class="col-6 col-md-4">
+            <q-select
+              id="cboConfidenceBg"
+              outlined
+              dense
+              :label="$q.screen.lt.sm ? '專長' : void 0"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="cboConfidenceBg" class=""> 專長: </label>
+              </template>
+            </q-select>
+          </div>
+          <div class="col-6 col-md-4">
+            <q-select
+              id="cboConfidenceBg"
+              outlined
+              dense
+              emit-value
+              :label="$q.screen.lt.sm ? '部別' : void 0"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="cboConfidenceBg" class=""> 部別: </label>
+              </template>
+            </q-select>
+          </div>
+          <div class="col-6 col-md-4">
+            <q-select
+              id="cboConfidenceBg"
+              outlined
+              dense
+              emit-value
+              :label="$q.screen.lt.sm ? '會員類型' : void 0"
+            >
+              <template v-slot:before v-if="$q.screen.gt.xs">
+                <label for="cboConfidenceBg" class=""> 會員類型: </label>
+              </template>
+            </q-select>
+          </div>
+          <div class="col-12 q-gutter-y-md">
+            <div class="flex items-center q-gutter-x-md">
+              <span
+                v-if="$q.screen.lt.sm"
+                :class="$q.screen.lt.sm ? 'q-mb-md' : ''"
+                >(</span
+              >
+              <q-input
+                id=""
+                :class="$q.screen.lt.sm ? 'q-mb-md' : ''"
+                type="text"
                 outlined
                 dense
-                :label="$q.screen.lt.sm ? '活動程度' : void 0"
+                :label="$q.screen.lt.sm ? '地址' : void 0"
               >
                 <template v-slot:before v-if="$q.screen.gt.xs">
-                  <label for="cboConfidenceBg" class=""> 活動程度: </label>
+                  <label for=""> 地址: ( </label>
                 </template>
-              </q-select>
-            </div>
-            <div class="col-6 col-md-4">
+              </q-input>
               <q-select
-                id="cboConfidenceBg"
+                id=""
+                class=""
+                :class="$q.screen.lt.sm ? 'q-mb-md' : ''"
                 outlined
                 dense
-                :label="$q.screen.lt.sm ? '遷移狀況' : void 0"
+                emit-value
+                v-model="levelWay"
               >
-                <template v-slot:before v-if="$q.screen.gt.xs">
-                  <label for="cboConfidenceBg" class=""> 遷移狀況: </label>
-                </template>
               </q-select>
-            </div>
-            <div class="col-6 col-md-4">
-              <q-select
-                id="cboConfidenceBg"
-                outlined
-                dense
-                :label="$q.screen.lt.sm ? '不列入活動原因' : void 0"
-              >
-                <template v-slot:before v-if="$q.screen.gt.xs">
-                  <label for="cboConfidenceBg" class="">
-                    不列入活動原因:
-                  </label>
-                </template>
-              </q-select>
-            </div>
-            <div class="col-6 col-md-4">
-              <q-select
-                id="cboConfidenceBg"
-                outlined
-                dense
-                :label="$q.screen.lt.sm ? '不列入會員原因' : void 0"
-              >
-                <template v-slot:before v-if="$q.screen.gt.xs">
-                  <label for="cboConfidenceBg" class="">
-                    不列入會員原因:
-                  </label>
-                </template>
-              </q-select>
-            </div>
-            <div class="col-6 col-md-4">
-              <q-select
-                id="cboConfidenceBg"
-                outlined
-                dense
-                :label="$q.screen.lt.sm ? '區域代碼' : void 0"
-              >
-                <template v-slot:before v-if="$q.screen.gt.xs">
-                  <label for="cboConfidenceBg" class=""> 區域代碼: </label>
-                </template>
-              </q-select>
-            </div>
-            <div class="col-6 col-md-4">
               <q-input
                 id=""
                 type="text"
                 outlined
                 dense
-                :label="$q.screen.lt.sm ? '建立人員' : void 0"
+                :label="$q.screen.lt.sm ? '地址' : void 0"
+              >
+              </q-input>
+              <span>)</span>
+              <q-select id="" outlined dense emit-value v-model="levelWay">
+              </q-select>
+            </div>
+            <div class="flex items-center q-gutter-x-md">
+              <span
+                v-if="$q.screen.lt.sm"
+                :class="$q.screen.lt.sm ? 'q-mb-md' : ''"
+                >(</span
+              >
+              <q-input
+                id=""
+                :class="$q.screen.lt.sm ? 'q-mb-md' : ''"
+                type="text"
+                outlined
+                dense
+                :label="$q.screen.lt.sm ? '地址' : void 0"
               >
                 <template v-slot:before v-if="$q.screen.gt.xs">
-                  <label for=""> 建立人員: </label>
+                  <label for=""> <span class="invisible">地址:</span> ( </label>
                 </template>
               </q-input>
+              <q-select
+                id=""
+                :class="$q.screen.lt.sm ? 'q-mb-md' : ''"
+                outlined
+                dense
+                emit-value
+                v-model="levelWay"
+              >
+              </q-select>
+              <q-input
+                id=""
+                type="text"
+                outlined
+                dense
+                :label="$q.screen.lt.sm ? '地址' : void 0"
+              >
+              </q-input>
+              <span>)</span>
             </div>
-            <div class="col-12 col-md-4">
-              <div class="flex">
+          </div>
+        </div>
+        <div class="row justify-start items-center q-col-gutter-md q-py-md">
+          <div class="col-12 col-md-6">
+            <div class="row items-center q-col-gutter-md">
+              <div class="col-6 col-md-4">
+                <q-input
+                  v-model.number="ageNum"
+                  type="number"
+                  outlined
+                  dense
+                  :label="$q.screen.lt.sm ? '年紀' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for=""> 年紀: </label>
+                  </template>
+                </q-input>
+              </div>
+              <span class="q-mx-xs" v-if="$q.screen.gt.xs">~</span>
+              <div class="col-6 col-md-4">
+                <q-input
+                  v-model.number="ageNum2"
+                  type="number"
+                  outlined
+                  dense
+                  :label="$q.screen.lt.sm ? '年紀' : void 0"
+                >
+                </q-input>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="row justify-start items-center q-col-gutter-md q-py-md q-mb-md"
+        >
+          <div class="col-12 col-md-6">
+            <div class="row items-center q-col-gutter-md">
+              <div class="col-6 col-md-4">
+                <q-input
+                  id=""
+                  class=""
+                  outlined
+                  dense
+                  :label="$q.screen.lt.sm ? '生日' : void 0"
+                  v-model="testDate"
+                  mask="date"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="testDate" class=""> 生日: </label>
+                  </template>
+                  <template v-slot:append>
+                    <q-icon name="event" class="cursor-pointer">
+                      <q-popup-proxy
+                        ref="qDateProxy"
+                        transition-show="scale"
+                        transition-hide="scale"
+                      >
+                        <q-date v-model="testDate">
+                          <div class="row items-center justify-end">
+                            <q-btn v-close-popup label="確認" color="primary" />
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+              </div>
+              <span class="q-mx-xs" v-if="$q.screen.gt.xs">~</span>
+              <div class="col-6 col-md-4">
+                <q-input
+                  id=""
+                  class=""
+                  outlined
+                  dense
+                  :label="$q.screen.lt.sm ? '生日' : void 0"
+                  v-model="endDate"
+                  mask="date"
+                >
+                  <template v-slot:append>
+                    <q-icon name="event" class="cursor-pointer">
+                      <q-popup-proxy
+                        ref="qDateProxy"
+                        transition-show="scale"
+                        transition-hide="scale"
+                      >
+                        <q-date v-model="endDate">
+                          <div class="row items-center justify-end">
+                            <q-btn v-close-popup label="確認" color="primary" />
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-end q-my-md">
+          <q-btn label="查詢" color="primary" @click="scrollToBottom" />
+        </div>
+        <q-list class="q-mb-md">
+          <q-expansion-item
+            dense-toggle
+            expand-icon-class="text-white"
+            expand-separator
+            label="學校類型 & 年級"
+            header-class="text-white"
+            :header-style="{ backgroundColor: '#418163' }"
+          >
+            <div class="row justify-start items-center q-col-gutter-md q-py-md">
+              <div class="col-6 col-md-4">
+                <q-select
+                  id="cboConfidenceBg"
+                  outlined
+                  dense
+                  emit-value
+                  :label="$q.screen.lt.sm ? '學生部別' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="cboConfidenceBg" class=""> 學生部別: </label>
+                  </template>
+                </q-select>
+              </div>
+              <div class="col-6 col-md-4">
+                <q-select
+                  id="cboConfidenceBg"
+                  outlined
+                  dense
+                  :label="$q.screen.lt.sm ? '目前就讀學校' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="cboConfidenceBg" class="">
+                      目前就讀學校:
+                    </label>
+                  </template>
+                </q-select>
+              </div>
+              <div class="col-6 col-md-4">
+                <q-select
+                  id="cboConfidenceBg"
+                  outlined
+                  dense
+                  :label="$q.screen.lt.sm ? '最高學歷' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="cboConfidenceBg" class=""> 最高學歷: </label>
+                  </template>
+                </q-select>
+              </div>
+              <div class="col-6 col-md-4">
+                <q-select
+                  id="cboConfidenceBg"
+                  outlined
+                  dense
+                  :label="$q.screen.lt.sm ? '年級' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="cboConfidenceBg" class=""> 年級: </label>
+                  </template>
+                </q-select>
+              </div>
+              <div class="col-12 col-md-8">
+                <label for="">在學狀態(附帶條件):</label>
+                <div class="flex">
+                  <div class="q-mr-md">
+                    <q-checkbox
+                      v-for="item in studyStatus_options"
+                      :key="item.value"
+                      :val="item.value"
+                      :label="item.label"
+                      v-model="studyStatus_select"
+                    />
+                  </div>
+                  <q-btn label="名單查詢" color="primary" />
+                </div>
+              </div>
+              <div class="col-12 col-md-12">
+                <label for="">學校類型(最高學歷):</label>
+                <div class="flex">
+                  <q-checkbox v-model="ele" label="國小" />
+                  <div>
+                    <q-checkbox
+                      v-for="item in ele_options"
+                      :key="item.value"
+                      :val="item.value"
+                      :label="item.label"
+                      v-model="ele_select"
+                    />
+                  </div>
+                </div>
+                <div class="flex">
+                  <q-checkbox v-model="junior" label="國中" />
+                  <div>
+                    <q-checkbox
+                      v-for="item in junior_options"
+                      :key="item.value"
+                      :val="item.value"
+                      :label="item.label"
+                      v-model="junior_select"
+                    />
+                  </div>
+                </div>
+                <div class="flex">
+                  <q-checkbox v-model="senior" label="高中" />
+                  <div>
+                    <q-checkbox
+                      v-for="item in senior_options"
+                      :key="item.value"
+                      :val="item.value"
+                      :label="item.label"
+                      v-model="senior_select"
+                    />
+                  </div>
+                </div>
+                <div class="flex">
+                  <q-checkbox v-model="college" label="大學" />
+                  <div>
+                    <q-checkbox
+                      v-for="item in college_options"
+                      :key="item.value"
+                      :val="item.value"
+                      :label="item.label"
+                      v-model="college_select"
+                    />
+                  </div>
+                </div>
+                <div class="flex">
+                  <q-checkbox v-model="master" label="碩士" />
+                  <div>
+                    <q-checkbox
+                      v-for="item in master_options"
+                      :key="item.value"
+                      :val="item.value"
+                      :label="item.label"
+                      v-model="master_select"
+                    />
+                  </div>
+                </div>
+                <div class="flex">
+                  <q-checkbox v-model="dr" label="博士" />
+                  <div>
+                    <q-checkbox
+                      v-for="item in dr_options"
+                      :key="item.value"
+                      :val="item.value"
+                      :label="item.label"
+                      v-model="dr_select"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex justify-end q-my-md">
+              <q-btn label="查詢" color="primary" />
+            </div>
+          </q-expansion-item>
+        </q-list>
+        <q-list>
+          <q-expansion-item
+            dense-toggle
+            expand-icon-class="text-white"
+            expand-separator
+            label="進階搜尋"
+            header-class="text-white"
+            :header-style="{ backgroundColor: '#418163' }"
+          >
+            <div class="row justify-start items-center q-col-gutter-md q-py-md">
+              <div class="col-6 col-md-4">
+                <q-select
+                  id="cboConfidenceBg"
+                  outlined
+                  dense
+                  :label="$q.screen.lt.sm ? '信心背景' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="cboConfidenceBg" class=""> 信心背景: </label>
+                  </template>
+                </q-select>
+              </div>
+              <div class="col-6 col-md-4">
+                <q-select
+                  id="cboConfidenceBg"
+                  outlined
+                  dense
+                  :label="$q.screen.lt.sm ? '活動程度' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="cboConfidenceBg" class=""> 活動程度: </label>
+                  </template>
+                </q-select>
+              </div>
+              <div class="col-6 col-md-4">
+                <q-select
+                  id="cboConfidenceBg"
+                  outlined
+                  dense
+                  :label="$q.screen.lt.sm ? '遷移狀況' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="cboConfidenceBg" class=""> 遷移狀況: </label>
+                  </template>
+                </q-select>
+              </div>
+              <div class="col-6 col-md-4">
+                <q-select
+                  id="cboConfidenceBg"
+                  outlined
+                  dense
+                  :label="$q.screen.lt.sm ? '不列入活動原因' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="cboConfidenceBg" class="">
+                      不列入活動原因:
+                    </label>
+                  </template>
+                </q-select>
+              </div>
+              <div class="col-6 col-md-4">
+                <q-select
+                  id="cboConfidenceBg"
+                  outlined
+                  dense
+                  :label="$q.screen.lt.sm ? '不列入會員原因' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="cboConfidenceBg" class="">
+                      不列入會員原因:
+                    </label>
+                  </template>
+                </q-select>
+              </div>
+              <div class="col-6 col-md-4">
+                <q-select
+                  id="cboConfidenceBg"
+                  outlined
+                  dense
+                  :label="$q.screen.lt.sm ? '區域代碼' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="cboConfidenceBg" class=""> 區域代碼: </label>
+                  </template>
+                </q-select>
+              </div>
+              <div class="col-6 col-md-4">
                 <q-input
                   id=""
                   type="text"
                   outlined
                   dense
-                  :label="$q.screen.lt.sm ? '維護人員' : void 0"
+                  :label="$q.screen.lt.sm ? '建立人員' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
-                    <label for=""> 維護人員: </label>
+                    <label for=""> 建立人員: </label>
                   </template>
                 </q-input>
-                <q-checkbox
-                  v-model="TwsgiMail"
-                  label="會員自行更新"
-                  size="xs"
-                />
               </div>
-            </div>
-            <div class="col-6 col-md-4">
-              <q-input
-                id=""
-                type="text"
-                outlined
-                dense
-                :label="$q.screen.lt.sm ? '電子幹部卡號(進)' : void 0"
+              <div class="col-12 col-md-4">
+                <div class="flex">
+                  <q-input
+                    id=""
+                    type="text"
+                    outlined
+                    dense
+                    :label="$q.screen.lt.sm ? '維護人員' : void 0"
+                  >
+                    <template v-slot:before v-if="$q.screen.gt.xs">
+                      <label for=""> 維護人員: </label>
+                    </template>
+                  </q-input>
+                  <q-checkbox
+                    v-model="TwsgiMail"
+                    label="會員自行更新"
+                    size="xs"
+                  />
+                </div>
+              </div>
+              <div class="col-6 col-md-4">
+                <q-input
+                  id=""
+                  type="text"
+                  outlined
+                  dense
+                  :label="$q.screen.lt.sm ? '電子幹部卡號(進)' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for=""> 電子幹部卡號(進): </label>
+                  </template>
+                </q-input>
+              </div>
+              <div class="col-6 col-md-4">
+                <q-input
+                  id=""
+                  type="text"
+                  outlined
+                  dense
+                  :label="$q.screen.lt.sm ? '維護人員編號' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for=""> 維護人員編號: </label>
+                  </template>
+                </q-input>
+              </div>
+              <div class="col-6 col-md-4">
+                <q-select
+                  id="cboConfidenceBg"
+                  outlined
+                  dense
+                  emit-value
+                  :label="$q.screen.lt.sm ? '月份壽星' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="cboConfidenceBg" class=""> 月份壽星: </label>
+                  </template>
+                </q-select>
+              </div>
+              <div
+                class="row justify-start items-center q-col-gutter-md q-py-md"
               >
-                <template v-slot:before v-if="$q.screen.gt.xs">
-                  <label for=""> 電子幹部卡號(進): </label>
-                </template>
-              </q-input>
-            </div>
-            <div class="col-6 col-md-4">
-              <q-input
-                id=""
-                type="text"
-                outlined
-                dense
-                :label="$q.screen.lt.sm ? '維護人員編號' : void 0"
-              >
-                <template v-slot:before v-if="$q.screen.gt.xs">
-                  <label for=""> 維護人員編號: </label>
-                </template>
-              </q-input>
-            </div>
-            <div class="col-6 col-md-4">
-              <q-select
-                id="cboConfidenceBg"
-                outlined
-                dense
-                emit-value
-                :label="$q.screen.lt.sm ? '月份壽星' : void 0"
-              >
-                <template v-slot:before v-if="$q.screen.gt.xs">
-                  <label for="cboConfidenceBg" class=""> 月份壽星: </label>
-                </template>
-              </q-select>
-            </div>
-            <div class="row justify-start items-center q-col-gutter-md q-py-md">
-              <div class="col-12 col-md-6">
-                <div class="row items-center q-col-gutter-md">
-                  <div class="col-6 col-md-5">
-                    <q-input
-                      id=""
-                      class=""
-                      outlined
-                      dense
-                      :label="$q.screen.lt.sm ? '新增日期' : void 0"
-                      v-model="testDate"
-                      mask="date"
-                    >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="testDate" class=""> 新增日期: </label>
-                      </template>
-                      <template v-slot:append>
-                        <q-icon name="event" class="cursor-pointer">
-                          <q-popup-proxy
-                            ref="qDateProxy"
-                            transition-show="scale"
-                            transition-hide="scale"
-                          >
-                            <q-date v-model="testDate">
-                              <div class="row items-center justify-end">
-                                <q-btn
-                                  v-close-popup
-                                  label="確認"
-                                  color="primary"
-                                />
-                              </div>
-                            </q-date>
-                          </q-popup-proxy>
-                        </q-icon>
-                      </template>
-                    </q-input>
-                  </div>
-                  <span class="q-mx-xs" v-if="$q.screen.gt.xs">~</span>
-                  <div class="col-6 col-md-6">
-                    <q-input
-                      id=""
-                      class=""
-                      outlined
-                      dense
-                      :label="$q.screen.lt.sm ? '新增日期' : void 0"
-                      v-model="endDate"
-                      mask="date"
-                    >
-                      <template v-slot:append>
-                        <q-icon name="event" class="cursor-pointer">
-                          <q-popup-proxy
-                            ref="qDateProxy"
-                            transition-show="scale"
-                            transition-hide="scale"
-                          >
-                            <q-date v-model="endDate">
-                              <div class="row items-center justify-end">
-                                <q-btn
-                                  v-close-popup
-                                  label="確認"
-                                  color="primary"
-                                />
-                              </div>
-                            </q-date>
-                          </q-popup-proxy>
-                        </q-icon>
-                      </template>
-                    </q-input>
+                <div class="col-12 col-md-6">
+                  <div class="row items-center q-col-gutter-md">
+                    <div class="col-6 col-md-5">
+                      <q-input
+                        id=""
+                        class=""
+                        outlined
+                        dense
+                        :label="$q.screen.lt.sm ? '新增日期' : void 0"
+                        v-model="testDate"
+                        mask="date"
+                      >
+                        <template v-slot:before v-if="$q.screen.gt.xs">
+                          <label for="testDate" class=""> 新增日期: </label>
+                        </template>
+                        <template v-slot:append>
+                          <q-icon name="event" class="cursor-pointer">
+                            <q-popup-proxy
+                              ref="qDateProxy"
+                              transition-show="scale"
+                              transition-hide="scale"
+                            >
+                              <q-date v-model="testDate">
+                                <div class="row items-center justify-end">
+                                  <q-btn
+                                    v-close-popup
+                                    label="確認"
+                                    color="primary"
+                                  />
+                                </div>
+                              </q-date>
+                            </q-popup-proxy>
+                          </q-icon>
+                        </template>
+                      </q-input>
+                    </div>
+                    <span class="q-mx-xs" v-if="$q.screen.gt.xs">~</span>
+                    <div class="col-6 col-md-6">
+                      <q-input
+                        id=""
+                        class=""
+                        outlined
+                        dense
+                        :label="$q.screen.lt.sm ? '新增日期' : void 0"
+                        v-model="endDate"
+                        mask="date"
+                      >
+                        <template v-slot:append>
+                          <q-icon name="event" class="cursor-pointer">
+                            <q-popup-proxy
+                              ref="qDateProxy"
+                              transition-show="scale"
+                              transition-hide="scale"
+                            >
+                              <q-date v-model="endDate">
+                                <div class="row items-center justify-end">
+                                  <q-btn
+                                    v-close-popup
+                                    label="確認"
+                                    color="primary"
+                                  />
+                                </div>
+                              </q-date>
+                            </q-popup-proxy>
+                          </q-icon>
+                        </template>
+                      </q-input>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-12 col-md-6">
-                <div class="row items-center q-col-gutter-md">
-                  <div class="col-6 col-md-5">
-                    <q-input
-                      id=""
-                      class=""
-                      outlined
-                      dense
-                      :label="$q.screen.lt.sm ? '結束日期' : void 0"
-                      v-model="testDate"
-                      mask="date"
-                    >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="testDate" class=""> 結束日期: </label>
-                      </template>
-                      <template v-slot:append>
-                        <q-icon name="event" class="cursor-pointer">
-                          <q-popup-proxy
-                            ref="qDateProxy"
-                            transition-show="scale"
-                            transition-hide="scale"
-                          >
-                            <q-date v-model="testDate">
-                              <div class="row items-center justify-end">
-                                <q-btn
-                                  v-close-popup
-                                  label="確認"
-                                  color="primary"
-                                />
-                              </div>
-                            </q-date>
-                          </q-popup-proxy>
-                        </q-icon>
-                      </template>
-                    </q-input>
-                  </div>
-                  <span class="q-mx-xs" v-if="$q.screen.gt.xs">~</span>
-                  <div class="col-6 col-md-6">
-                    <q-input
-                      id=""
-                      class=""
-                      outlined
-                      dense
-                      :label="$q.screen.lt.sm ? '結束日期' : void 0"
-                      v-model="endDate"
-                      mask="date"
-                    >
-                      <template v-slot:append>
-                        <q-icon name="event" class="cursor-pointer">
-                          <q-popup-proxy
-                            ref="qDateProxy"
-                            transition-show="scale"
-                            transition-hide="scale"
-                          >
-                            <q-date v-model="endDate">
-                              <div class="row items-center justify-end">
-                                <q-btn
-                                  v-close-popup
-                                  label="確認"
-                                  color="primary"
-                                />
-                              </div>
-                            </q-date>
-                          </q-popup-proxy>
-                        </q-icon>
-                      </template>
-                    </q-input>
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 col-md-6">
-                <div class="row items-center q-col-gutter-md">
-                  <div class="col-6 col-md-5">
-                    <q-input
-                      id=""
-                      class=""
-                      outlined
-                      dense
-                      :label="$q.screen.lt.sm ? '最新更新日期' : void 0"
-                      v-model="testDate"
-                      mask="date"
-                    >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="testDate" class=""> 最新更新日期: </label>
-                      </template>
-                      <template v-slot:append>
-                        <q-icon name="event" class="cursor-pointer">
-                          <q-popup-proxy
-                            ref="qDateProxy"
-                            transition-show="scale"
-                            transition-hide="scale"
-                          >
-                            <q-date v-model="testDate">
-                              <div class="row items-center justify-end">
-                                <q-btn
-                                  v-close-popup
-                                  label="確認"
-                                  color="primary"
-                                />
-                              </div>
-                            </q-date>
-                          </q-popup-proxy>
-                        </q-icon>
-                      </template>
-                    </q-input>
-                  </div>
-                  <span class="q-mx-xs" v-if="$q.screen.gt.xs">~</span>
-                  <div class="col-6 col-md-6">
-                    <q-input
-                      id=""
-                      class=""
-                      outlined
-                      dense
-                      :label="$q.screen.lt.sm ? '最新更新日期' : void 0"
-                      v-model="endDate"
-                      mask="date"
-                    >
-                      <template v-slot:append>
-                        <q-icon name="event" class="cursor-pointer">
-                          <q-popup-proxy
-                            ref="qDateProxy"
-                            transition-show="scale"
-                            transition-hide="scale"
-                          >
-                            <q-date v-model="endDate">
-                              <div class="row items-center justify-end">
-                                <q-btn
-                                  v-close-popup
-                                  label="確認"
-                                  color="primary"
-                                />
-                              </div>
-                            </q-date>
-                          </q-popup-proxy>
-                        </q-icon>
-                      </template>
-                    </q-input>
+                <div class="col-12 col-md-6">
+                  <div class="row items-center q-col-gutter-md">
+                    <div class="col-6 col-md-5">
+                      <q-input
+                        id=""
+                        class=""
+                        outlined
+                        dense
+                        :label="$q.screen.lt.sm ? '結束日期' : void 0"
+                        v-model="testDate"
+                        mask="date"
+                      >
+                        <template v-slot:before v-if="$q.screen.gt.xs">
+                          <label for="testDate" class=""> 結束日期: </label>
+                        </template>
+                        <template v-slot:append>
+                          <q-icon name="event" class="cursor-pointer">
+                            <q-popup-proxy
+                              ref="qDateProxy"
+                              transition-show="scale"
+                              transition-hide="scale"
+                            >
+                              <q-date v-model="testDate">
+                                <div class="row items-center justify-end">
+                                  <q-btn
+                                    v-close-popup
+                                    label="確認"
+                                    color="primary"
+                                  />
+                                </div>
+                              </q-date>
+                            </q-popup-proxy>
+                          </q-icon>
+                        </template>
+                      </q-input>
+                    </div>
+                    <span class="q-mx-xs" v-if="$q.screen.gt.xs">~</span>
+                    <div class="col-6 col-md-6">
+                      <q-input
+                        id=""
+                        class=""
+                        outlined
+                        dense
+                        :label="$q.screen.lt.sm ? '結束日期' : void 0"
+                        v-model="endDate"
+                        mask="date"
+                      >
+                        <template v-slot:append>
+                          <q-icon name="event" class="cursor-pointer">
+                            <q-popup-proxy
+                              ref="qDateProxy"
+                              transition-show="scale"
+                              transition-hide="scale"
+                            >
+                              <q-date v-model="endDate">
+                                <div class="row items-center justify-end">
+                                  <q-btn
+                                    v-close-popup
+                                    label="確認"
+                                    color="primary"
+                                  />
+                                </div>
+                              </q-date>
+                            </q-popup-proxy>
+                          </q-icon>
+                        </template>
+                      </q-input>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-12 col-md-6">
-                <div class="row items-center q-col-gutter-md">
-                  <div class="col-6 col-md-5">
-                    <q-input
-                      id=""
-                      class=""
-                      outlined
-                      dense
-                      :label="$q.screen.lt.sm ? '入信日期' : void 0"
-                      v-model="testDate"
-                      mask="date"
-                    >
-                      <template v-slot:before v-if="$q.screen.gt.xs">
-                        <label for="testDate" class=""> 入信日期: </label>
-                      </template>
-                      <template v-slot:append>
-                        <q-icon name="event" class="cursor-pointer">
-                          <q-popup-proxy
-                            ref="qDateProxy"
-                            transition-show="scale"
-                            transition-hide="scale"
-                          >
-                            <q-date v-model="testDate">
-                              <div class="row items-center justify-end">
-                                <q-btn
-                                  v-close-popup
-                                  label="確認"
-                                  color="primary"
-                                />
-                              </div>
-                            </q-date>
-                          </q-popup-proxy>
-                        </q-icon>
-                      </template>
-                    </q-input>
+                <div class="col-12 col-md-6">
+                  <div class="row items-center q-col-gutter-md">
+                    <div class="col-6 col-md-5">
+                      <q-input
+                        id=""
+                        class=""
+                        outlined
+                        dense
+                        :label="$q.screen.lt.sm ? '最新更新日期' : void 0"
+                        v-model="testDate"
+                        mask="date"
+                      >
+                        <template v-slot:before v-if="$q.screen.gt.xs">
+                          <label for="testDate" class=""> 最新更新日期: </label>
+                        </template>
+                        <template v-slot:append>
+                          <q-icon name="event" class="cursor-pointer">
+                            <q-popup-proxy
+                              ref="qDateProxy"
+                              transition-show="scale"
+                              transition-hide="scale"
+                            >
+                              <q-date v-model="testDate">
+                                <div class="row items-center justify-end">
+                                  <q-btn
+                                    v-close-popup
+                                    label="確認"
+                                    color="primary"
+                                  />
+                                </div>
+                              </q-date>
+                            </q-popup-proxy>
+                          </q-icon>
+                        </template>
+                      </q-input>
+                    </div>
+                    <span class="q-mx-xs" v-if="$q.screen.gt.xs">~</span>
+                    <div class="col-6 col-md-6">
+                      <q-input
+                        id=""
+                        class=""
+                        outlined
+                        dense
+                        :label="$q.screen.lt.sm ? '最新更新日期' : void 0"
+                        v-model="endDate"
+                        mask="date"
+                      >
+                        <template v-slot:append>
+                          <q-icon name="event" class="cursor-pointer">
+                            <q-popup-proxy
+                              ref="qDateProxy"
+                              transition-show="scale"
+                              transition-hide="scale"
+                            >
+                              <q-date v-model="endDate">
+                                <div class="row items-center justify-end">
+                                  <q-btn
+                                    v-close-popup
+                                    label="確認"
+                                    color="primary"
+                                  />
+                                </div>
+                              </q-date>
+                            </q-popup-proxy>
+                          </q-icon>
+                        </template>
+                      </q-input>
+                    </div>
                   </div>
-                  <span class="q-mx-xs" v-if="$q.screen.gt.xs">~</span>
-                  <div class="col-6 col-md-6">
-                    <q-input
-                      id=""
-                      class=""
-                      outlined
-                      dense
-                      :label="$q.screen.lt.sm ? '入信日期' : void 0"
-                      v-model="endDate"
-                      mask="date"
-                    >
-                      <template v-slot:append>
-                        <q-icon name="event" class="cursor-pointer">
-                          <q-popup-proxy
-                            ref="qDateProxy"
-                            transition-show="scale"
-                            transition-hide="scale"
-                          >
-                            <q-date v-model="endDate">
-                              <div class="row items-center justify-end">
-                                <q-btn
-                                  v-close-popup
-                                  label="確認"
-                                  color="primary"
-                                />
-                              </div>
-                            </q-date>
-                          </q-popup-proxy>
-                        </q-icon>
-                      </template>
-                    </q-input>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="row items-center q-col-gutter-md">
+                    <div class="col-6 col-md-5">
+                      <q-input
+                        id=""
+                        class=""
+                        outlined
+                        dense
+                        :label="$q.screen.lt.sm ? '入信日期' : void 0"
+                        v-model="testDate"
+                        mask="date"
+                      >
+                        <template v-slot:before v-if="$q.screen.gt.xs">
+                          <label for="testDate" class=""> 入信日期: </label>
+                        </template>
+                        <template v-slot:append>
+                          <q-icon name="event" class="cursor-pointer">
+                            <q-popup-proxy
+                              ref="qDateProxy"
+                              transition-show="scale"
+                              transition-hide="scale"
+                            >
+                              <q-date v-model="testDate">
+                                <div class="row items-center justify-end">
+                                  <q-btn
+                                    v-close-popup
+                                    label="確認"
+                                    color="primary"
+                                  />
+                                </div>
+                              </q-date>
+                            </q-popup-proxy>
+                          </q-icon>
+                        </template>
+                      </q-input>
+                    </div>
+                    <span class="q-mx-xs" v-if="$q.screen.gt.xs">~</span>
+                    <div class="col-6 col-md-6">
+                      <q-input
+                        id=""
+                        class=""
+                        outlined
+                        dense
+                        :label="$q.screen.lt.sm ? '入信日期' : void 0"
+                        v-model="endDate"
+                        mask="date"
+                      >
+                        <template v-slot:append>
+                          <q-icon name="event" class="cursor-pointer">
+                            <q-popup-proxy
+                              ref="qDateProxy"
+                              transition-show="scale"
+                              transition-hide="scale"
+                            >
+                              <q-date v-model="endDate">
+                                <div class="row items-center justify-end">
+                                  <q-btn
+                                    v-close-popup
+                                    label="確認"
+                                    color="primary"
+                                  />
+                                </div>
+                              </q-date>
+                            </q-popup-proxy>
+                          </q-icon>
+                        </template>
+                      </q-input>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="flex justify-end q-my-md">
-            <q-btn label="查詢" color="primary" />
-          </div>
-        </q-expansion-item>
-      </q-list>
-    </q-form>
-    <mem-index-table
-      :tableColumn="fullMemColumns"
-      :tableData="fullMemData"
-      :showMultiSelect="true"
-      rowKey="id"
-      tabTitle="所有會員"
-    ></mem-index-table>
-    <q-footer elevated v-if="$q.screen.lt.sm">
-      <q-toolbar class="flex justify-around">
-        <q-btn
-          flat
-          dense
-          padding="sm lg"
-          text-color="white"
-          color="primary"
-          label="條件設置"
-        >
-        </q-btn>
-        <q-btn
-          flat
-          dense
-          padding="sm lg"
-          text-color="white"
-          color="accent"
-          label="取消"
-        >
-        </q-btn>
-      </q-toolbar>
-    </q-footer>
+            <div class="flex justify-end q-my-md">
+              <q-btn label="查詢" color="primary" />
+            </div>
+          </q-expansion-item>
+        </q-list>
+      </q-form>
+      <mem-index-table
+        :tableColumn="fullMemColumns"
+        :tableData="fullMemData"
+        :showMultiSelect="true"
+        rowKey="id"
+        tabTitle="所有會員"
+      ></mem-index-table>
+      <q-footer elevated v-if="$q.screen.lt.sm">
+        <q-toolbar class="flex justify-around">
+          <q-btn
+            flat
+            dense
+            padding="sm lg"
+            text-color="white"
+            color="primary"
+            label="條件設置"
+            @click="openSearchListPage"
+          >
+          </q-btn>
+          <q-btn
+            flat
+            dense
+            padding="sm lg"
+            text-color="white"
+            color="accent"
+            label="取消"
+          >
+          </q-btn>
+        </q-toolbar>
+      </q-footer>
+    </template>
     <!-- mobile -Search List -->
-    <div v-for="(item, index) in mobileLayout" :key="index" class="row q-pa-xs">
-      <div class="col-12 text-center q-pa-sm shadow-1 bg-lale-comple-orange">
-        {{ item.name }}
-      </div>
+    <template v-if="$q.screen.lt.sm && isSearchListPage">
       <div
-        v-for="(btn, bI) in item.btns"
-        :key="bI"
-        class="text-center q-pa-sm shadow-1"
-        :class="[`col-${btn.colVal}`, { 'bg-secondary': btn.ischeck }]"
-        @click="addCondition({ bkey: btn.bkey, index, bI, bname: btn.bname })"
+        v-for="(item, index) in mobileLayout"
+        :key="index"
+        class="row q-pa-xs"
       >
-        {{ btn.bname }}
+        <div class="col-12 text-center q-pa-sm shadow-1 bg-lale-comple-orange">
+          {{ item.name }}
+        </div>
+        <div
+          v-for="(btn, bI) in item.btns"
+          :key="bI"
+          class="text-center q-pa-sm shadow-1"
+          :class="[`col-${btn.colVal}`, { 'bg-secondary': btn.ischeck }]"
+          @click="addCondition({ bkey: btn.bkey, index, bI, bname: btn.bname })"
+        >
+          {{ btn.bname }}
+        </div>
       </div>
-    </div>
+      <q-footer elevated v-if="$q.screen.lt.sm">
+        <q-toolbar class="flex justify-around">
+          <q-btn
+            flat
+            dense
+            padding="sm lg"
+            text-color="white"
+            color="primary"
+            label="確認"
+            @click="backSearchPage"
+          >
+          </q-btn>
+          <q-btn
+            flat
+            dense
+            padding="sm lg"
+            text-color="white"
+            color="accent"
+            label="取消"
+          >
+          </q-btn>
+        </q-toolbar>
+      </q-footer>
+    </template>
     <!--
       @之後每一個問題的樣貌綁model@
     <div

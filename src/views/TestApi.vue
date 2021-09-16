@@ -121,9 +121,34 @@
         </q-input>
       </div>
     </div>
+    <div class="row">
+      <div class="col-6">
+        <q-input
+          id="memberName"
+          type="text"
+          outlined
+          dense
+          v-model="$v.memberName.$model"
+          :label="$q.screen.lt.sm ? '會員姓名驗證' : void 0"
+          :class="{ 'form-group--error': $v.memberName.$error }"
+        >
+          <template v-slot:before v-if="$q.screen.gt.xs">
+            <label for="memberName">
+              <span class="required">＊</span>會員姓名驗證:
+            </label>
+          </template>
+        </q-input>
+        <div class="error" v-if="!$v.memberName.required">必填欄位</div>
+        <div class="error" v-if="!$v.memberName.maxLength">
+          請輸入不超過
+          {{ $v.memberName.$params.maxLength.max }} 個字
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
+import { required, maxLength } from "vuelidate/lib/validators";
 import { getMemberList } from "@/api/test";
 const dataArr = [
   {
@@ -173,8 +198,15 @@ export default {
       },
       aDate: "",
       bDate: "",
-      bProxyDate: ""
+      bProxyDate: "",
+      memberName: "王曉明",
     };
+  },
+  validations: {
+    memberName: {
+      required,
+      maxLength: maxLength(3),
+    },
   },
   created() {
     this.fetchData();
@@ -241,4 +273,9 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.error {
+  display: block;
+  color: #f57f6c;
+}
+</style>
