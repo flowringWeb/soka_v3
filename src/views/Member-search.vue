@@ -551,7 +551,6 @@ export default {
         alert("服務器出错");
         console.log(err);
       }
-      
     },
     //select filtering
     filterFn(val, update, abort) {
@@ -602,7 +601,7 @@ export default {
     backSearchPage() {
       this.isSearchPage = true;
       this.isSearchListPage = false;
-    }
+    },
     // ========== End of Moblie Buttons Layout =========
   },
   computed: {
@@ -612,14 +611,12 @@ export default {
     },
     // ========== End of Moblie Buttons Layout =========
   },
-  created() {
-    
-  },
+  created() {},
 };
 </script>
 <template>
   <div class="q-pa-md">
-    
+    <template v-if="isSearchPage">
       <div>查詢</div>
       <q-form @submit="onSubmit">
         <div class="row justify-start items-center q-col-gutter-md q-py-md">
@@ -1660,49 +1657,76 @@ export default {
                 </div>
               </div>
             </div>
-          
-          <div class="flex justify-end q-my-md">
-            <q-btn label="查詢" color="primary" />
-          </div>
-        </q-expansion-item>
-      </q-list>
-    </q-form>
-    <mem-index-table
-      :tableColumn="fullMemColumns"
-      :tableData="fullMemData"
-      :showMultiSelect="true"
-      :table-loading="fullMemDataLoading"
-      rowKey="id"
-      tabTitle="所有會員"
-    ></mem-index-table>
-    <q-footer elevated v-if="$q.screen.lt.sm">
-      <q-toolbar class="flex justify-around">
-        <q-btn
-          flat
-          dense
-          padding="sm lg"
-          text-color="white"
-          color="primary"
-          label="條件設置"
-        >
-        </q-btn>
-        <q-btn
-          flat
-          dense
-          padding="sm lg"
-          text-color="white"
-          color="accent"
-          label="取消"
-        >
-        </q-btn>
-      </q-toolbar>
-    </q-footer>
+
+            <div class="flex justify-end q-my-md">
+              <q-btn label="查詢" color="primary" />
+            </div>
+          </q-expansion-item>
+        </q-list>
+      </q-form>
+      <mem-index-table
+        :tableColumn="fullMemColumns"
+        :tableData="fullMemData"
+        :showMultiSelect="true"
+        :table-loading="fullMemDataLoading"
+        rowKey="id"
+        tabTitle="所有會員"
+      ></mem-index-table>
+      <q-footer elevated v-if="$q.screen.lt.sm">
+        <q-toolbar class="flex justify-around">
+          <q-btn
+            flat
+            dense
+            padding="sm lg"
+            text-color="white"
+            color="primary"
+            label="條件設置"
+            @click="openSearchListPage"
+          >
+          </q-btn>
+          <q-btn
+            flat
+            dense
+            padding="sm lg"
+            text-color="white"
+            color="accent"
+            label="取消"
+          >
+          </q-btn>
+        </q-toolbar>
+      </q-footer>
+    </template>
     <!-- mobile -Search List -->
-    <mobile-btns-search
-      :mobile-layout="mobileLayout"
-      :choose-btns="chooseBtns"
-      @addCondition="addCondition"
-    ></mobile-btns-search>
+    <template v-if="$q.screen.lt.sm && isSearchListPage">
+      <mobile-btns-search
+        :mobile-layout="mobileLayout"
+        :choose-btns="chooseBtns"
+        @addCondition="addCondition"
+      ></mobile-btns-search>
+      <q-footer elevated>
+        <q-toolbar class="flex justify-around">
+          <q-btn
+            flat
+            dense
+            padding="sm lg"
+            text-color="white"
+            color="primary"
+            label="確認"
+            @click="backSearchPage"
+          >
+          </q-btn>
+          <q-btn
+            flat
+            dense
+            padding="sm lg"
+            text-color="white"
+            color="accent"
+            label="取消"
+          >
+          </q-btn>
+        </q-toolbar>
+      </q-footer>
+    </template>
 
     <!--
       @之後每一個問題的樣貌綁model@
