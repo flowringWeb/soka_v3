@@ -1,7 +1,8 @@
 <template>
-  <div class="q-pa-md">
+  <div class="">
     <q-table
       :data="tableData"
+      :loading="tableLoading"
       :columns="tableColumn"
       :row-key="rowKey"
       :separator="separator"
@@ -12,19 +13,18 @@
         <q-space />
         <q-btn
           v-show="operaShow"
+          size="sm"
           color="primary"
           :label="`新增${tabTitle}`"
           @click="openDialog('add')"
         />
-
-        <!-- <q-btn class="q-ml-sm" color="primary" label="進階搜尋" /> -->
       </template>
       <!-- table 表頭 -->
       <q-tr slot="header" slot-scope="props">
         <q-th v-for="col in props.cols" :key="col.name" :props="props">
           {{ col.label }}
         </q-th>
-        <q-th auto-width v-show="operaShow">
+        <q-th auto-width v-show="operaShow" >
           操作
         </q-th>
       </q-tr>
@@ -38,13 +38,13 @@
           <q-td v-show="operaShow">
             <div class="q-pa-md q-gutter-sm">
               <q-btn
-                size="small"
+                size="xs"
                 color="amber"
                 label="修改"
                 @click="checkIsMember(props.row)"
               />
               <q-btn
-                size="small"
+                size="xs"
                 style="color: white;background: red;"
                 label="刪除"
               />
@@ -478,6 +478,7 @@ const statusArr = [
 // const eduLevelOptions = ["博士", "碩士", "大學", "高中", "國中"];
 export default {
   // 組件參數 接收來自父組件的數據
+  name:"memTable",
   props: {
     tableData: {
       //表單資料
@@ -504,14 +505,18 @@ export default {
       required: true,
     },
     operaShow: {
-      //是否顯示操作
+      //是否顯示操作 與檢視或唯獨有關
       type: Boolean,
       default: true,
     },
-    separator: {
+    separator: {// 直式呈現的方式
       type: String,
       default: "horizontal",
     },
+    tableLoading:{
+      type:Boolean,
+      default:false
+    }
   },
   // 局部注冊的組件
   components: {},

@@ -1,10 +1,12 @@
 <script>
 import { getAllMember } from "@/api/member.js";
 import MemIndexTable from "@/components/Member/MemIndexTable";
+import MobileBtnsSearch from "@/components/Common/mobile/MobileBtnsSearch.vue";
 const stringOptions = ["Google", "Facebook", "Twitter", "Apple", "Oracle"];
 export default {
   components: {
     MemIndexTable,
+    MobileBtnsSearch,
   },
   name: "Member-search",
   data() {
@@ -148,6 +150,7 @@ export default {
       ],
       //日期起訖
       startDate: "2021/09/09~2021/09/10",
+      // ========== Member Table ================
       fullMemColumns: [
         {
           name: "memberCode",
@@ -240,6 +243,8 @@ export default {
         },
       ],
       fullMemData: [],
+      fullMemDataLoading: false,
+      // ========== End of Member Table =========
       // ========== Moblie Buttons Layout ================
       mobileLayout: [
         {
@@ -525,10 +530,28 @@ export default {
       console.log("submit");
     },
     //表格資料
-    fetchData() {
-      getAllMember().then((res) => {
-        this.fullMemData = res.data;
-      });
+    async fetchData() {
+      if (this.fullMemData.length > 0) return;
+      try {
+        // 尚未取得資料
+        this.fullMemDataLoading = true;
+        let res = await getAllMember();
+
+        return new Promise((resolve) => {
+          if (res.data.length > 0) {
+            this.fullMemData = res.data;
+            this.fullMemDataLoading = false;
+            resolve(res);
+          } else {
+            this.fullMemDataLoading = false;
+            resolve(res);
+          }
+        });
+      } catch (err) {
+        alert("服務器出错");
+        console.log(err);
+      }
+      
     },
     //select filtering
     filterFn(val, update, abort) {
@@ -590,13 +613,13 @@ export default {
     // ========== End of Moblie Buttons Layout =========
   },
   created() {
-    this.fetchData();
+    
   },
 };
 </script>
 <template>
   <div class="q-pa-md">
-    <template v-if="isSearchPage">
+    
       <div>查詢</div>
       <q-form @submit="onSubmit">
         <div class="row justify-start items-center q-col-gutter-md q-py-md">
@@ -1637,87 +1660,50 @@ export default {
                 </div>
               </div>
             </div>
-            <div class="flex justify-end q-my-md">
-              <q-btn label="查詢" color="primary" />
-            </div>
-          </q-expansion-item>
-        </q-list>
-      </q-form>
-      <mem-index-table
-        :tableColumn="fullMemColumns"
-        :tableData="fullMemData"
-        :showMultiSelect="true"
-        rowKey="id"
-        tabTitle="所有會員"
-      ></mem-index-table>
-      <q-footer elevated v-if="$q.screen.lt.sm">
-        <q-toolbar class="flex justify-around">
-          <q-btn
-            flat
-            dense
-            padding="sm lg"
-            text-color="white"
-            color="primary"
-            label="條件設置"
-            @click="openSearchListPage"
-          >
-          </q-btn>
-          <q-btn
-            flat
-            dense
-            padding="sm lg"
-            text-color="white"
-            color="accent"
-            label="取消"
-          >
-          </q-btn>
-        </q-toolbar>
-      </q-footer>
-    </template>
-    <!-- mobile -Search List -->
-    <template v-if="$q.screen.lt.sm && isSearchListPage">
-      <div
-        v-for="(item, index) in mobileLayout"
-        :key="index"
-        class="row q-pa-xs"
-      >
-        <div class="col-12 text-center q-pa-sm shadow-1 bg-lale-comple-orange">
-          {{ item.name }}
-        </div>
-        <div
-          v-for="(btn, bI) in item.btns"
-          :key="bI"
-          class="text-center q-pa-sm shadow-1"
-          :class="[`col-${btn.colVal}`, { 'bg-secondary': btn.ischeck }]"
-          @click="addCondition({ bkey: btn.bkey, index, bI, bname: btn.bname })"
+          
+          <div class="flex justify-end q-my-md">
+            <q-btn label="查詢" color="primary" />
+          </div>
+        </q-expansion-item>
+      </q-list>
+    </q-form>
+    <mem-index-table
+      :tableColumn="fullMemColumns"
+      :tableData="fullMemData"
+      :showMultiSelect="true"
+      :table-loading="fullMemDataLoading"
+      rowKey="id"
+      tabTitle="所有會員"
+    ></mem-index-table>
+    <q-footer elevated v-if="$q.screen.lt.sm">
+      <q-toolbar class="flex justify-around">
+        <q-btn
+          flat
+          dense
+          padding="sm lg"
+          text-color="white"
+          color="primary"
+          label="條件設置"
         >
-          {{ btn.bname }}
-        </div>
-      </div>
-      <q-footer elevated v-if="$q.screen.lt.sm">
-        <q-toolbar class="flex justify-around">
-          <q-btn
-            flat
-            dense
-            padding="sm lg"
-            text-color="white"
-            color="primary"
-            label="確認"
-            @click="backSearchPage"
-          >
-          </q-btn>
-          <q-btn
-            flat
-            dense
-            padding="sm lg"
-            text-color="white"
-            color="accent"
-            label="取消"
-          >
-          </q-btn>
-        </q-toolbar>
-      </q-footer>
-    </template>
+        </q-btn>
+        <q-btn
+          flat
+          dense
+          padding="sm lg"
+          text-color="white"
+          color="accent"
+          label="取消"
+        >
+        </q-btn>
+      </q-toolbar>
+    </q-footer>
+    <!-- mobile -Search List -->
+    <mobile-btns-search
+      :mobile-layout="mobileLayout"
+      :choose-btns="chooseBtns"
+      @addCondition="addCondition"
+    ></mobile-btns-search>
+
     <!--
       @之後每一個問題的樣貌綁model@
     <div
