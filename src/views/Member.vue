@@ -803,19 +803,11 @@ export default {
     onSubmit() {
       console.log("submit");
     },
-    changeStatus() {
-      this.readStatus = true;
-      console.log("2", this.readStatus);
-    },
   },
   created() {
-    console.log("1", this.readStatus);
-    bus.on("mitt", this.changeStatus());
-
     import("../json/member.json").then((res) => {
       // console.log("1", res);
       this.memberName = res.memberName;
-      this.associationTitle = res.associationTitle;
       this.bornDate = res.bornDate;
 
       this.cboBelongArea = res.cboBelongArea;
@@ -932,6 +924,7 @@ export default {
                       :readonly="$route.params.type === 'view' ? true : false"
                       v-model="memberName"
                       :label="$q.screen.lt.sm ? '會員姓名' : void 0"
+                      :rules="[ val => !!val || '* 必填' ]"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="memberName">
