@@ -722,6 +722,7 @@ export default {
     openDialog(type) {
       if (type == "add") {
         this.diagleMethod = "新增";
+        this.resetDetail();
         this.showCheckDialog = true;
       }
       if (type == "edit") {
