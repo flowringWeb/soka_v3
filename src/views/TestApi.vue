@@ -144,12 +144,35 @@
           {{ $v.memberName.$params.maxLength.max }} 個字
         </div>
       </div>
+      <div class="col-6 col-md-4">
+        <q-input
+          type="tel"
+          outlined
+          dense
+          bottom-slots
+          v-model.trim="$v.tel.$model"
+          :label="$q.screen.lt.sm ? '電話' : void 0"
+          hint="EX: 0912345678"
+          :error="!isValid"
+        >
+          <template v-slot:before v-if="$q.screen.gt.xs">
+            <label for="" class=""> 電話: </label>
+          </template>
+          <template v-slot:error>
+            <div class="error" v-if="!$v.tel.required">必填欄位</div>
+            <div class="error" v-if="!$v.tel.phone">
+              請輸入正確的手機號碼格式
+            </div>
+          </template>
+        </q-input>
+      </div>
     </div>
   </div>
 </template>
 <script>
-import { required, maxLength } from "vuelidate/lib/validators";
+import { required, maxLength, helpers } from "vuelidate/lib/validators";
 import { getMemberList } from "@/api/test";
+var phone = helpers.regex("phoneNumber", /\d{4}\d{3}\d{3}/);
 const dataArr = [
   {
     label: "0001",
@@ -200,12 +223,18 @@ export default {
       bDate: "",
       bProxyDate: "",
       memberName: "王曉明",
+      tel: "0912345678",
     };
   },
   validations: {
     memberName: {
       required,
       maxLength: maxLength(3),
+    },
+    tel: {
+      required,
+      phone,
+      maxLength: maxLength(10),
     },
   },
   created() {
@@ -224,6 +253,9 @@ export default {
         (item) => item.value === this.cboBelongArea
       )[0]["children"];
       return newMap;
+    },
+    isValid() {
+      return this.tel.match(/\d{4}\d{3}\d{3}/);
     },
   },
   // 偵聽器
