@@ -757,7 +757,7 @@ export default {
             alert("服務器出错");
             console.log(err);
           }
-          breaks;
+          
         case "m_edu":
           // 已有資料
           if(this.eduData.length>0) return
@@ -781,7 +781,7 @@ export default {
             alert("服務器出错");
             console.log(err);
           }
-          breaks;
+          
       }
 
       // //
@@ -1852,7 +1852,9 @@ export default {
             :table-loading="familyDataLoading"
             rowKey="name"
             tabTitle="家族會員"
-          ></mem-table>
+          >
+            
+          </mem-table>
           
         </q-tab-panel>
 
