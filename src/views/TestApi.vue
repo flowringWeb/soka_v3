@@ -149,22 +149,18 @@
           type="tel"
           outlined
           dense
-          bottom-slots
           v-model.trim="$v.tel.$model"
           :label="$q.screen.lt.sm ? '電話' : void 0"
-          hint="EX: 0912345678"
-          :error="!isValid"
         >
           <template v-slot:before v-if="$q.screen.gt.xs">
             <label for="" class=""> 電話: </label>
           </template>
-          <template v-slot:error>
-            <div class="error" v-if="!$v.tel.required">必填欄位</div>
-            <div class="error" v-if="!$v.tel.phone">
-              請輸入正確的手機號碼格式
-            </div>
-          </template>
         </q-input>
+        <div>EX: 0912345678</div>
+        <div class="error" v-if="!$v.tel.required">必填欄位</div>
+        <div class="error" v-if="!$v.tel.phone || !$v.tel.maxLength">
+          請輸入正確的手機號碼格式
+        </div>
       </div>
     </div>
   </div>
@@ -224,6 +220,7 @@ export default {
       bProxyDate: "",
       memberName: "王曉明",
       tel: "0912345678",
+      model: 'facebook',
     };
   },
   validations: {
@@ -253,9 +250,6 @@ export default {
         (item) => item.value === this.cboBelongArea
       )[0]["children"];
       return newMap;
-    },
-    isValid() {
-      return this.tel.match(/\d{4}\d{3}\d{3}/);
     },
   },
   // 偵聽器

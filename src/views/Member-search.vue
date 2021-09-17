@@ -47,6 +47,18 @@ export default {
           label: "三",
           value: "3",
         },
+        {
+          label: "四",
+          value: "4",
+        },
+        {
+          label: "五",
+          value: "5",
+        },
+        {
+          label: "六",
+          value: "6",
+        },
       ],
       junior: false,
       junior_select: ["1", "3"],
@@ -60,8 +72,8 @@ export default {
           value: "2",
         },
         {
-          label: "三",
-          value: "3",
+          label: "三+",
+          value: "3+",
         },
       ],
       senior: false,
@@ -76,8 +88,8 @@ export default {
           value: "2",
         },
         {
-          label: "三",
-          value: "3",
+          label: "三+",
+          value: "3+",
         },
       ],
       college: false,
@@ -92,8 +104,8 @@ export default {
           value: "2",
         },
         {
-          label: "三",
-          value: "3",
+          label: "三+",
+          value: "3+",
         },
       ],
       master: false,
@@ -104,12 +116,8 @@ export default {
           value: "1",
         },
         {
-          label: "二",
-          value: "2",
-        },
-        {
-          label: "三",
-          value: "3",
+          label: "二+",
+          value: "2+",
         },
       ],
       dr: false,
@@ -120,16 +128,8 @@ export default {
           value: "1",
         },
         {
-          label: "二",
-          value: "2",
-        },
-        {
-          label: "三",
-          value: "3",
-        },
-        {
-          label: "四",
-          value: "4",
+          label: "二+",
+          value: "2+",
         },
       ],
       //在學狀態
@@ -1672,9 +1672,115 @@ export default {
         rowKey="id"
         tabTitle="所有會員"
       ></mem-index-table>
-      <q-footer elevated v-if="$q.screen.lt.sm">
-        <q-toolbar class="flex justify-around">
+      <div class="flex justify-center" v-if="$q.screen.gt.xs">
+        <q-btn
+          class="q-mr-md q-mb-md"
+          color="primary"
+          text-color="white"
+          label="各項異動"
+        />
+        <q-btn
+          class="q-mr-md q-mb-md"
+          color="primary"
+          text-color="white"
+          label="匯出"
+        />
+        <q-btn
+          class="q-mr-md q-mb-md"
+          color="amber"
+          text-color="white"
+          label="部別變更"
+        />
+        <q-btn
+          class="q-mr-md q-mb-md"
+          color="amber"
+          text-color="white"
+          label="批次學生部別異動"
+        />
+      </div>
+      <q-footer elevated v-if="$q.screen.lt.sm" class="q-pa-md">
+        <div class="flex justify-end">
+          <q-fab
+            color="amber"
+            padding="xs"
+            icon="keyboard_arrow_up"
+            direction="up"
+            vertical-actions-align="right"
+          >
+            <q-fab-action
+              square
+              padding="xs"
+              color="primary"
+              label="匯出"
+              class="fab-action-offset"
+            />
+            <q-fab-action
+              square
+              padding="xs"
+              color="primary"
+              label="各項異動"
+              class="fab-action-offset"
+            />
+            <q-fab-action
+              square
+              padding="xs"
+              color="primary"
+              label="會員查詢"
+              class="fab-action-offset"
+            />
+            <q-fab-action
+              square
+              padding="xs"
+              color="amber"
+              label="部別變更"
+              class="fab-action-offset"
+            />
+            <q-fab-action
+              square
+              padding="xs"
+              color="amber"
+              label="批次學生部別異動"
+              class="fab-action-offset"
+            />
+          </q-fab>
+        </div>
+
+        <!-- <div class="flex justify-center">
           <q-btn
+            class="q-mr-md q-mb-md"
+            color="primary"
+            text-color="white"
+            label="各項異動"
+          />
+          <q-btn
+            class="q-mr-md q-mb-md"
+            color="primary"
+            text-color="white"
+            label="匯出"
+          />
+          <q-btn
+            class="q-mr-md q-mb-md"
+            color="primary"
+            text-color="white"
+            label="會員查詢"
+          />
+        </div>
+        <div class="flex justify-center">
+          <q-btn
+            class="q-mr-md"
+            color="amber"
+            text-color="white"
+            label="部別變更"
+          />
+          <q-btn
+            class="q-mr-md"
+            color="amber"
+            text-color="white"
+            label="批次學生部別異動"
+          />
+        </div> -->
+
+        <!-- <q-btn
             flat
             dense
             padding="sm lg"
@@ -1692,8 +1798,7 @@ export default {
             color="accent"
             label="取消"
           >
-          </q-btn>
-        </q-toolbar>
+          </q-btn> -->
       </q-footer>
     </template>
     <!-- mobile -Search List -->
@@ -1750,5 +1855,9 @@ export default {
 label {
   color: #000;
   font-size: 14px;
+}
+
+.fab-action-offset {
+  right: -10px;
 }
 </style>

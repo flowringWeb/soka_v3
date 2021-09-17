@@ -122,7 +122,7 @@ export default {
         status: "",
         endDate: "",
       },
-      
+
       // 會員家族
       familyColumns: [
         {
@@ -167,7 +167,7 @@ export default {
         },
       ],
       familyData: [],
-      familyDataLoading:false,
+      familyDataLoading: false,
       // 會員學歷
       eduColumns: [
         {
@@ -226,7 +226,7 @@ export default {
         },
       ],
       eduData: [],
-      eduDataLoading:false,
+      eduDataLoading: false,
       // 教學資格
       teachingColumns: [
         {
@@ -731,12 +731,13 @@ export default {
       switch (currentTab) {
         case "m_family":
           // 已有資料
-          if(this.familyData.length>0) return
-          try {// 尚未取得資料
+          if (this.familyData.length > 0) return;
+          try {
+            // 尚未取得資料
             // this.$q.loading.show();  //全局loading顯示
-            this.familyDataLoading=true
+            this.familyDataLoading = true;
             let res = await getMemberFamilyList();
-            
+
             return new Promise((resolve) => {
               // if (res.code === 0) {
               //   resolve(res);
@@ -745,43 +746,40 @@ export default {
               // }
               if (res.data.length > 0) {
                 this.familyData = res.data;
-                this.familyDataLoading=false
+                this.familyDataLoading = false;
                 resolve(res);
               } else {
-                this.familyDataLoading=false
+                this.familyDataLoading = false;
                 resolve(res);
               }
-         
             });
           } catch (err) {
             alert("服務器出错");
             console.log(err);
           }
-          
+
         case "m_edu":
           // 已有資料
-          if(this.eduData.length>0) return
+          if (this.eduData.length > 0) return;
           try {
             // 尚未取得資料
-            this.eduDataLoading=true
+            this.eduDataLoading = true;
             let res = await getMemberEduList();
-            
-            return new Promise((resolve) => { 
+
+            return new Promise((resolve) => {
               if (res.data.length > 0) {
                 this.eduData = res.data;
-                this.eduDataLoading=false
+                this.eduDataLoading = false;
                 resolve(res);
               } else {
-                this.eduDataLoading=false
+                this.eduDataLoading = false;
                 resolve(res);
               }
-              
             });
           } catch (err) {
             alert("服務器出错");
             console.log(err);
           }
-          
       }
 
       // //
@@ -790,7 +788,7 @@ export default {
       // });
     },
     changeTab(e) {
-      this.fetchData(e)
+      this.fetchData(e);
     },
     showLoading() {
       this.$q.loading.show();
@@ -924,7 +922,7 @@ export default {
                       :readonly="$route.params.type === 'view' ? true : false"
                       v-model="memberName"
                       :label="$q.screen.lt.sm ? '會員姓名' : void 0"
-                      :rules="[ val => !!val || '* 必填' ]"
+                      :rules="[(val) => !!val || '* 必填']"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="memberName">
@@ -1833,10 +1831,9 @@ export default {
               !$route.params.userName ? '王小明' : $route.params.userName
             "
             :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
-            style="margin-bottom:10px;"
+            style="margin-bottom: 10px"
           ></mem-name-phone-show>
 
-          
           <mem-table
             :tableColumn="familyColumns"
             :tableData="familyData"
@@ -1846,9 +1843,7 @@ export default {
             rowKey="name"
             tabTitle="家族會員"
           >
-            
           </mem-table>
-          
         </q-tab-panel>
 
         <!-- 會員學歷 -->
@@ -1858,7 +1853,7 @@ export default {
               !$route.params.userName ? '王小明' : $route.params.userName
             "
             :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
-            style="margin-bottom:10px;"
+            style="margin-bottom: 10px"
           ></mem-name-phone-show>
           <mem-table
             :tableColumn="eduColumns"
@@ -1877,7 +1872,7 @@ export default {
               !$route.params.userName ? '王小明' : $route.params.userName
             "
             :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
-            style="margin-bottom:10px;"
+            style="margin-bottom: 10px"
           ></mem-name-phone-show>
           <mem-table
             :tableColumn="teachingColumns"
@@ -1895,7 +1890,7 @@ export default {
               !$route.params.userName ? '王小明' : $route.params.userName
             "
             :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
-            style="margin-bottom:10px;"
+            style="margin-bottom: 10px"
           ></mem-name-phone-show>
           <mem-table
             :tableColumn="certiRecordColumns"
@@ -1913,7 +1908,7 @@ export default {
               !$route.params.userName ? '王小明' : $route.params.userName
             "
             :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
-            style="margin-bottom:10px;"
+            style="margin-bottom: 10px"
           ></mem-name-phone-show>
           <mem-table
             :tableColumn="trainingColumns"
@@ -1931,7 +1926,7 @@ export default {
               !$route.params.userName ? '王小明' : $route.params.userName
             "
             :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
-            style="margin-bottom:10px;"
+            style="margin-bottom: 10px"
           ></mem-name-phone-show>
           <mem-table
             :tableColumn="awardColumns"
@@ -1949,7 +1944,7 @@ export default {
               !$route.params.userName ? '王小明' : $route.params.userName
             "
             :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
-            style="margin-bottom:10px;"
+            style="margin-bottom: 10px"
           ></mem-name-phone-show>
           <mem-table
             :tableColumn="idolColumns"
@@ -1968,7 +1963,7 @@ export default {
               !$route.params.userName ? '王小明' : $route.params.userName
             "
             :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
-            style="margin-bottom:10px;"
+            style="margin-bottom: 10px"
           ></mem-name-phone-show>
           <mem-table
             :tableColumn="memOrgColumns"
@@ -1994,7 +1989,7 @@ export default {
               !$route.params.userName ? '王小明' : $route.params.userName
             "
             :mem-phone="!$route.params.mCode ? 'M000000' : $route.params.mCode"
-            style="margin-bottom:10px;"
+            style="margin-bottom: 10px"
           ></mem-name-phone-show>
           <mem-table
             :tableColumn="journalColumns"
