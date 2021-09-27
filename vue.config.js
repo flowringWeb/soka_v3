@@ -5,6 +5,7 @@ module.exports = {
       rtlSupport: true,
     },
   },
+  publicPath: process.env.NODE_ENV === "production" ? "/soka_v3/" : "/",
   transpileDependencies: ["quasar"],
   devServer: {
     port: 8080, //端口號
