@@ -32,9 +32,12 @@ export default {
       txtVersionDate: "2010/08/09",
       txtVersionState: "修改第6條",
       //form
-      memberName: "",
-      associationTitle: "",
-      bornDate: "",
+      notFilledFormItems: [],
+      form2: {
+        memberName: "",
+        bornDate: "",
+        associationTitle: "",
+      },
       cboBelongArea: "",
       cboBelongArea_options: [],
       cboBelongArea2: "",
@@ -717,7 +720,6 @@ export default {
           note: "",
         },
       ],
-      inputErr: false,
     };
   },
   methods: {
@@ -802,27 +804,39 @@ export default {
     onSubmit() {
       console.log("submit");
     },
+    calNotFilledFormItems() {
+      for (let key in this.form2) {
+        if (!this.form2[key]) {
+          this.notFilledFormItems.push(key);
+        }
+      }
+      console.log(this.notFilledFormItems);
+      return this.notFilledFormItems;
+    },
     checkRequireItems() {
-      if (this.memberName == "") {
-        this.inputErr = true;
+      this.calNotFilledFormItems();
+      if (this.notFilledFormItems.length !== 0) {
         this.$q.notify({
-          message: '請確認必填欄位是否填寫',
+          message: `尚有${this.notFilledFormItems.length}個欄位未填`,
           type: "warning",
+          position: "top-right",
+        });
+        this.notFilledFormItems = [];
+      } else {
+        this.$q.notify({
+          message: `已成功送出`,
+          type: "positive",
           position: "top-right",
         });
       }
     },
   },
-  computed: {
-    isValid() {
-      return this.memberName.length <= 1;
-    },
-  },
   created() {
     import("../json/member.json").then((res) => {
       // console.log("1", res);
-      this.memberName = res.memberName;
-      this.bornDate = res.bornDate;
+      this.form2.memberName = res.memberName;
+      this.form2.associationTitle = res.associationTitle;
+      this.form2.bornDate = res.bornDate;
 
       this.cboBelongArea = res.cboBelongArea;
       this.cboBelongArea2 = res.cboBelongArea2;
@@ -936,11 +950,10 @@ export default {
                       outlined
                       dense
                       :readonly="$route.params.type === 'view' ? true : false"
-                      v-model="memberName"
+                      v-model="form2['memberName']"
                       :label="$q.screen.lt.sm ? '會員姓名' : void 0"
-                      autofocus
                       hide-bottom-space
-                      :error="inputErr"
+                      :rules="[(val) => !!val]"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="memberName">
@@ -955,9 +968,10 @@ export default {
                       type="text"
                       outlined
                       dense
-                      emit-value
-                      v-model="associationTitle"
+                      v-model="form2['associationTitle']"
                       :label="$q.screen.lt.sm ? '學會職務' : void 0"
+                      hide-bottom-space
+                      :rules="[(val) => !!val]"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="associationTitle"> 學會職務: </label>
@@ -971,7 +985,8 @@ export default {
                       outlined
                       dense
                       :label="$q.screen.lt.sm ? '生日' : void 0"
-                      v-model="bornDate"
+                      hide-bottom-space
+                      v-model="form2['bornDate']"
                       mask="date"
                       :rules="['date']"
                     >
@@ -987,7 +1002,7 @@ export default {
                             transition-show="scale"
                             transition-hide="scale"
                           >
-                            <q-date v-model="bornDate">
+                            <q-date v-model="form2['bornDate']">
                               <div class="row items-center justify-end">
                                 <q-btn
                                   v-close-popup
