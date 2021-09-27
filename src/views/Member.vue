@@ -717,6 +717,7 @@ export default {
           note: "",
         },
       ],
+      inputErr: false,
     };
   },
   methods: {
@@ -800,6 +801,21 @@ export default {
     },
     onSubmit() {
       console.log("submit");
+    },
+    checkRequireItems() {
+      if (this.memberName == "") {
+        this.inputErr = true;
+        this.$q.notify({
+          message: '請確認必填欄位是否填寫',
+          type: "warning",
+          position: "top-right",
+        });
+      }
+    },
+  },
+  computed: {
+    isValid() {
+      return this.memberName.length <= 1;
     },
   },
   created() {
@@ -922,7 +938,9 @@ export default {
                       :readonly="$route.params.type === 'view' ? true : false"
                       v-model="memberName"
                       :label="$q.screen.lt.sm ? '會員姓名' : void 0"
-                      :rules="[(val) => !!val || '* 必填']"
+                      autofocus
+                      hide-bottom-space
+                      :error="inputErr"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="memberName">
@@ -1795,7 +1813,12 @@ export default {
               </div>
               <div class="col-6 col-md-3">
                 <div class="q-gutter-x-md">
-                  <q-btn type="submit" color="primary" label="儲存" />
+                  <q-btn
+                    type="submit"
+                    color="primary"
+                    label="儲存"
+                    @click="checkRequireItems"
+                  />
                   <q-btn color="primary" label="取消" />
                 </div>
               </div>
