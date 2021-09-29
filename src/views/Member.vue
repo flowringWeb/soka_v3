@@ -7,8 +7,10 @@ import {
 import MemNamePhoneShow from "@/components/Member/MemNamePhoneShow";
 import MemTable from "@/components/Member/MemTable";
 import MemIndexTable from "@/components/Member/MemIndexTable";
+import checkErrorStatus from "@/utils/checkErrorStatus";
 export default {
   name: "Member",
+  mixins: [checkErrorStatus],
   components: { MemTable, MemIndexTable, MemNamePhoneShow },
   data() {
     return {
@@ -33,11 +35,34 @@ export default {
       txtVersionState: "修改第6條",
       //form
       notFilledFormItems: [],
+      // form2: [
+      //   {
+      //     name: "memberName",
+      //     val: "",
+      //     isError: false,
+      //   },
+      //   {
+      //     name: "bornDate",
+      //     val: "",
+      //     isError: false,
+      //   },
+      //   {
+      //     name: "associationTitle",
+      //     val: "",
+      //     isError: false,
+      //   },
+      // ],
       form2: {
         memberName: "",
         bornDate: "",
         associationTitle: "",
       },
+      validFormFields: {
+        memberName: true,
+        bornDate: true,
+        associationTitle: true,
+      },
+      allFieldsAreValid: true,
       cboBelongArea: "",
       cboBelongArea_options: [],
       cboBelongArea2: "",
@@ -830,6 +855,57 @@ export default {
         });
       }
     },
+    validate_r(val) {
+      this.validFormFields.memberName = val && val.length > 0;
+      this.validFormFields.associationTitle = val && val.length > 0;
+      this.validFormFields.bornDate = val && val.length > 0;
+      for (let key in this.validFormFields) {
+        return this.validFormFields[key];
+      }
+    },
+    // calNotFilledFormItems() {
+    //   this.form2.forEach((item) => {
+    //     if (!item.val) {
+    //       this.notFilledFormItems.push(item.name);
+    //       item.isError = !item.isError;
+    //     }
+    //   })
+    //   return this.notFilledFormItems;
+    // },
+    // checkRequireItems() {
+    //   this.calNotFilledFormItems();
+    //   if (this.notFilledFormItems.length !== 0) {
+    //     this.$q.notify({
+    //       message: `尚有${this.notFilledFormItems.length}個欄位未填`,
+    //       type: "warning",
+    //       position: "top-right",
+    //     });
+    //     this.notFilledFormItems = [];
+    //   } else {
+    //     this.$q.notify({
+    //       message: `已成功送出`,
+    //       type: "positive",
+    //       position: "top-right",
+    //     });
+    //   }
+    // },
+  },
+  computed: {
+    isError() {
+      return (propName) => {
+        return !(this.validFormFields[propName] === true);
+      };
+    },
+  },
+  watch: {
+    validFormFields: {
+      handler(newVal) {
+        this.allFieldsAreValid = Object.values(newVal).every(
+          (item) => item === true
+        );
+      },
+      deep: true,
+    },
   },
   created() {
     import("../json/member.json").then((res) => {
@@ -837,6 +913,10 @@ export default {
       this.form2.memberName = res.memberName;
       this.form2.associationTitle = res.associationTitle;
       this.form2.bornDate = res.bornDate;
+
+      // this.form2[0].name = res.memberName;
+      // this.form2[0].name = res.associationTitle;
+      // this.form2[0].name = res.bornDate;
 
       this.cboBelongArea = res.cboBelongArea;
       this.cboBelongArea2 = res.cboBelongArea2;
@@ -953,7 +1033,8 @@ export default {
                       v-model="form2['memberName']"
                       :label="$q.screen.lt.sm ? '會員姓名' : void 0"
                       hide-bottom-space
-                      :rules="[(val) => !!val]"
+                      :error="isError('memberName')"
+                      :rules="[validate_r]"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="memberName">
@@ -971,7 +1052,8 @@ export default {
                       v-model="form2['associationTitle']"
                       :label="$q.screen.lt.sm ? '學會職務' : void 0"
                       hide-bottom-space
-                      :rules="[(val) => !!val]"
+                      :error="isError('associationTitle')"
+                      :rules="[validate_r]"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="associationTitle"> 學會職務: </label>
@@ -988,7 +1070,8 @@ export default {
                       hide-bottom-space
                       v-model="form2['bornDate']"
                       mask="date"
-                      :rules="['date']"
+                      :error="isError('bornDate')"
+                      :rules="[validate_r]"
                     >
                       <template v-slot:before v-if="$q.screen.gt.xs">
                         <label for="bornDate">

@@ -1699,53 +1699,8 @@ export default {
         />
       </div>
       <q-footer elevated v-if="$q.screen.lt.sm" class="q-pa-md">
-        <div class="flex justify-end">
-          <q-fab
-            color="amber"
-            padding="xs"
-            icon="keyboard_arrow_up"
-            direction="up"
-            vertical-actions-align="right"
-          >
-            <q-fab-action
-              square
-              padding="xs"
-              color="primary"
-              label="匯出"
-              class="fab-action-offset"
-            />
-            <q-fab-action
-              square
-              padding="xs"
-              color="primary"
-              label="各項異動"
-              class="fab-action-offset"
-            />
-            <q-fab-action
-              square
-              padding="xs"
-              color="primary"
-              label="會員查詢"
-              class="fab-action-offset"
-            />
-            <q-fab-action
-              square
-              padding="xs"
-              color="amber"
-              label="部別變更"
-              class="fab-action-offset"
-            />
-            <q-fab-action
-              square
-              padding="xs"
-              color="amber"
-              label="批次學生部別異動"
-              class="fab-action-offset"
-            />
-          </q-fab>
-        </div>
 
-        <!-- <div class="flex justify-center">
+        <div class="flex justify-center">
           <q-btn
             class="q-mr-md q-mb-md"
             color="primary"
@@ -1778,7 +1733,7 @@ export default {
             text-color="white"
             label="批次學生部別異動"
           />
-        </div> -->
+        </div>
 
         <!-- <q-btn
             flat
