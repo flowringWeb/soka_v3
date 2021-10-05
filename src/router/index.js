@@ -15,6 +15,7 @@ const routes = [
       {path: '/Member',name: 'Member', component: () => import('@/views/Member.vue')},
       {path: '/TestApi', component: () => import('@/views/TestApi.vue')},
       {path: '/Member-search', component: () => import('@/views/Member-search.vue')},
+      {path: '/BthStuDiff', component: () => import('@/views/BthStuDiff.vue')},
     ]
   },
   

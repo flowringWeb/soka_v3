@@ -1829,6 +1829,7 @@ export default {
           color="amber"
           text-color="white"
           label="批次學生部別異動"
+          to="/BthStuDiff"
         />
       </div>
       <q-footer elevated v-if="$q.screen.lt.sm" class="q-pa-md">
@@ -1864,6 +1865,7 @@ export default {
             color="amber"
             text-color="white"
             label="批次學生部別異動"
+            to="/BthStuDiff"
           />
         </div>
 
