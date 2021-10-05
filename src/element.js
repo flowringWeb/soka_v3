@@ -53,7 +53,8 @@ import {
     Loading,
     MessageBox,
     Message,
-    Notification
+    Notification,
+    Divider
 } from 'element-ui';
 
 
@@ -107,6 +108,7 @@ Vue.use(Link);
 Vue.use(Image);
 Vue.use(Backtop);
 Vue.use(PageHeader);
+Vue.use(Divider);
 
 Vue.use(Loading.directive);
 
