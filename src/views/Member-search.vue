@@ -245,6 +245,129 @@ export default {
       fullMemData: [],
       fullMemDataLoading: false,
       // ========== End of Member Table =========
+
+      // ========== bthStuDiff (批次學生異動)  Table ================
+      bthStuDiffColumns: [
+        {
+          name: "memberCode",
+          align: "center",
+          label: "會員編號",
+          field: "memberCode",
+        },
+        {
+          name: "memberName",
+          label: "姓名",
+          align: "center",
+          field: "memberName",
+        },
+        {
+          name: "stuDepartment",
+          label: "學生部別",
+          align: "center",
+          field: "stuDepartment",
+        },
+        {
+          name: "currScoolName",
+          label: "目前就讀學校",
+          field: "currScoolName",
+          align: "center",
+        },
+        {
+          name: "grade",
+          label: "年級",
+          field: "grade",
+          align: "center",
+        },
+        {
+          name: "graduate",
+          label: "畢業",
+          field: "graduate",
+          align: "center",
+        },
+        {
+          name: "eduCode",
+          label: "學歷代碼(升學)",
+          field: "eduCode",
+          align: "center",
+        },
+        {
+          name: "stuDepartDiff",
+          label: "學生部別異動",
+          align: "center",
+          field: "stuDepartDiff",
+        },
+        {
+          name: "comingScoolName",
+          label: "學校(升學)",
+          align: "center",
+          field: "comingScoolName",
+        },
+        {
+          name: "collegeAssociation",
+          label: "大學會",
+          align: "center",
+          field: "collegeAssociation",
+        },
+        {
+          name: "EnrollDate",
+          label: "入學日期",
+          align: "center",
+          field: "EnrollDate",
+        },
+        {
+          name: "gradeStatusDiff",
+          label: "年級狀態異動",
+          align: "center",
+          field: "gradeStatusDiff",
+        },
+        {
+          name: "graduateStatusDiff",
+          label: "畢業狀態異動",
+          align: "center",
+          field: "graduateStatusDiff",
+        },
+        {
+          name: "isMoveOut",
+          label: "是否遷出",
+          field: "isMoveOut",
+          align: "center",
+        },
+        {
+          name: "moveOutDataEdit",
+          label: "遷出資料填寫",
+          align: "center",
+          field: "moveOutDataEdit",
+        },
+        {
+          name: "isMoveOutDateDone",
+          label: "遷出資料是否完成",
+          align: "center",
+          field: "isMoveOutDateDone",
+        },
+      ],
+      bthStuDiffData: [
+        {
+          memberCode: "2000123",
+          memberName: "王曉明",
+          stuDepartment: "大學",
+          currScoolName: "xx高中",
+          grade: "7",
+          graduate: "在學a",
+          eduCode: "",
+          stuDepartDiff: "",
+          comingScoolName: "",
+          collegeAssociation: "",
+          EnrollDate: "",
+          gradeStatusDiff: "",
+          graduateStatusDiff: "",
+          isMoveOut: false,
+          moveOutDataEdit: "",
+          isMoveOutDateDone: "",
+        }
+      ],
+      bthStuDiffDataLoading: false,
+      // ========== End of bthStuDiff (批次學生異動)  Table Table =========
+
       // ========== Moblie Buttons Layout ================
       mobileLayout: [
         {
@@ -852,32 +975,6 @@ export default {
               </template>
             </q-select>
           </div>
-          <div class="col-6 col-md-4">
-            <q-select
-              id="cboConfidenceBg"
-              outlined
-              dense
-              emit-value
-              :label="$q.screen.lt.sm ? '部別' : void 0"
-            >
-              <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="cboConfidenceBg" class=""> 部別: </label>
-              </template>
-            </q-select>
-          </div>
-          <div class="col-6 col-md-4">
-            <q-select
-              id="cboConfidenceBg"
-              outlined
-              dense
-              emit-value
-              :label="$q.screen.lt.sm ? '會員類型' : void 0"
-            >
-              <template v-slot:before v-if="$q.screen.gt.xs">
-                <label for="cboConfidenceBg" class=""> 會員類型: </label>
-              </template>
-            </q-select>
-          </div>
           <div class="col-12 q-gutter-y-md">
             <div class="flex items-center q-gutter-x-md">
               <span
@@ -1372,6 +1469,32 @@ export default {
                   </template>
                 </q-select>
               </div>
+              <div class="col-6 col-md-4">
+                <q-select
+                  id="cboConfidenceBg"
+                  outlined
+                  dense
+                  emit-value
+                  :label="$q.screen.lt.sm ? '部別' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="cboConfidenceBg" class=""> 部別: </label>
+                  </template>
+                </q-select>
+              </div>
+              <div class="col-6 col-md-4">
+                <q-select
+                  id="cboConfidenceBg"
+                  outlined
+                  dense
+                  emit-value
+                  :label="$q.screen.lt.sm ? '會員類型' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="cboConfidenceBg" class=""> 會員類型: </label>
+                  </template>
+                </q-select>
+              </div>
               <div
                 class="row justify-start items-center q-col-gutter-md q-py-md"
               >
@@ -1672,6 +1795,16 @@ export default {
         rowKey="id"
         tabTitle="所有會員"
       ></mem-index-table>
+
+      <!-- <mem-index-table
+        :tableColumn="bthStuDiffColumns"
+        :tableData="bthStuDiffData"
+        :showMultiSelect="true"
+        :table-loading="bthStuDiffDataLoading"
+        rowKey="name"
+        tabTitle="批次學生異動"
+      ></mem-index-table> -->
+
       <div class="flex justify-center" v-if="$q.screen.gt.xs">
         <q-btn
           class="q-mr-md q-mb-md"
@@ -1699,7 +1832,6 @@ export default {
         />
       </div>
       <q-footer elevated v-if="$q.screen.lt.sm" class="q-pa-md">
-
         <div class="flex justify-center">
           <q-btn
             class="q-mr-md q-mb-md"
