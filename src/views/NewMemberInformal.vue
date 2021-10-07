@@ -7,18 +7,12 @@ export default {
   },
   data() {
     return {
-      isFormalMem: true
+        isFormalMem: false
     };
   },
-  watch: {
-
-  },
-  computed: {
-
-  },
-  methods: {
-
-  },
+  watch: {},
+  computed: {},
+  methods: {},
 };
 </script>
 <template>
@@ -27,5 +21,4 @@ export default {
   </div>
 </template>
 <style lang="scss" scoped>
-
 </style>

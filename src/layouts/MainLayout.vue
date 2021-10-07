@@ -302,10 +302,16 @@ export default {
           expand-icon-class="text-white"
         >
           <q-list class="q-pl-lg">
-            <q-item to="/頁面" active-class="q-item-no-link-highlighting">
+            <q-item to="/NewMember" active-class="q-item-no-link-highlighting">
               <q-item-section avatar><q-icon name="" /></q-item-section>
               <q-item-section
                 ><q-item-label>入信卡</q-item-label></q-item-section
+              >
+            </q-item>
+            <q-item to="/NewMemberInformal" active-class="q-item-no-link-highlighting">
+              <q-item-section avatar><q-icon name="" /></q-item-section>
+              <q-item-section
+                ><q-item-label>創友考生卡</q-item-label></q-item-section
               >
             </q-item>
             <q-item to="/頁面" active-class="q-item-no-link-highlighting">
@@ -727,14 +733,6 @@ export default {
             </q-item>
           </q-list>
         </q-expansion-item>
-        <q-item to="/NewMember" active-class="q-item-no-link-highlighting">
-          <q-item-section avatar>
-            <q-icon name="dashboard" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>入信卡</q-item-label>
-          </q-item-section>
-        </q-item>
         <q-item to="/Member" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
             <q-icon name="dashboard" />
