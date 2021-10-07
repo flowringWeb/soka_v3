@@ -244,6 +244,7 @@ export default {
       ],
       fullMemData: [],
       fullMemDataLoading: false,
+      isEditable: false,
       // ========== End of Member Table =========
 
       // ========== bthStuDiff (批次學生異動)  Table ================
@@ -1792,18 +1793,10 @@ export default {
         :tableData="fullMemData"
         :showMultiSelect="true"
         :table-loading="fullMemDataLoading"
+        :isEditable="isEditable"
         rowKey="id"
         tabTitle="所有會員"
       ></mem-index-table>
-
-      <!-- <mem-index-table
-        :tableColumn="bthStuDiffColumns"
-        :tableData="bthStuDiffData"
-        :showMultiSelect="true"
-        :table-loading="bthStuDiffDataLoading"
-        rowKey="name"
-        tabTitle="批次學生異動"
-      ></mem-index-table> -->
 
       <div class="flex justify-center" v-if="$q.screen.gt.xs">
         <q-btn

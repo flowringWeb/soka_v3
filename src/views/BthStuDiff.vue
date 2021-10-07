@@ -1,8 +1,11 @@
 <script>
+import ComPagination from "@/components/Common/form/ComPagination";
 export default {
   name: "BthStuDiff",
+  components: { ComPagination },
   data() {
     return {
+      selected: [],
       bthStuDiffColumns: [
         {
           name: "memberCode",
@@ -121,7 +124,7 @@ export default {
           isMoveOutDateDone: "完成",
         },
         {
-          memberCode: "2000123",
+          memberCode: "2000134",
           memberName: "小玉",
           stuDepartment: "高中",
           currScoolName: "xx高中",
@@ -178,12 +181,15 @@ export default {
 };
 </script>
 <template>
-  <div>
+  <div class="q-pa-md">
     <q-table
       title="批次學生異動"
       :columns="bthStuDiffColumns"
       :data="bthStuDiffData"
-      row-key="name"
+      row-key="memberCode"
+      selection="multiple"
+      :selected.sync="selected"
+      class="q-mb-md"
     >
       <template v-slot:body-cell-eduCode="props">
         <q-td :props="props" auto-width>
@@ -293,8 +299,7 @@ export default {
         <q-td :props="props" auto-width>
           <span
             :style="
-              props.row.isMoveOutDateDone == '未填' ? 'color:#ff0000' : ''
-            "
+              props.row.isMoveOutDateDone == '未填' ? 'color:#ff0000' : ''"
           >
             {{ props.row.isMoveOutDateDone }}
           </span>
@@ -310,8 +315,10 @@ export default {
         ></com-pagination>
       </template>
     </q-table>
-    <q-btn label="送出" color="primary" />
-    <q-btn label="取消" color="primary" />
+    <div class="flex justify-center q-gutter-x-md">
+      <q-btn label="送出" color="primary" />
+      <q-btn label="取消" color="primary" />
+    </div>
 
     <!-- dialog-遷出資料 -->
     <q-dialog v-model="isMoveOutData">

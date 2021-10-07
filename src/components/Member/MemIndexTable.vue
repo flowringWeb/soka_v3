@@ -19,16 +19,10 @@
       </template>
       <!-- table 表頭 -->
       <q-tr slot="header" slot-scope="props">
+        <q-th auto-width v-if="showMultiSelect"> 操作 </q-th>
         <q-th auto-width v-if="showMultiSelect">
-          操作
+          <q-checkbox v-model="props.selected" indeterminate-value="some" />
         </q-th>
-        <q-th auto-width v-if="showMultiSelect">
-          <q-checkbox
-            v-model="props.selected"
-            indeterminate-value="some"
-          />
-        </q-th>
-
 
         <q-th v-for="col in props.cols" :key="col.name" :props="props">
           {{ col.label }}
@@ -45,24 +39,44 @@
       <!-- table row (body) 客製 => all會員比較別 代處理 -->
 
       <template v-slot:body="props">
-        <q-tr :props="props" >
+        <q-tr :props="props">
           <q-td>
             <div class="q-pa-md q-gutter-sm">
-              <q-btn size="small" color="secondary" label="檢視" @click="goTo(type='view',props.row)"/>
-              <q-btn size="small" color="amber" label="修改" @click="goTo(type='edit',props.row)"/>
               <q-btn
                 size="small"
-                style="color: white;background: red;"
+                color="secondary"
+                label="檢視"
+                @click="goTo((type = 'view'), props.row)"
+              />
+              <q-btn
+                size="small"
+                color="amber"
+                label="修改"
+                @click="goTo((type = 'edit'), props.row)"
+              />
+              <q-btn
+                size="small"
+                style="color: white; background: red"
                 label="刪除"
               />
             </div>
           </q-td>
-          <q-td >
+          <q-td>
             <!-- {{props.row}} -->
             <q-checkbox v-model="props.selected" color="primary" />
           </q-td>
           <q-td key="memberCode" :props="props">
-            {{ props.row.memberCode }}
+            <template v-if="isEditable">
+              <q-input
+                outlined
+                dense
+                v-model="props.row.memberCode"
+              >
+              </q-input>
+            </template>
+            <template v-else>
+              {{ props.row.memberCode }}
+            </template>
           </q-td>
           <q-td key="memberName" :props="props">
             {{ props.row.memberName }}
@@ -117,10 +131,10 @@
       </template>
     </q-table>
 
-    {{selected}}
+    {{ selected }}
     <!-- 新增 -->
     <q-dialog v-model="showCheckDiagle">
-      <q-card style="width: 700px; max-width: 80vw;">
+      <q-card style="width: 700px; max-width: 80vw">
         <q-card-section class="row items-center q-pb-none">
           <div class="text-h6">新增家族成員</div>
           <q-space />
@@ -173,6 +187,10 @@ export default {
       type: String,
       required: true,
     },
+    isEditable: {
+      type: Boolean,
+      required: true,
+    },
   },
   // 局部注冊的組件
   components: {},
@@ -197,8 +215,6 @@ export default {
         status: "",
         endDate: "",
       },
-      
-
     };
   },
   created() {},
@@ -208,38 +224,36 @@ export default {
   watch: {},
   // 組件方法
   methods: {
-      updateSelected(e){
-        console.log(e)
-      }, 
-      goTo(type,row){
-        this.$router.push({
-          name:"Member",
-          params: { 
-            userId: '',
-            userName:row.memberName,
-            mCode:row.memberCode,
-            type 
-          }
-        })
-        // switch(type){
-        //   case 'view':
-        //     this.$router.push({
-        //       name:"Member",
-        //       params: { userId: '',userName:row.memberName,mCode:row.memberCode,type }
-        //     })
-        //     break;
-        //   case 'edit':
-        //     this.$router.push({
-        //       name:"Member",
-        //       params: { userId: '',userName:row.memberName,mCode:row.memberCode,type }
-        //     })
-        //     break;
-        // }
-        
-      },
+    updateSelected(e) {
+      console.log(e);
+    },
+    goTo(type, row) {
+      this.$router.push({
+        name: "Member",
+        params: {
+          userId: "",
+          userName: row.memberName,
+          mCode: row.memberCode,
+          type,
+        },
+      });
+      // switch(type){
+      //   case 'view':
+      //     this.$router.push({
+      //       name:"Member",
+      //       params: { userId: '',userName:row.memberName,mCode:row.memberCode,type }
+      //     })
+      //     break;
+      //   case 'edit':
+      //     this.$router.push({
+      //       name:"Member",
+      //       params: { userId: '',userName:row.memberName,mCode:row.memberCode,type }
+      //     })
+      //     break;
+      // }
+    },
   },
   filters: {
-    
     transformById(val, colName) {
       switch (colName) {
         case "areaArr":
