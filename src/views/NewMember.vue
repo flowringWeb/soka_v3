@@ -7,6 +7,7 @@ export default {
   },
   data() {
     return {
+      formalType: "formal",
       isFormalMem: true
     };
   },
@@ -23,7 +24,7 @@ export default {
 </script>
 <template>
   <div>
-    <MemNew :isFormalMem="isFormalMem"></MemNew>
+    <MemNew :formalType="formalType" :isFormalMem="isFormalMem"></MemNew>
   </div>
 </template>
 <style lang="scss" scoped>

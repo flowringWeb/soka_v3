@@ -161,8 +161,20 @@ export default {
       graduateStatusDiff_options: ["在學", "畢業"],
       isMoveOutData: false,
       //dialog
-      txtVersion: "aa",
+      txtVersion: "",
       startDate: "1988/01/01",
+      distNoLive: "",
+      distNoLive_options: [],
+      moveOut: "",
+      moveOut_options: [],
+      //dialog-通訊地址
+      mailingPostalCode: "",
+      mailingCity: "",
+      mailingCity_options: ["請選擇", "台北市", "新北市"],
+      mailingDistirct: "",
+      mailingDistirct_options: ["請選擇", "汐止區", "新店區"],
+      mallingStreetAddress: "",
+      theSameWithMailing: false,
       //pagination
       page: {
         pageSize: 20,
@@ -299,7 +311,8 @@ export default {
         <q-td :props="props" auto-width>
           <span
             :style="
-              props.row.isMoveOutDateDone == '未填' ? 'color:#ff0000' : ''"
+              props.row.isMoveOutDateDone == '未填' ? 'color:#ff0000' : ''
+            "
           >
             {{ props.row.isMoveOutDateDone }}
           </span>
@@ -335,7 +348,7 @@ export default {
             <div class="text-h6">遷出資料填寫</div>
           </q-card-section>
           <q-card-section>
-            <div class="row q-col-gutter-x-sm q-col-gutter-y-sm q-py-sm">
+            <div class="row q-col-gutter-x-sm q-col-gutter-md q-py-sm">
               <div class="col-6 col-md-6">
                 <q-input
                   id="txtVersion"
@@ -409,6 +422,116 @@ export default {
                   </template>
                 </q-input>
               </div>
+              <div class="row justify-start items-center q-col-gutter-md">
+                <div class="col-6 col-md-4">
+                  <q-input
+                    id="mailingPostalCode"
+                    type="text"
+                    outlined
+                    dense
+                    v-model="mailingPostalCode"
+                    :label="$q.screen.lt.sm ? '郵遞區號' : void 0"
+                    placeholder=""
+                  >
+                    <template v-slot:before v-if="$q.screen.gt.xs">
+                      <label for="mailingPostalCode">
+                        <span class="required">＊</span>異動前通訊地址:
+                      </label>
+                    </template>
+                  </q-input>
+                </div>
+                <div class="col-6 col-md-2">
+                  <q-select
+                    id="mailingCity"
+                    outlined
+                    dense
+                    emit-value
+                    v-model="mailingCity"
+                    :label="$q.screen.lt.sm ? '縣市' : void 0"
+                    :options="mailingCity_options"
+                  >
+                  </q-select>
+                </div>
+                <div class="col-6 col-md-2">
+                  <q-select
+                    id="mailingDistirct"
+                    outlined
+                    dense
+                    emit-value
+                    v-model="mailingDistirct"
+                    :label="$q.screen.lt.sm ? '地區' : void 0"
+                    :options="mailingDistirct_options"
+                  >
+                  </q-select>
+                </div>
+                <div class="col-6 col-md-4">
+                  <q-input
+                    id="mallingStreetAddress"
+                    type="text"
+                    outlined
+                    dense
+                    emit-value
+                    v-model="mallingStreetAddress"
+                    :label="$q.screen.lt.sm ? '路段' : void 0"
+                    placeholder="請輸入街道門牌"
+                  >
+                  </q-input>
+                </div>
+              </div>
+              <div class="row justify-start items-center q-col-gutter-md">
+                <div class="col-6 col-md-4">
+                  <q-input
+                    id="mailingPostalCode"
+                    type="text"
+                    outlined
+                    dense
+                    v-model="mailingPostalCode"
+                    :label="$q.screen.lt.sm ? '郵遞區號' : void 0"
+                    placeholder=""
+                  >
+                    <template v-slot:before v-if="$q.screen.gt.xs">
+                      <label for="mailingPostalCode"> 異動後通訊地址: </label>
+                    </template>
+                  </q-input>
+                </div>
+                <div class="col-6 col-md-2">
+                  <q-select
+                    id="mailingCity"
+                    outlined
+                    dense
+                    emit-value
+                    v-model="mailingCity"
+                    :label="$q.screen.lt.sm ? '縣市' : void 0"
+                    :options="mailingCity_options"
+                  >
+                  </q-select>
+                </div>
+                <div class="col-6 col-md-2">
+                  <q-select
+                    id="mailingDistirct"
+                    outlined
+                    dense
+                    emit-value
+                    v-model="mailingDistirct"
+                    :label="$q.screen.lt.sm ? '地區' : void 0"
+                    :options="mailingDistirct_options"
+                  >
+                  </q-select>
+                </div>
+                <div class="col-6 col-md-4">
+                  <q-input
+                    id="mallingStreetAddress"
+                    type="text"
+                    outlined
+                    dense
+                    emit-value
+                    v-model="mallingStreetAddress"
+                    :label="$q.screen.lt.sm ? '路段' : void 0"
+                    placeholder="請輸入街道門牌"
+                  >
+                  </q-input>
+                </div>
+              </div>
               <div class="col-6 col-md-6">
                 <q-input
                   id="txtVersion"
@@ -430,10 +553,148 @@ export default {
                   outlined
                   dense
                   v-model="txtVersion"
+                  :label="$q.screen.lt.sm ? '異動後電話(公司)' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="txtVersion"> 異動後電話(公司): </label>
+                  </template>
+                </q-input>
+              </div>
+              <div class="col-6 col-md-6">
+                <q-input
+                  id="txtVersion"
+                  type="text"
+                  outlined
+                  dense
+                  v-model="txtVersion"
                   :label="$q.screen.lt.sm ? '異動後電話(住宅)' : void 0"
                 >
                   <template v-slot:before v-if="$q.screen.gt.xs">
                     <label for="txtVersion"> 異動後電話(住宅): </label>
+                  </template>
+                </q-input>
+              </div>
+              <div class="col-6 col-md-6">
+                <q-input
+                  id="txtVersion"
+                  type="text"
+                  outlined
+                  dense
+                  v-model="txtVersion"
+                  :label="$q.screen.lt.sm ? '異動後Email' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="txtVersion"> 異動後Email: </label>
+                  </template>
+                </q-input>
+              </div>
+              <div class="row">
+                <div class="items-center">
+                  <label v-if="$q.screen.gt.xs">異動後戶籍地址: </label>
+                  <q-checkbox
+                    v-model="theSameWithMailing"
+                    label="同異動後通訊地址"
+                    size="xs"
+                  />
+                </div>
+              </div>
+              <div class="row justify-start items-center q-col-gutter-md">
+                <div class="col-6 col-md-4">
+                  <q-input
+                    id="mailingPostalCode"
+                    type="text"
+                    outlined
+                    dense
+                    v-model="mailingPostalCode"
+                    :label="$q.screen.lt.sm ? '郵遞區號' : void 0"
+                    placeholder=""
+                  >
+                    <template v-slot:before v-if="$q.screen.gt.xs">
+                      <label for="residentPostalCode">
+                        <span class="invisible">異動後戶籍地址: </span>
+                      </label>
+                    </template>
+                  </q-input>
+                </div>
+                <div class="col-6 col-md-2">
+                  <q-select
+                    id="mailingCity"
+                    outlined
+                    dense
+                    emit-value
+                    v-model="mailingCity"
+                    :label="$q.screen.lt.sm ? '縣市' : void 0"
+                    :options="mailingCity_options"
+                  >
+                  </q-select>
+                </div>
+                <div class="col-6 col-md-2">
+                  <q-select
+                    id="mailingDistirct"
+                    outlined
+                    dense
+                    emit-value
+                    v-model="mailingDistirct"
+                    :label="$q.screen.lt.sm ? '地區' : void 0"
+                    :options="mailingDistirct_options"
+                  >
+                  </q-select>
+                </div>
+                <div class="col-6 col-md-4">
+                  <q-input
+                    id="mallingStreetAddress"
+                    type="text"
+                    outlined
+                    dense
+                    emit-value
+                    v-model="mallingStreetAddress"
+                    :label="$q.screen.lt.sm ? '路段' : void 0"
+                    placeholder="請輸入街道門牌"
+                  >
+                  </q-input>
+                </div>
+              </div>
+              <div class="col-6 col-md-6">
+                <q-select
+                  id="distNoLive"
+                  outlined
+                  dense
+                  emit-value
+                  v-model="distNoLive"
+                  :label="$q.screen.lt.sm ? '戶籍區' : void 0"
+                  :options="distNoLive_options"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="distNoLive"> 戶籍區: </label>
+                  </template>
+                </q-select>
+              </div>
+              <div class="col-6 col-md-6">
+                <q-select
+                  id="moveOut"
+                  outlined
+                  dense
+                  emit-value
+                  v-model="moveOut"
+                  :label="$q.screen.lt.sm ? '遷移原因' : void 0"
+                  :options="moveOut_options"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="moveOut"> 遷移原因: </label>
+                  </template>
+                </q-select>
+              </div>
+              <div class="col-6 col-md-6">
+                <q-input
+                  id="txtVersion"
+                  type="text"
+                  outlined
+                  dense
+                  v-model="txtVersion"
+                  :label="$q.screen.lt.sm ? '備註' : void 0"
+                >
+                  <template v-slot:before v-if="$q.screen.gt.xs">
+                    <label for="txtVersion"> 備註: </label>
                   </template>
                 </q-input>
               </div>
@@ -452,5 +713,8 @@ export default {
 label {
   color: #000;
   font-size: 14px;
+}
+.required {
+  color: red;
 }
 </style>

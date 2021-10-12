@@ -3,9 +3,13 @@ import MemTable from "@/components/Member/MemTable";
 export default {
   name: "NewMember",
   props: {
-    //判別會員|非正式會員
+    //判別正式會員|非正式會員
     isFormalMem: {
       type: Boolean,
+      required: true,
+    },
+    formalType: {
+      type: String,
       required: true,
     },
   },
@@ -14,6 +18,8 @@ export default {
   },
   data() {
     return {
+      //驗證
+      notFilledFormItems: [],
       //判別stage階段
       ft_stage: true,
       sd_stage: false,
@@ -22,7 +28,7 @@ export default {
       isUnder20: false,
 
       //在學生
-      inSchoolRole_select: ["ele", "junior"],
+      inSchoolRole: "",
       inSchoolRole_options: [
         {
           label: "國小",
@@ -51,25 +57,31 @@ export default {
       ],
 
       //form
-      reqFormItem: {
+      ftReqFormItem: {
+        memberName: "",
+        bornDate: "",
         calDept: "",
         calRecord: "",
+      },
+      plusFormalReqFormItem: {
+        memberId: "",
+        enrollDate: "",
+      },
+      reqFormItem: {
         sex: "",
         dept: "",
         memberName: "",
-        memberId: "",
         bornDate: "",
-        enrollDate: "",
         cboBelongArea: "",
         cboBelongArea2: "",
         email: "",
         mobileNumber: "",
 
         //通訊地址
-        mailingPostalCode: "231",
-        mailingCity: "台北市",
-        mailingDistirct: "汐止區",
-        mallingStreetAddress: "中正路",
+        mailingPostalCode: "",
+        mailingCity: "",
+        mailingDistirct: "",
+        mallingStreetAddress: "",
 
         //介紹人
         introducerName: "",
@@ -82,9 +94,8 @@ export default {
       cboBelongArea2_options: [],
       mailingCity_options: ["請選擇", "台北市", "新北市"],
       mailingDistirct_options: ["請選擇", "汐止區", "新店區"],
-      calDept_options: [],
-      calRecord_options: [],
-      checkMemStatus: "",
+      calDept_options: ["a", "b"],
+      calRecord_options: ["a", "b"],
 
       //戶籍地址
       theSameWithMailing: false,
@@ -101,6 +112,20 @@ export default {
       jobTitle: "",
       cboConfidenceBg: "",
       cboConfidenceBg_options: [],
+
+      //介紹人
+      introducerDepartment_options: ["壯", "婦"],
+      introducerArea: "",
+
+      //監護人
+      theSameWithIntroducer: false,
+      underAgeReqFormItem: {
+        guardianName: "",
+        guardianTel: "",
+        guardianEmail: "",
+      },
+      guardianIsJoin: "",
+      guardianIsJoin_options: ["是", "否"],
 
       // 就學資料表
       schoolAttendColumns: [
@@ -146,18 +171,6 @@ export default {
       schoolAttendDataLoading: false,
       note: "",
 
-      //介紹人
-      introducerDepartment_options: ["壯", "婦"],
-      introducerArea: "",
-
-      //監護人
-      theSameWithIntroducer: true,
-      guardianName: "",
-      guardianTel: "",
-      guardianEmail: "",
-      guardianIsJoin: "",
-      guardianIsJoin_options: ["是", "否"],
-
       //dialog-uploadImg
       uploadImg: false,
     };
@@ -185,13 +198,13 @@ export default {
       const today = new Date();
       let age =
         today.getFullYear() -
-        new Date(this.reqFormItem["bornDate"]).getFullYear();
+        new Date(this.ftReqFormItem["bornDate"]).getFullYear();
       const m =
-        today.getMonth() - new Date(this.reqFormItem["bornDate"]).getMonth();
+        today.getMonth() - new Date(this.ftReqFormItem["bornDate"]).getMonth();
       if (
         m < 0 ||
         (m === 0 &&
-          today.getDate() < new Date(this.reqFormItem["bornDate"]).getDate())
+          today.getDate() < new Date(this.ftReqFormItem["bornDate"]).getDate())
       ) {
         age = age - 1;
       }
@@ -199,9 +212,66 @@ export default {
     },
   },
   methods: {
-    checkRequireItems() {
-      this.$refs.sex.validate();
-      this.$refs.dept.validate();
+    //檢查會員
+    checkMem() {
+      //判別正式與非正式會員
+      if (this.formalType == "formal") {
+        this.valFtFormalReqFormItems();
+        if (
+          this.$refs.f_memberName.hasError ||
+          this.$refs.f_bornDate.hasError ||
+          this.$refs.f_calDept.hasError ||
+          this.$refs.f_calRecord.hasError
+        ) {
+          this.$q.notify({
+            message: "欄位尚未填寫",
+            type: "warning",
+            position: "top-right",
+          });
+        } else {
+          this.$q.notify({
+            message: "檢查成功，請點擊確認",
+            type: "info",
+            position: "top-right",
+            actions: [
+              {
+                label: "確認",
+                color: "white",
+                handler: () => {
+                  this.goNextStage();
+                },
+              },
+            ],
+          });
+        }
+      } else if (this.formalType == "inFormal") {
+        this.valFtInformalReqFormItems();
+        if (
+          this.$refs.f_memberName.hasError ||
+          this.$refs.f_bornDate.hasError
+        ) {
+          this.$q.notify({
+            message: "欄位尚未填寫",
+            type: "warning",
+            position: "top-right",
+          });
+        } else {
+          this.$q.notify({
+            message: "檢查成功",
+            type: "info",
+            position: "top-right",
+            actions: [
+              {
+                label: "確認",
+                color: "white",
+                handler: () => {
+                  this.goNextStage();
+                },
+              },
+            ],
+          });
+        }
+      }
     },
     goNextStage() {
       this.ft_stage = false;
@@ -212,6 +282,98 @@ export default {
         this.isUnder20 = true;
       } else {
         this.isUnder20 = false;
+      }
+    },
+    //驗證ft_stage-非正式會員(2)
+    valFtInformalReqFormItems() {
+      this.$refs.f_memberName.validate();
+      this.$refs.f_bornDate.validate();
+    },
+    //驗證ft_stage-正式會員(4)
+    valFtFormalReqFormItems() {
+      this.valFtInformalReqFormItems();
+      this.$refs.f_calDept.validate();
+      this.$refs.f_calRecord.validate();
+    },
+    //驗證sd_stage-非正式會員必填(15)
+    valSdInformalReqFormItems() {
+      this.$refs.sex.validate();
+      this.$refs.dept.validate();
+      this.$refs.memberName.validate();
+      this.$refs.bornDate.validate();
+      this.$refs.cboBelongArea01.validate();
+      this.$refs.cboBelongArea02.validate();
+      this.$refs.email.validate();
+      this.$refs.mobileNumber.validate();
+      this.$refs.mailingPostalCode.validate();
+      this.$refs.mailingCity.validate();
+      this.$refs.mailingDistirct.validate();
+      this.$refs.mallingStreetAddress.validate();
+      this.$refs.introducerName.validate();
+      this.$refs.introducerTel.validate();
+      this.$refs.introducerDepartment.validate();
+    },
+    //驗證sd_stage-正式會員必填(17)
+    valSdFormalReqFormItems() {
+      this.$refs.memberId.validate();
+      this.$refs.enrollDate.validate();
+      this.valSdInformalReqFormItems();
+    },
+    //驗證sd_stage-未滿20歲(3)
+    valSdUnderAgeReqFormItems() {
+      this.$refs.guardianName.validate();
+      this.$refs.guardianTel.validate();
+      this.$refs.guardianEmail.validate();
+    },
+
+    //驗證sd_stage-計算數量
+    calNotFilledFormItems() {
+      for (let key in this.reqFormItem) {
+        if (!this.reqFormItem[key]) {
+          this.notFilledFormItems.push(key);
+        }
+      }
+      if (this.formalType == "formal") {
+        for (let key in this.plusFormalReqFormItem) {
+          if (!this.plusFormalReqFormItem[key]) {
+            this.notFilledFormItems.push(key);
+          }
+        }
+      }
+      if (this.calAge < 20) {
+        for (let key in this.underAgeReqFormItem) {
+          if (!this.underAgeReqFormItem[key]) {
+            this.notFilledFormItems.push(key);
+          }
+        }
+      }
+      console.log(this.notFilledFormItems);
+      return this.notFilledFormItems;
+    },
+    //驗證sd_stage執行驗證並提示訊息
+    checkRequireItems() {
+      if (this.formalType == "formal") {
+        this.valSdFormalReqFormItems(); //17
+      } else if (this.formalType == "inFormal") {
+        this.valSdInformalReqFormItems(); //15
+      }
+      if (this.calAge < 20) {
+        this.valSdUnderAgeReqFormItems(); //3
+      }
+      this.calNotFilledFormItems();
+      if (this.notFilledFormItems.length !== 0) {
+        this.$q.notify({
+          message: `尚有${this.notFilledFormItems.length}個欄位未填`,
+          type: "warning",
+          position: "top-right",
+        });
+        this.notFilledFormItems = [];
+      } else {
+        this.$q.notify({
+          message: `已成功送出`,
+          type: "positive",
+          position: "top-right",
+        });
       }
     },
   },
@@ -226,11 +388,10 @@ export default {
         type="text"
         outlined
         dense
-        :readonly="$route.params.type === 'view' ? true : false"
-        v-model="reqFormItem['memberName']"
+        v-model="ftReqFormItem['memberName']"
         :label="$q.screen.lt.sm ? '姓名' : void 0"
         hide-bottom-space
-        ref="memberName"
+        ref="f_memberName"
         lazy-rules
         :rules="[(val) => val && val.length > 0]"
       >
@@ -247,9 +408,9 @@ export default {
         dense
         :label="$q.screen.lt.sm ? '生日' : void 0"
         hide-bottom-space
-        v-model="reqFormItem['bornDate']"
+        v-model="ftReqFormItem['bornDate']"
         mask="date"
-        ref="bornDate"
+        ref="f_bornDate"
         lazy-rules
         :rules="[(val) => val && val.length > 0]"
       >
@@ -265,7 +426,7 @@ export default {
               transition-show="scale"
               transition-hide="scale"
             >
-              <q-date v-model="reqFormItem['bornDate']">
+              <q-date v-model="ftReqFormItem['bornDate']">
                 <div class="row items-center justify-end">
                   <q-btn v-close-popup label="確認" color="primary" />
                 </div>
@@ -280,16 +441,16 @@ export default {
           outlined
           dense
           emit-value
-          v-model="reqFormItem['calDept']"
+          v-model="ftReqFormItem['calDept']"
           :label="$q.screen.lt.sm ? '計算成績部別' : void 0"
           hide-bottom-space
           :options="calDept_options"
-          ref="calDept"
+          ref="f_calDept"
           lazy-rules
           :rules="[(val) => val && val.length > 0]"
         >
           <template v-slot:before v-if="$q.screen.gt.xs">
-            <label for="cboBelongArea">
+            <label for="calDept">
               <span class="required">＊</span>計算成績部別:
             </label>
           </template>
@@ -299,11 +460,11 @@ export default {
           outlined
           dense
           emit-value
-          v-model="reqFormItem['calRecord']"
+          v-model="ftReqFormItem['calRecord']"
           :label="$q.screen.lt.sm ? '計算成績區域' : void 0"
           hide-bottom-space
           :options="calRecord_options"
-          ref="calRecord"
+          ref="f_calRecord"
           lazy-rules
           :rules="[(val) => val && val.length > 0]"
         >
@@ -314,18 +475,10 @@ export default {
           </template>
         </q-select>
       </template>
-      <q-input
-        v-model="checkMemStatus"
-        :label="$q.screen.lt.sm ? '檢查狀態' : void 0"
-      >
-        <template v-slot:before v-if="$q.screen.gt.xs">
-          <label for="bornDate"> 檢查狀態:　　　 </label>
-        </template>
-      </q-input>
 
       <div class="flex justify-center q-gutter-x-md q-gutter-y-md">
         <q-btn color="primary" label="取消" v-close-popup />
-        <q-btn color="primary" label="檢查會員" @click="goNextStage" />
+        <q-btn color="primary" label="檢查會員" @click="checkMem" />
       </div>
     </q-form>
 
@@ -373,16 +526,16 @@ export default {
                 </q-field>
               </div>
             </div>
-            <template v-if="isFormalMem">
-              <div class="col-12 col-md-12">
+            <template>
+              <div class="col-12 col-md-12" v-if="isFormalMem">
                 <div class="flex items-center">
                   <label for="">在學生:</label>
-                  <q-checkbox
+                  <q-radio
                     v-for="item in inSchoolRole_options"
                     :key="item.value"
                     :val="item.value"
                     :label="item.label"
-                    v-model="inSchoolRole_select"
+                    v-model="inSchoolRole"
                   />
                 </div>
               </div>
@@ -392,7 +545,6 @@ export default {
                   type="text"
                   outlined
                   dense
-                  :readonly="$route.params.type === 'view' ? true : false"
                   v-model="reqFormItem['memberName']"
                   :label="$q.screen.lt.sm ? '姓名' : void 0"
                   hide-bottom-space
@@ -407,13 +559,13 @@ export default {
                   </template>
                 </q-input>
               </div>
-              <div class="col-6 col-md-3">
+              <div class="col-6 col-md-3" v-if="isFormalMem">
                 <q-input
                   id="memberId"
                   type="text"
                   outlined
                   dense
-                  v-model="reqFormItem['memberId']"
+                  v-model="plusFormalReqFormItem['memberId']"
                   :label="$q.screen.lt.sm ? '會員編號' : void 0"
                   hide-bottom-space
                   ref="memberId"
@@ -463,7 +615,7 @@ export default {
                   </template>
                 </q-input>
               </div>
-              <div class="col-6 col-md-3">
+              <div class="col-6 col-md-3" v-if="isFormalMem">
                 <q-input
                   id="enrollDate"
                   class="q-pb-none"
@@ -489,7 +641,7 @@ export default {
                         transition-show="scale"
                         transition-hide="scale"
                       >
-                        <q-date v-model="reqFormItem['enrollDate']">
+                        <q-date v-model="plusFormalReqFormItem['enrollDate']">
                           <div class="row items-center justify-end">
                             <q-btn v-close-popup label="確認" color="primary" />
                           </div>
@@ -500,7 +652,10 @@ export default {
                 </q-input>
               </div>
             </template>
-            <div class="col-6 col-md-4">
+            <div
+              class="col-6"
+              :class="this.formalType == 'formal' ? 'col-md-4' : 'col-md-3'"
+            >
               <q-select
                 id="cboBelongArea"
                 outlined
@@ -521,7 +676,10 @@ export default {
                 </template>
               </q-select>
             </div>
-            <div class="col-6 col-md-4">
+            <div
+              class="col-6"
+              :class="this.formalType == 'formal' ? 'col-md-4' : 'col-md-3'"
+            >
               <q-select
                 id="cboBelongArea2"
                 outlined
@@ -928,7 +1086,7 @@ export default {
         </div>
       </section>
       <div class="divider"></div>
-      <section class="guardian q-pt-md q-mb-md">
+      <section class="guardian q-pt-md q-mb-md" v-if="isUnder20">
         <div class="flex items-center q-mb-md">
           <div class="">監護人</div>
           <q-checkbox v-model="theSameWithIntroducer" label="同上" size="xs" />
@@ -940,9 +1098,12 @@ export default {
               type="text"
               outlined
               dense
-              v-model="guardianName"
+              v-model="underAgeReqFormItem['guardianName']"
               :label="$q.screen.lt.sm ? '姓名' : void 0"
-              bg-color="teal-10"
+              ref="guardianName"
+              hide-bottom-space
+              lazy-rules
+              :rules="[(val) => val && val.length > 0]"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
                 <label for="guardianName"> 姓名: </label>
@@ -955,9 +1116,12 @@ export default {
               type="tel"
               outlined
               dense
-              v-model="guardianTel"
+              v-model="underAgeReqFormItem['guardianTel']"
               :label="$q.screen.lt.sm ? '電話' : void 0"
-              bg-color="teal-10"
+              ref="guardianTel"
+              hide-bottom-space
+              lazy-rules
+              :rules="[(val) => val && val.length > 0]"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
                 <label for="guardianTel"> 電話: </label>
@@ -970,9 +1134,12 @@ export default {
               type="text"
               outlined
               dense
-              v-model="guardianEmail"
+              v-model="underAgeReqFormItem['guardianEmail']"
               :label="$q.screen.lt.sm ? 'Email' : void 0"
-              bg-color="teal-10"
+              ref="guardianEmail"
+              hide-bottom-space
+              lazy-rules
+              :rules="[(val) => val && val.length > 0]"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
                 <label for="guardianEmail"> Email: </label>
@@ -988,7 +1155,6 @@ export default {
               v-model="guardianIsJoin"
               :options="guardianIsJoin_options"
               :label="$q.screen.lt.sm ? '是否入會' : void 0"
-              bg-color="teal-10"
             >
               <template v-slot:before v-if="$q.screen.gt.xs">
                 <label for="guardianIsJoin"> 是否入會: </label>
@@ -997,7 +1163,7 @@ export default {
           </div>
         </div>
       </section>
-      <div class="flex justify-center q-gutter-x-md q-mb-md">
+      <div class="flex justify-center q-gutter-x-md q-my-md">
         <q-btn color="primary" label="取消" />
         <q-btn color="primary" label="儲存" @click="checkRequireItems" />
       </div>
