@@ -28,7 +28,6 @@ export default {
       isUnder20: false,
 
       //在學生
-      inSchoolRole: "",
       inSchoolRole_options: [
         {
           label: "國小",
@@ -106,7 +105,10 @@ export default {
       residentCity_options: ["請選擇", "台北市", "新北市"],
       residentDistirct_options: ["請選擇", "汐止區", "新店區"],
 
-      distNoLive: "",
+      inschoolReqFormItem: {
+        inSchoolRole: "",
+        distNoLive: "",
+      },
       distNoLive_options: [],
       profession: "",
       jobTitle: "",
@@ -167,7 +169,16 @@ export default {
           align: "center",
         },
       ],
-      schoolAttendData: [],
+      schoolAttendData: [
+        {
+          currScool: "1",
+          currScoolName: "test",
+          grade: "test",
+          f_mcode: "test",
+          isGraduate: "畢業",
+          enrollDate: "1998/09/01"
+        }
+      ],
       schoolAttendDataLoading: false,
       note: "",
 
@@ -325,7 +336,11 @@ export default {
       this.$refs.guardianTel.validate();
       this.$refs.guardianEmail.validate();
     },
-
+    //驗證sd_stage-在學生(2)
+    valSdInschoolReqFormItems() {
+      this.$refs.inSchoolRole.validate();
+      this.$refs.distNoLive.validate();
+    },
     //驗證sd_stage-計算數量
     calNotFilledFormItems() {
       for (let key in this.reqFormItem) {
@@ -336,6 +351,13 @@ export default {
       if (this.formalType == "formal") {
         for (let key in this.plusFormalReqFormItem) {
           if (!this.plusFormalReqFormItem[key]) {
+            this.notFilledFormItems.push(key);
+          }
+        }
+      }
+      if (this.inschoolReqFormItem["inSchoolRole"]) {
+        for (let key in this.inschoolReqFormItem) {
+          if (!this.inschoolReqFormItem[key]) {
             this.notFilledFormItems.push(key);
           }
         }
@@ -357,13 +379,16 @@ export default {
       } else if (this.formalType == "inFormal") {
         this.valSdInformalReqFormItems(); //15
       }
+      if (this.inschoolReqFormItem["inSchoolRole"]) {
+        this.valSdInschoolReqFormItems(); //2
+      }
       if (this.calAge < 20) {
         this.valSdUnderAgeReqFormItems(); //3
       }
       this.calNotFilledFormItems();
       if (this.notFilledFormItems.length !== 0) {
         this.$q.notify({
-          message: `尚有${this.notFilledFormItems.length}個欄位未填`,
+          message: this.inschoolReqFormItem["inSchoolRole"] && this.schoolAttendData.length == 0? `尚有${this.notFilledFormItems.length}個欄位未填，且未新增就學資料`: `尚有${this.notFilledFormItems.length}個欄位未填`,
           type: "warning",
           position: "top-right",
         });
@@ -530,13 +555,22 @@ export default {
               <div class="col-12 col-md-12" v-if="isFormalMem">
                 <div class="flex items-center">
                   <label for="">在學生:</label>
-                  <q-radio
-                    v-for="item in inSchoolRole_options"
-                    :key="item.value"
-                    :val="item.value"
-                    :label="item.label"
-                    v-model="inSchoolRole"
-                  />
+                  <q-field
+                    ref="inSchoolRole"
+                    borderless
+                    lazy-rules
+                    hide-bottom-space
+                    :value="inschoolReqFormItem['inSchoolRole']"
+                    :rules="[(val) => val && val.length > 0]"
+                  >
+                    <q-radio
+                      v-for="item in inSchoolRole_options"
+                      :key="item.value"
+                      :val="item.value"
+                      :label="item.label"
+                      v-model="inschoolReqFormItem['inSchoolRole']"
+                    />
+                  </q-field>
                 </div>
               </div>
               <div class="col-6 col-md-3">
@@ -623,7 +657,7 @@ export default {
                   dense
                   :label="$q.screen.lt.sm ? '入會日期' : void 0"
                   hide-bottom-space
-                  v-model="reqFormItem['enrollDate']"
+                  v-model="plusFormalReqFormItem['enrollDate']"
                   mask="date"
                   ref="enrollDate"
                   lazy-rules
@@ -923,9 +957,12 @@ export default {
             outlined
             dense
             emit-value
-            v-model="distNoLive"
+            v-model="inschoolReqFormItem['distNoLive']"
             :label="$q.screen.lt.sm ? '戶籍區' : void 0"
             :options="distNoLive_options"
+            ref="distNoLive"
+            lazy-rules
+            :rules="[(val) => val && val.length > 0]"
           >
             <template v-slot:before v-if="$q.screen.gt.xs">
               <label for="distNoLive"> 戶籍區: </label>
