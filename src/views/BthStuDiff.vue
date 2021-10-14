@@ -6,6 +6,7 @@ export default {
   data() {
     return {
       selected: [],
+      //批次學生部別異動
       bthStuDiffColumns: [
         {
           name: "memberCode",
@@ -160,6 +161,64 @@ export default {
       gradeStatusDiff_options: ["1", "2", "3"],
       graduateStatusDiff_options: ["在學", "畢業"],
       isMoveOutData: false,
+      //會員部別變更
+      memDeptDiffColumns: [
+        {
+          name: "memberCode",
+          align: "center",
+          label: "會員編號",
+          field: "memberCode",
+        },
+        {
+          name: "memberName",
+          label: "姓名",
+          align: "center",
+          field: "memberName",
+        },
+        {
+          name: "age",
+          label: "年齡",
+          align: "center",
+          field: "age",
+        },
+        {
+          name: "groupAfter",
+          label: "異動後組別",
+          field: "groupAfter",
+          align: "center",
+        },
+        {
+          name: "deptBefore",
+          label: "現在部別",
+          field: "deptBefore",
+          align: "center",
+        },
+        {
+          name: "deptAfter",
+          label: "異動後部別",
+          field: "deptAfter",
+          align: "center",
+        },
+        {
+          name: "note",
+          label: "備註",
+          field: "note",
+          align: "center",
+        },
+      ],
+      memDeptData: [
+        {
+          memberCode: "test",
+          memberName: "test",
+          age: "12",
+          groupAfter: "a組",
+          deptBefore: "男子部",
+          deptAfter: "壯",
+          note: "",
+        },
+      ],
+      groupAfter_options: ["a組", "b組"],
+      deptAfter_options: ["壯", "婦"],
       //dialog
       txtVersion: "",
       startDate: "1988/01/01",
@@ -194,6 +253,44 @@ export default {
 </script>
 <template>
   <div class="q-pa-md">
+    <q-table
+      title="部別變更"
+      :columns="memDeptDiffColumns"
+      :data="memDeptData"
+      row-key="memberCode"
+      selection="multiple"
+      :selected.sync="selected"
+      class="q-mb-md"
+    >
+      <template v-slot:body-cell-groupAfter="props">
+        <q-td :props="props" auto-width>
+          <q-select
+            outlined
+            dense
+            v-model="props.row.groupAfter"
+            :options="groupAfter_options"
+          />
+        </q-td>
+      </template>
+      <template v-slot:body-cell-deptAfter="props">
+        <q-td :props="props" auto-width>
+          <q-select
+            outlined
+            dense
+            v-model="props.row.deptAfter"
+            :options="deptAfter_options"
+          />
+        </q-td>
+      </template>
+      <template v-slot:pagination>
+        <com-pagination
+          v-model="page.currentPage"
+          :page-size="page.pageSize"
+          :total-num="page.totalNum"
+          @input="changeCurrentPage"
+        ></com-pagination>
+      </template>
+    </q-table>
     <q-table
       title="批次學生異動"
       :columns="bthStuDiffColumns"
@@ -318,7 +415,6 @@ export default {
           </span>
         </q-td>
       </template>
-      <!-- Pagination -->
       <template v-slot:pagination>
         <com-pagination
           v-model="page.currentPage"

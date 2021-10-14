@@ -1,4 +1,16 @@
 <script>
+const alerts = [
+  {
+    type: "warning",
+    message: "欄位尚未填寫",
+    position: "top-right",
+  },
+  {
+    type: "info",
+    message: "檢查成功，請點擊確認",
+    position: "top-right",
+  },
+];
 import MemTable from "@/components/Member/MemTable";
 export default {
   name: "NewMember",
@@ -176,8 +188,8 @@ export default {
           grade: "test",
           f_mcode: "test",
           isGraduate: "畢業",
-          enrollDate: "1998/09/01"
-        }
+          enrollDate: "1998/09/01",
+        },
       ],
       schoolAttendDataLoading: false,
       note: "",
@@ -223,6 +235,26 @@ export default {
     },
   },
   methods: {
+    showNotif(isRight, isActions) {
+      const { type, message, position } = alerts[isRight];
+      const actions = isActions;
+      this.$q.notify({
+        type,
+        message,
+        position,
+        actions: actions
+          ? [
+              {
+                label: "確認",
+                color: "white",
+                handler: () => {
+                  this.goNextStage();
+                },
+              },
+            ]
+          : null,
+      });
+    },
     //檢查會員
     checkMem() {
       //判別正式與非正式會員
@@ -234,26 +266,9 @@ export default {
           this.$refs.f_calDept.hasError ||
           this.$refs.f_calRecord.hasError
         ) {
-          this.$q.notify({
-            message: "欄位尚未填寫",
-            type: "warning",
-            position: "top-right",
-          });
+          this.showNotif(0, false);
         } else {
-          this.$q.notify({
-            message: "檢查成功，請點擊確認",
-            type: "info",
-            position: "top-right",
-            actions: [
-              {
-                label: "確認",
-                color: "white",
-                handler: () => {
-                  this.goNextStage();
-                },
-              },
-            ],
-          });
+          this.showNotif(1, true);
         }
       } else if (this.formalType == "inFormal") {
         this.valFtInformalReqFormItems();
@@ -261,26 +276,9 @@ export default {
           this.$refs.f_memberName.hasError ||
           this.$refs.f_bornDate.hasError
         ) {
-          this.$q.notify({
-            message: "欄位尚未填寫",
-            type: "warning",
-            position: "top-right",
-          });
+          this.showNotif(0, false);
         } else {
-          this.$q.notify({
-            message: "檢查成功",
-            type: "info",
-            position: "top-right",
-            actions: [
-              {
-                label: "確認",
-                color: "white",
-                handler: () => {
-                  this.goNextStage();
-                },
-              },
-            ],
-          });
+          this.showNotif(1, true);
         }
       }
     },
@@ -388,7 +386,11 @@ export default {
       this.calNotFilledFormItems();
       if (this.notFilledFormItems.length !== 0) {
         this.$q.notify({
-          message: this.inschoolReqFormItem["inSchoolRole"] && this.schoolAttendData.length == 0? `尚有${this.notFilledFormItems.length}個欄位未填，且未新增就學資料`: `尚有${this.notFilledFormItems.length}個欄位未填`,
+          message:
+            this.inschoolReqFormItem["inSchoolRole"] &&
+            this.schoolAttendData.length == 0
+              ? `尚有${this.notFilledFormItems.length}個欄位未填，且未新增就學資料`
+              : `尚有${this.notFilledFormItems.length}個欄位未填`,
           type: "warning",
           position: "top-right",
         });
@@ -500,7 +502,6 @@ export default {
           </template>
         </q-select>
       </template>
-
       <div class="flex justify-center q-gutter-x-md q-gutter-y-md">
         <q-btn color="primary" label="取消" v-close-popup />
         <q-btn color="primary" label="檢查會員" @click="checkMem" />
