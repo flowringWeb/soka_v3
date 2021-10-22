@@ -1,11 +1,13 @@
 <script>
 import ComPagination from "@/components/Common/form/ComPagination";
+import AlertEdit from "@/components/AlertEdit";
 export default {
   name: "BthStuDiff",
-  components: { ComPagination },
+  components: { ComPagination, AlertEdit },
   data() {
     return {
       selected: [],
+      multiSelected: [],
       //批次學生部別異動
       bthStuDiffColumns: [
         {
@@ -114,15 +116,16 @@ export default {
           grade: "7",
           graduate: "在學",
           eduCode: "國中",
-          stuDepartDiff: "",
-          comingScoolName: "",
-          collegeAssociation: "",
-          enrollDate: "1989/01/01",
-          gradeStatusDiff: "",
-          graduateStatusDiff: "",
+          stuDepartDiff: "國中部",
+          comingScoolName: "aa國中",
+          collegeAssociation: "大學會",
+          enrollDate: "1911/09/08",
+          gradeStatusDiff: "2",
+          graduateStatusDiff: "畢業",
           isMoveOut: true,
           isMoveOutDataEdit: true,
           isMoveOutDateDone: "完成",
+          show: false,
         },
         {
           memberCode: "2000134",
@@ -133,14 +136,15 @@ export default {
           graduate: "在學",
           eduCode: "高中",
           stuDepartDiff: "未來部",
-          comingScoolName: "",
-          collegeAssociation: "",
+          comingScoolName: "xx國中",
+          collegeAssociation: "大學會",
           enrollDate: "1989/01/10",
-          gradeStatusDiff: "",
+          gradeStatusDiff: "3",
           graduateStatusDiff: "在學",
           isMoveOut: false,
           isMoveOutDataEdit: false,
           isMoveOutDateDone: "未填",
+          show: false,
         },
       ],
       eduCode_options: ["國小", "國中", "高中", "大學", "碩士", "博士"],
@@ -219,6 +223,89 @@ export default {
       ],
       groupAfter_options: ["a組", "b組"],
       deptAfter_options: ["壯", "婦"],
+      // 部別異動查詢
+      deptDiffSearchColumns: [
+        {
+          name: "name",
+          align: "center",
+          label: "姓名",
+          field: "name",
+        },
+        {
+          name: "memberCode",
+          align: "center",
+          label: "會員編號",
+          field: "memberCode",
+        },
+        {
+          name: "youngFinalJob",
+          align: "center",
+          label: "青年部最終職務",
+          field: "youngFinalJob",
+        },
+        {
+          name: "beforeDistrict",
+          align: "center",
+          label: "異動前所屬區域",
+          field: "beforeDistrict",
+        },
+        {
+          name: "currAge",
+          align: "center",
+          label: "目前年齡",
+          field: "currAge",
+        },
+        {
+          name: "currDistrict",
+          align: "center",
+          label: "目前所屬區域",
+          field: "currDistrict",
+        },
+        {
+          name: "currJob",
+          align: "center",
+          label: "目前職務",
+          field: "currJob",
+        },
+        {
+          name: "diffDate",
+          align: "center",
+          label: "異動日期",
+          field: "diffDate",
+        },
+        {
+          name: "followState",
+          align: "center",
+          label: "追蹤狀態",
+          field: "followState",
+        },
+        {
+          name: "isRemind",
+          align: "center",
+          label: "提醒開關",
+          field: "isRemind",
+        },
+      ],
+      deptDiffSearchData: [
+        {
+          name: "王曉明",
+          memberCode: "xxxx",
+          youngFinalJob: "部員",
+          beforeDistrict: "創價組",
+          currAge: 24,
+          currDistrict: "創價組",
+          currJob: "部員",
+          diffDate: "2021/10/22",
+          followState: "OFF",
+          isRemind: true,
+        },
+      ],
+      dept: "",
+      dept_options: [],
+      name: "",
+      startDate01: "",
+      startDate02: "",
+      memCode: "",
       //dialog
       txtVersion: "",
       startDate: "1988/01/01",
@@ -247,6 +334,29 @@ export default {
     changeCurrentPage(e) {
       // 重新call api
       console.log("changeCurrentPage=>", e);
+    },
+    //PC批次修改
+    detectMultiEdit() {
+      if (this.multiSelected == "") {
+        return false;
+      } else {
+        this.multiSelected.forEach((ele) => {
+          this.bthStuDiffData.forEach((e, i) => {
+            if (ele.memberCode == e.memberCode) {
+              ele.show = true;
+            }
+          });
+        });
+      }
+    },
+    //mb批次修改
+    updateInfo(val) {
+      const idx = this.bthStuDiffData.findIndex(
+        (item) => item.memberCode === val.memberCode
+      );
+      this.$nextTick(() => {
+        this.bthStuDiffData[idx] = val;
+      });
     },
   },
 };
@@ -291,100 +401,170 @@ export default {
         ></com-pagination>
       </template>
     </q-table>
+    <q-btn label="批次修改" color="primary" @click="detectMultiEdit" />
     <q-table
-      title="批次學生異動"
+      title="批次學生部別異動"
       :columns="bthStuDiffColumns"
       :data="bthStuDiffData"
       row-key="memberCode"
       selection="multiple"
-      :selected.sync="selected"
+      :selected.sync="multiSelected"
       class="q-mb-md"
     >
+      <!-- <template v-slot:item="props">
+        <div
+          class="
+            q-pa-xs
+            col-xs-12 col-sm-6 col-md-4 col-lg-3
+            grid-style-transition
+          "
+        >
+          <q-card :class="props.selected ? 'bg-grey-2' : ''">
+            <q-card-section>
+              <div class="flex">
+                <q-checkbox
+                  dense
+                  v-model="props.selected"
+                  :label="props.row.memberCode"
+                />
+                <AlertEdit v-bind="props.row" @update="updateInfo"></AlertEdit>
+              </div>
+            </q-card-section>
+            <q-separator />
+            <q-list dense>
+              <q-item v-for="col in props.cols" :key="col.name">
+                <div style="width: 50%">{{ col.label }}</div>
+                <div style="width: 50%" class="flex justify-end">
+                  {{ col.value }}
+                  <q-popup-edit v-model="col.value" title="編輯" buttons>
+                    <q-input v-model="col.value" dense autofocus />
+                  </q-popup-edit>
+                </div>
+              </q-item>
+            </q-list>
+          </q-card>
+        </div>
+      </template> -->
       <template v-slot:body-cell-eduCode="props">
         <q-td :props="props" auto-width>
-          <q-select
-            outlined
-            dense
-            v-model="props.row.eduCode"
-            :options="eduCode_options"
-          />
+          <template v-if="!props.row.show">
+            {{ props.row.eduCode }}
+          </template>
+          <template v-if="props.row.show">
+            <q-select
+              outlined
+              dense
+              v-model="props.row.eduCode"
+              :options="eduCode_options"
+            />
+          </template>
         </q-td>
       </template>
       <template v-slot:body-cell-stuDepartDiff="props">
         <q-td :props="props" auto-width>
-          <q-select
-            outlined
-            dense
-            v-model="props.row.stuDepartDiff"
-            :options="stuDepartDiff_options"
-          />
+          <template v-if="!props.row.show">
+            {{ props.row.stuDepartDiff }}
+          </template>
+          <template v-if="props.row.show">
+            <q-select
+              outlined
+              dense
+              v-model="props.row.stuDepartDiff"
+              :options="eduCode_options"
+            />
+          </template>
         </q-td>
       </template>
       <template v-slot:body-cell-comingScoolName="props">
         <q-td :props="props" auto-width>
-          <q-select
-            outlined
-            dense
-            v-model="props.row.comingScoolName"
-            :options="comingScoolName_options"
-          />
+          <template v-if="!props.row.show">
+            {{ props.row.comingScoolName }}
+          </template>
+          <template v-if="props.row.show">
+            <q-select
+              outlined
+              dense
+              v-model="props.row.comingScoolName"
+              :options="eduCode_options"
+            />
+          </template>
         </q-td>
       </template>
       <template v-slot:body-cell-collegeAssociation="props">
         <q-td :props="props" auto-width>
-          <q-select
-            outlined
-            dense
-            v-model="props.row.collegeAssociation"
-            :options="collegeAssociation_options"
-          />
+          <template v-if="!props.row.show">
+            {{ props.row.collegeAssociation }}
+          </template>
+          <template v-if="props.row.show">
+            <q-select
+              outlined
+              dense
+              v-model="props.row.collegeAssociation"
+              :options="eduCode_options"
+            />
+          </template>
         </q-td>
       </template>
       <template v-slot:body-cell-enrollDate="props">
         <q-td :props="props">
-          <q-input
-            outlined
-            dense
-            v-model="props.row.enrollDate"
-            mask="date"
-            style="min-width: 10vw"
-          >
-            <template v-slot:append>
-              <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy
-                  ref="qDateProxy"
-                  transition-show="scale"
-                  transition-hide="scale"
-                >
-                  <q-date v-model="props.row.enrollDate">
-                    <div class="row items-center justify-end">
-                      <q-btn v-close-popup label="確認" color="primary" />
-                    </div>
-                  </q-date>
-                </q-popup-proxy>
-              </q-icon>
-            </template>
-          </q-input>
+          <template v-if="!props.row.show">
+            {{ props.row.enrollDate }}
+          </template>
+          <template v-if="props.row.show">
+            <q-input
+              outlined
+              dense
+              v-model="props.row.enrollDate"
+              mask="date"
+              :style="$q.screen.lt.sm ? 'min-width: 40vw' : 'min-width: 10vw'"
+            >
+              <template v-slot:append>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy
+                    ref="qDateProxy"
+                    transition-show="scale"
+                    transition-hide="scale"
+                  >
+                    <q-date v-model="props.row.enrollDate">
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="確認" color="primary" />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+          </template>
         </q-td>
       </template>
       <template v-slot:body-cell-gradeStatusDiff="props">
         <q-td :props="props" auto-width>
-          <q-select
-            outlined
-            dense
-            v-model="props.row.gradeStatusDiff"
-            :options="gradeStatusDiff_options"
-          />
+          <template v-if="!props.row.show">
+            {{ props.row.gradeStatusDiff }}
+          </template>
+          <template v-if="props.row.show">
+            <q-select
+              outlined
+              dense
+              v-model="props.row.gradeStatusDiff"
+              :options="eduCode_options"
+            />
+          </template>
         </q-td>
       </template>
       <template v-slot:body-cell-graduateStatusDiff="props">
         <q-td :props="props" auto-width>
-          <q-select
-            outlined
-            dense
-            v-model="props.row.graduateStatusDiff"
-            :options="graduateStatusDiff_options"
-          />
+          <template v-if="!props.row.show">
+            {{ props.row.graduateStatusDiff }}
+          </template>
+          <template v-if="props.row.show">
+            <q-select
+              outlined
+              dense
+              v-model="props.row.graduateStatusDiff"
+              :options="eduCode_options"
+            />
+          </template>
         </q-td>
       </template>
       <template v-slot:body-cell-isMoveOut="props">
@@ -428,7 +608,132 @@ export default {
       <q-btn label="送出" color="primary" />
       <q-btn label="取消" color="primary" />
     </div>
+    <!-- 部別異動查詢 -->
+    <div class="row items-center q-col-gutter-md">
+      <div class="col-6 col-md-4">
+        <q-select
+          id="dept"
+          outlined
+          dense
+          emit-value
+          v-model="dept"
+          :label="$q.screen.lt.sm ? '部別' : void 0"
+          :options="dept_options"
+        >
+          <template v-slot:before v-if="$q.screen.gt.xs">
+            <label for="dept"> 部別: </label>
+          </template>
+        </q-select>
+      </div>
+      <div class="col-6 col-md-4">
+        <q-input
+          id="name"
+          type="text"
+          outlined
+          dense
+          v-model="name"
+          :label="$q.screen.lt.sm ? '姓名' : void 0"
+        >
+          <template v-slot:before v-if="$q.screen.gt.xs">
+            <label for="name"> 姓名: </label>
+          </template>
+        </q-input>
+      </div>
+      <div class="col-6 col-md-4">
+        <q-input
+          id="memCode"
+          type="text"
+          outlined
+          dense
+          v-model="memCode"
+          :label="$q.screen.lt.sm ? '會員編號' : void 0"
+        >
+          <template v-slot:before v-if="$q.screen.gt.xs">
+            <label for="memCode"> 會員編號: </label>
+          </template>
+          <template v-slot:after>
+            <q-btn color="primary" label="檢查會員" />
+          </template>
+        </q-input>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <q-input
+          style="max-width: 70%"
+          class="q-pb-none"
+          outlined
+          dense
+          :label="$q.screen.lt.sm ? '開始日期' : void 0"
+          v-model="startDate01"
+        >
+          <template v-slot:before v-if="$q.screen.gt.xs">
+            <label for="startDate"> 開始日期: </label>
+          </template>
+          <template v-slot:append>
+            <q-icon name="event" class="cursor-pointer">
+              <q-popup-proxy
+                ref="qDateProxy"
+                transition-show="scale"
+                transition-hide="scale"
+              >
+                <q-date v-model="startDate01">
+                  <div class="row items-center justify-end">
+                    <q-btn v-close-popup label="確認" color="primary" />
+                  </div>
+                </q-date>
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
 
+        <q-input
+          style="max-width: 70%"
+          class="q-pb-none"
+          outlined
+          dense
+          :label="$q.screen.lt.sm ? '開始日期2' : void 0"
+          v-model="startDate02"
+        >
+          <template v-slot:append>
+            <q-icon name="event" class="cursor-pointer">
+              <q-popup-proxy
+                ref="qDateProxy"
+                transition-show="scale"
+                transition-hide="scale"
+              >
+                <q-date v-model="startDate02">
+                  <div class="row items-center justify-end">
+                    <q-btn v-close-popup label="確認" color="primary" />
+                  </div>
+                </q-date>
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
+      </div>
+    </div>
+    <q-table
+      title="部別異動查詢"
+      :columns="deptDiffSearchColumns"
+      :data="deptDiffSearchData"
+      row-key="memberCode"
+      class="q-mb-md"
+    >
+      <template v-slot:body-cell-isRemind="props">
+        <q-td :props="props" auto-width>
+          <q-toggle v-model="props.row.isRemind" color="green" />
+        </q-td>
+      </template>
+      <template v-slot:pagination>
+        <com-pagination
+          v-model="page.currentPage"
+          :page-size="page.pageSize"
+          :total-num="page.totalNum"
+          @input="changeCurrentPage"
+        ></com-pagination>
+      </template>
+    </q-table>
     <!-- dialog-遷出資料 -->
     <q-dialog v-model="isMoveOutData">
       <q-card

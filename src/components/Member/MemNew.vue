@@ -507,7 +507,6 @@ export default {
         <q-btn color="primary" label="檢查會員" @click="checkMem" />
       </div>
     </q-form>
-
     <q-form v-if="sd_stage" class="q-px-md q-py-none">
       <div
         class="column row-md justify-start items-center q-col-gutter-md q-pt-md"
@@ -515,7 +514,7 @@ export default {
         <div class="col-md-10 order-last order-md-first">
           <div class="row items-center q-col-gutter-md">
             <div class="col-12 col-md-4">
-              <div class="flex items-center">
+              <div class="flex column row-md items-start items-md-center">
                 <label for=""> <span class="required">＊</span>性別: </label>
                 <q-field
                   ref="sex"
@@ -525,8 +524,14 @@ export default {
                   :value="reqFormItem['sex']"
                   :rules="[(val) => val && val.length > 0]"
                 >
-                  <q-radio v-model="reqFormItem['sex']" val="man" label="男" />
                   <q-radio
+                    size="xs"
+                    v-model="reqFormItem['sex']"
+                    val="man"
+                    label="男"
+                  />
+                  <q-radio
+                    size="xs"
                     v-model="reqFormItem['sex']"
                     val="woman"
                     label="女"
@@ -535,7 +540,7 @@ export default {
               </div>
             </div>
             <div class="col-12 col-md-6">
-              <div class="flex items-center">
+              <div class="flex column row-md items-start items-md-center">
                 <label for=""> <span class="required">＊</span>部別: </label>
                 <q-field
                   ref="dept"
@@ -545,16 +550,36 @@ export default {
                   :value="reqFormItem['dept']"
                   :rules="[(val) => val && val.length > 0]"
                 >
-                  <q-radio v-model="reqFormItem['dept']" val="壯" label="壯" />
-                  <q-radio v-model="reqFormItem['dept']" val="婦" label="婦" />
-                  <q-radio v-model="reqFormItem['dept']" val="男" label="男" />
-                  <q-radio v-model="reqFormItem['dept']" val="女" label="女" />
+                  <q-radio
+                    size="xs"
+                    v-model="reqFormItem['dept']"
+                    val="壯"
+                    label="壯"
+                  />
+                  <q-radio
+                    size="xs"
+                    v-model="reqFormItem['dept']"
+                    val="婦"
+                    label="婦"
+                  />
+                  <q-radio
+                    size="xs"
+                    v-model="reqFormItem['dept']"
+                    val="男"
+                    label="男"
+                  />
+                  <q-radio
+                    size="xs"
+                    v-model="reqFormItem['dept']"
+                    val="女"
+                    label="女"
+                  />
                 </q-field>
               </div>
             </div>
             <template>
-              <div class="col-12 col-md-12" v-if="isFormalMem">
-                <div class="flex items-center">
+              <div class="col-12 col-md-12 q-pt-none" v-if="isFormalMem">
+                <div class="flex column row-md items-start items-md-center">
                   <label for="">在學生:</label>
                   <q-field
                     ref="inSchoolRole"
@@ -565,6 +590,7 @@ export default {
                     :rules="[(val) => val && val.length > 0]"
                   >
                     <q-radio
+                      size="xs"
                       v-for="item in inSchoolRole_options"
                       :key="item.value"
                       :val="item.value"
@@ -1206,7 +1232,6 @@ export default {
         <q-btn color="primary" label="儲存" @click="checkRequireItems" />
       </div>
     </q-form>
-
     <!-- dialog-uploadImg -->
     <q-dialog v-model="uploadImg">
       <q-card style="width: 700px; max-width: 40vw">
