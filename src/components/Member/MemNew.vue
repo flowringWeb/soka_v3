@@ -196,6 +196,8 @@ export default {
 
       //dialog-uploadImg
       uploadImg: false,
+      // isMoveToLeft: true,
+      // isMoveFromRight: false,
     };
   },
   watch: {
@@ -283,6 +285,10 @@ export default {
       }
     },
     goNextStage() {
+      // this.isMoveToLeft = !this.isMoveToLeft;
+      // this.$nextTick(() => {
+      //   this.isMoveFromRight = !this.isMoveFromRight;
+      // });
       this.ft_stage = false;
       this.sd_stage = true;
       let personAge = this.calAge;
@@ -407,8 +413,11 @@ export default {
 };
 </script>
 <template>
-  <div>
-    <q-form v-if="ft_stage" class="q-px-md q-py-md q-gutter-y-md form__stage01">
+  <div style="overflow: hidden">
+    <q-form
+      v-if="ft_stage"
+      class="q-px-md q-py-md q-gutter-y-md form__stage01"
+    >
       <q-input
         id="memberName"
         class=""
@@ -1281,18 +1290,24 @@ label {
 /deep/ .q-field__control {
   color: #000;
 }
-// .v-enter-active,
-// .v-leave-active {
-//   transition: opacity 0.5s;
+// .moveToLeft-leave-active,
+// .moveToLeft-enter-active,
+// .moveFromRight-enter-from,
+// .moveFromRight-enter-to {
+//   transition: all 0.9s ease;
 // }
 
-// .v-enter-from,
-// .v-leave-to {
-//   opacity: 0;
+// .moveToLeft-enter-from {
+//   transform: translateX(100%);
 // }
 
-// .v-enter-to,
-// .v-leave-from {
-//   opacity: 1;
+// .moveToLeft-leave-to {
+//   transform: translateX(-100%);
+// }
+// .moveFromRight-enter-from {
+//   transform: translateX(100%);
+// }
+// .moveFromRight-enter-to {
+//   transform: translateX(0%);
 // }
 </style>
